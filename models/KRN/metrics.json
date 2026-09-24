@@ -1,0 +1,352 @@
+{
+  "symbol": "KRN",
+  "dataset_info": {
+    "total_records": 494,
+    "train_records": 489,
+    "test_records": 5,
+    "start_date": "2024-10-03",
+    "end_date": "2026-09-23",
+    "features_count": 22
+  },
+  "regression": {
+    "linear_regression_high": {
+      "train": {
+        "MAE": 16.953,
+        "MSE": 528.9695,
+        "RMSE": 22.9993,
+        "R2": 0.9914
+      },
+      "test": {
+        "MAE": 15.8811,
+        "MSE": 362.4424,
+        "RMSE": 19.0379,
+        "R2": -0.8347
+      },
+      "fit_status": "Moderate Overfitting (Train score significantly higher than test)",
+      "sample_actual": [
+        1455.0,
+        1466.3,
+        1448.0,
+        1458.0,
+        1424.9
+      ],
+      "sample_predicted": [
+        1419.43,
+        1480.68,
+        1441.63,
+        1450.53,
+        1440.52
+      ]
+    },
+    "linear_regression_low": {
+      "train": {
+        "MAE": 13.9268,
+        "MSE": 379.1294,
+        "RMSE": 19.4712,
+        "R2": 0.9933
+      },
+      "test": {
+        "MAE": 26.2694,
+        "MSE": 803.2229,
+        "RMSE": 28.3412,
+        "R2": -32.4029
+      },
+      "fit_status": "Moderate Overfitting (Train score significantly higher than test)",
+      "sample_actual": [
+        1404.8,
+        1407.2,
+        1406.1,
+        1407.0,
+        1394.2
+      ],
+      "sample_predicted": [
+        1359.88,
+        1420.25,
+        1377.12,
+        1383.66,
+        1373.14
+      ]
+    },
+    "random_forest_high": {
+      "train": {
+        "MAE": 9.2531,
+        "MSE": 170.6806,
+        "RMSE": 13.0645,
+        "R2": 0.9972
+      },
+      "test": {
+        "MAE": 49.8687,
+        "MSE": 2819.9927,
+        "RMSE": 53.1036,
+        "R2": -13.2751
+      },
+      "fit_status": "Moderate Overfitting (Train score significantly higher than test)",
+      "sample_actual": [
+        1455.0,
+        1466.3,
+        1448.0,
+        1458.0,
+        1424.9
+      ],
+      "sample_predicted": [
+        1484.11,
+        1504.94,
+        1501.56,
+        1503.38,
+        1507.55
+      ]
+    },
+    "random_forest_low": {
+      "train": {
+        "MAE": 7.6366,
+        "MSE": 120.9871,
+        "RMSE": 10.9994,
+        "R2": 0.9979
+      },
+      "test": {
+        "MAE": 37.7107,
+        "MSE": 1473.0557,
+        "RMSE": 38.3804,
+        "R2": -60.2586
+      },
+      "fit_status": "Moderate Overfitting (Train score significantly higher than test)",
+      "sample_actual": [
+        1404.8,
+        1407.2,
+        1406.1,
+        1407.0,
+        1394.2
+      ],
+      "sample_predicted": [
+        1429.12,
+        1447.97,
+        1443.83,
+        1447.33,
+        1439.6
+      ]
+    }
+  },
+  "classification": {
+    "custom_decision_tree_direction": {
+      "train": {
+        "accuracy": 72.19,
+        "precision": 72.19,
+        "recall": 72.19,
+        "f1": 72.19
+      },
+      "test": {
+        "accuracy": 20.0,
+        "precision": 10.0,
+        "recall": 20.0,
+        "f1": 13.33
+      },
+      "confusion_matrix": [
+        [
+          0,
+          3
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "fit_status": "Underfitting (Market noise dominates classification)"
+    },
+    "random_forest_direction": {
+      "train": {
+        "accuracy": 98.57,
+        "precision": 98.61,
+        "recall": 98.57,
+        "f1": 98.57
+      },
+      "test": {
+        "accuracy": 80.0,
+        "precision": 85.0,
+        "recall": 80.0,
+        "f1": 78.1
+      },
+      "confusion_matrix": [
+        [
+          3,
+          0
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "fit_status": "Well-Fitted (Generalizing across unseen temporal regimes)"
+    },
+    "custom_decision_tree_signal": {
+      "train": {
+        "accuracy": 63.8,
+        "precision": 65.5,
+        "recall": 63.8,
+        "f1": 63.48
+      },
+      "test": {
+        "accuracy": 40.0,
+        "precision": 40.0,
+        "recall": 40.0,
+        "f1": 40.0
+      },
+      "confusion_matrix": [
+        [
+          2,
+          1,
+          0
+        ],
+        [
+          0,
+          0,
+          1
+        ],
+        [
+          1,
+          0,
+          0
+        ]
+      ],
+      "fit_status": "Overfitting (High training memorization)"
+    },
+    "random_forest_signal": {
+      "train": {
+        "accuracy": 96.11,
+        "precision": 96.12,
+        "recall": 96.11,
+        "f1": 96.11
+      },
+      "test": {
+        "accuracy": 20.0,
+        "precision": 4.0,
+        "recall": 20.0,
+        "f1": 6.67
+      },
+      "confusion_matrix": [
+        [
+          0,
+          0,
+          3
+        ],
+        [
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          1
+        ]
+      ],
+      "fit_status": "Underfitting (Market noise dominates classification)"
+    }
+  },
+  "feature_importance": [
+    {
+      "feature": "Close",
+      "importance": 0.417
+    },
+    {
+      "feature": "High",
+      "importance": 0.2915
+    },
+    {
+      "feature": "Low",
+      "importance": 0.1352
+    },
+    {
+      "feature": "Open",
+      "importance": 0.0569
+    },
+    {
+      "feature": "SMA_5",
+      "importance": 0.0423
+    },
+    {
+      "feature": "SMA_20",
+      "importance": 0.0236
+    },
+    {
+      "feature": "SMA_50",
+      "importance": 0.0203
+    },
+    {
+      "feature": "SMA_10",
+      "importance": 0.0084
+    },
+    {
+      "feature": "return_3d",
+      "importance": 0.0007
+    },
+    {
+      "feature": "volatility_5",
+      "importance": 0.0005
+    },
+    {
+      "feature": "Volume",
+      "importance": 0.0004
+    },
+    {
+      "feature": "daily_return",
+      "importance": 0.0004
+    },
+    {
+      "feature": "close_open_ratio",
+      "importance": 0.0004
+    },
+    {
+      "feature": "volume_change",
+      "importance": 0.0004
+    },
+    {
+      "feature": "volatility_20",
+      "importance": 0.0003
+    },
+    {
+      "feature": "volatility_10",
+      "importance": 0.0003
+    },
+    {
+      "feature": "momentum_10",
+      "importance": 0.0003
+    },
+    {
+      "feature": "high_low_ratio",
+      "importance": 0.0003
+    },
+    {
+      "feature": "price_range",
+      "importance": 0.0003
+    },
+    {
+      "feature": "momentum_5",
+      "importance": 0.0002
+    },
+    {
+      "feature": "return_5d",
+      "importance": 0.0002
+    },
+    {
+      "feature": "return_10d",
+      "importance": 0.0002
+    }
+  ],
+  "tree_rules_sample": [
+    "IF Low <= 738.7050 (Samples: 489):",
+    "  IF Volume <= 162657.6250 (Samples: 110):",
+    "    IF high_low_ratio <= 1.0222 (Samples: 14):",
+    "      --> Leaf [Predict Class: 1 | Samples: 5]",
+    "    ELSE (high_low_ratio > 1.0222):",
+    "      --> Leaf [Predict Class: 0 | Samples: 9]",
+    "  ELSE (Volume > 162657.6250):",
+    "    IF Volume <= 5353547.0000 (Samples: 96):",
+    "      IF Close <= 743.5050 (Samples: 91):",
+    "        IF daily_return <= 0.0100 (Samples: 76):",
+    "          --> Leaf [Predict Class: 1 | Samples: 52]",
+    "        ELSE (daily_return > 0.0100):",
+    "      ELSE (Close > 743.5050):",
+    "    ELSE (Volume > 5353547.0000):",
+    "ELSE (Low > 738.7050):"
+  ]
+}

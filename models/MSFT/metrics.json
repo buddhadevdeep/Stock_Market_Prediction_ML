@@ -1,0 +1,552 @@
+{
+  "symbol": "MSFT",
+  "dataset_info": {
+    "total_records": 1205,
+    "train_records": 964,
+    "test_records": 241,
+    "start_date": "2021-12-03",
+    "end_date": "2026-09-23",
+    "features_count": 22
+  },
+  "regression": {
+    "linear_regression_high": {
+      "train": {
+        "MAE": 3.1428,
+        "MSE": 20.6238,
+        "RMSE": 4.5413,
+        "R2": 0.9969
+      },
+      "test": {
+        "MAE": 5.1534,
+        "MSE": 61.5585,
+        "RMSE": 7.8459,
+        "R2": 0.9753
+      },
+      "fit_status": "Well-Fitted (Balanced generalization on unseen test period)",
+      "sample_actual": [
+        501.34,
+        500.01,
+        492.66,
+        484.27,
+        489.3,
+        484.16,
+        486.36,
+        490.61,
+        492.44,
+        497.4,
+        506.48,
+        517.78,
+        512.19,
+        505.97,
+        500.27,
+        515.65,
+        511.0,
+        495.19,
+        494.39,
+        494.52,
+        498.97,
+        509.95,
+        505.9,
+        495.97,
+        501.47,
+        498.65,
+        501.87,
+        508.5,
+        509.44,
+        495.68
+      ],
+      "sample_predicted": [
+        496.9,
+        500.15,
+        498.27,
+        483.97,
+        484.53,
+        487.89,
+        483.65,
+        485.76,
+        490.84,
+        494.47,
+        499.03,
+        508.22,
+        517.29,
+        510.98,
+        505.01,
+        500.53,
+        513.55,
+        503.17,
+        496.65,
+        495.16,
+        495.93,
+        498.29,
+        508.54,
+        501.35,
+        494.6,
+        501.91,
+        497.92,
+        504.67,
+        502.65,
+        505.7
+      ]
+    },
+    "linear_regression_low": {
+      "train": {
+        "MAE": 3.1867,
+        "MSE": 20.4298,
+        "RMSE": 4.5199,
+        "R2": 0.9969
+      },
+      "test": {
+        "MAE": 4.9908,
+        "MSE": 58.1874,
+        "RMSE": 7.6281,
+        "R2": 0.977
+      },
+      "fit_status": "Well-Fitted (Balanced generalization on unseen test period)",
+      "sample_actual": [
+        493.01,
+        493.92,
+        478.41,
+        477.15,
+        479.36,
+        479.5,
+        478.53,
+        481.86,
+        484.3,
+        487.31,
+        490.08,
+        504.87,
+        506.39,
+        496.78,
+        493.81,
+        500.8,
+        499.36,
+        490.15,
+        489.8,
+        486.0,
+        492.58,
+        495.34,
+        495.54,
+        487.23,
+        493.17,
+        491.1,
+        491.33,
+        493.65,
+        495.88,
+        491.53
+      ],
+      "sample_predicted": [
+        491.44,
+        494.24,
+        493.26,
+        476.12,
+        478.5,
+        481.46,
+        478.55,
+        480.24,
+        484.99,
+        489.28,
+        493.93,
+        501.3,
+        510.61,
+        506.08,
+        499.04,
+        495.63,
+        506.68,
+        497.1,
+        491.73,
+        490.26,
+        489.72,
+        492.79,
+        500.69,
+        493.9,
+        487.54,
+        495.36,
+        490.47,
+        497.17,
+        494.43,
+        497.09
+      ]
+    },
+    "random_forest_high": {
+      "train": {
+        "MAE": 1.5504,
+        "MSE": 5.525,
+        "RMSE": 2.3505,
+        "R2": 0.9992
+      },
+      "test": {
+        "MAE": 6.8703,
+        "MSE": 96.5965,
+        "RMSE": 9.8283,
+        "R2": 0.9612
+      },
+      "fit_status": "Well-Fitted (Balanced generalization on unseen test period)",
+      "sample_actual": [
+        501.34,
+        500.01,
+        492.66,
+        484.27,
+        489.3,
+        484.16,
+        486.36,
+        490.61,
+        492.44,
+        497.4,
+        506.48,
+        517.78,
+        512.19,
+        505.97,
+        500.27,
+        515.65,
+        511.0,
+        495.19,
+        494.39,
+        494.52,
+        498.97,
+        509.95,
+        505.9,
+        495.97,
+        501.47,
+        498.65,
+        501.87,
+        508.5,
+        509.44,
+        495.68
+      ],
+      "sample_predicted": [
+        493.37,
+        493.96,
+        494.54,
+        489.66,
+        486.73,
+        488.4,
+        486.87,
+        489.42,
+        490.57,
+        492.71,
+        495.24,
+        499.41,
+        514.43,
+        505.01,
+        502.04,
+        501.32,
+        512.67,
+        505.12,
+        500.43,
+        499.46,
+        499.55,
+        501.4,
+        504.13,
+        501.94,
+        499.28,
+        502.14,
+        501.54,
+        503.21,
+        502.82,
+        503.26
+      ]
+    },
+    "random_forest_low": {
+      "train": {
+        "MAE": 1.6364,
+        "MSE": 5.6281,
+        "RMSE": 2.3724,
+        "R2": 0.9992
+      },
+      "test": {
+        "MAE": 6.9648,
+        "MSE": 96.9665,
+        "RMSE": 9.8472,
+        "R2": 0.9616
+      },
+      "fit_status": "Well-Fitted (Balanced generalization on unseen test period)",
+      "sample_actual": [
+        493.01,
+        493.92,
+        478.41,
+        477.15,
+        479.36,
+        479.5,
+        478.53,
+        481.86,
+        484.3,
+        487.31,
+        490.08,
+        504.87,
+        506.39,
+        496.78,
+        493.81,
+        500.8,
+        499.36,
+        490.15,
+        489.8,
+        486.0,
+        492.58,
+        495.34,
+        495.54,
+        487.23,
+        493.17,
+        491.1,
+        491.33,
+        493.65,
+        495.88,
+        491.53
+      ],
+      "sample_predicted": [
+        485.89,
+        485.11,
+        486.48,
+        482.31,
+        479.19,
+        481.64,
+        479.87,
+        482.52,
+        484.51,
+        484.95,
+        487.41,
+        490.54,
+        498.73,
+        496.0,
+        493.69,
+        496.03,
+        504.74,
+        499.02,
+        494.69,
+        493.82,
+        494.16,
+        495.4,
+        499.08,
+        496.16,
+        494.41,
+        496.44,
+        495.94,
+        497.45,
+        497.62,
+        498.23
+      ]
+    }
+  },
+  "classification": {
+    "custom_decision_tree_direction": {
+      "train": {
+        "accuracy": 62.97,
+        "precision": 62.96,
+        "recall": 62.97,
+        "f1": 62.96
+      },
+      "test": {
+        "accuracy": 53.11,
+        "precision": 54.02,
+        "recall": 53.11,
+        "f1": 51.62
+      },
+      "confusion_matrix": [
+        [
+          44,
+          79
+        ],
+        [
+          34,
+          84
+        ]
+      ],
+      "fit_status": "Well-Fitted (Generalizing across unseen temporal regimes)"
+    },
+    "random_forest_direction": {
+      "train": {
+        "accuracy": 95.12,
+        "precision": 95.22,
+        "recall": 95.12,
+        "f1": 95.12
+      },
+      "test": {
+        "accuracy": 52.28,
+        "precision": 52.9,
+        "recall": 52.28,
+        "f1": 51.17
+      },
+      "confusion_matrix": [
+        [
+          46,
+          77
+        ],
+        [
+          38,
+          80
+        ]
+      ],
+      "fit_status": "Overfitting (High training memorization)"
+    },
+    "custom_decision_tree_signal": {
+      "train": {
+        "accuracy": 63.07,
+        "precision": 62.66,
+        "recall": 63.07,
+        "f1": 62.51
+      },
+      "test": {
+        "accuracy": 39.83,
+        "precision": 33.75,
+        "recall": 39.83,
+        "f1": 35.02
+      },
+      "confusion_matrix": [
+        [
+          79,
+          11,
+          18
+        ],
+        [
+          39,
+          9,
+          15
+        ],
+        [
+          45,
+          17,
+          8
+        ]
+      ],
+      "fit_status": "Underfitting (Market noise dominates classification)"
+    },
+    "random_forest_signal": {
+      "train": {
+        "accuracy": 78.53,
+        "precision": 84.57,
+        "recall": 78.53,
+        "f1": 77.11
+      },
+      "test": {
+        "accuracy": 45.64,
+        "precision": 46.91,
+        "recall": 45.64,
+        "f1": 32.2
+      },
+      "confusion_matrix": [
+        [
+          104,
+          2,
+          2
+        ],
+        [
+          58,
+          4,
+          1
+        ],
+        [
+          67,
+          1,
+          2
+        ]
+      ],
+      "fit_status": "Overfitting (High training memorization)"
+    }
+  },
+  "feature_importance": [
+    {
+      "feature": "Close",
+      "importance": 0.3572
+    },
+    {
+      "feature": "High",
+      "importance": 0.2572
+    },
+    {
+      "feature": "SMA_5",
+      "importance": 0.2571
+    },
+    {
+      "feature": "Low",
+      "importance": 0.0671
+    },
+    {
+      "feature": "SMA_20",
+      "importance": 0.0237
+    },
+    {
+      "feature": "Open",
+      "importance": 0.0185
+    },
+    {
+      "feature": "SMA_10",
+      "importance": 0.0164
+    },
+    {
+      "feature": "SMA_50",
+      "importance": 0.0013
+    },
+    {
+      "feature": "Volume",
+      "importance": 0.0002
+    },
+    {
+      "feature": "volume_change",
+      "importance": 0.0001
+    },
+    {
+      "feature": "volatility_5",
+      "importance": 0.0001
+    },
+    {
+      "feature": "volatility_10",
+      "importance": 0.0001
+    },
+    {
+      "feature": "volatility_20",
+      "importance": 0.0001
+    },
+    {
+      "feature": "return_3d",
+      "importance": 0.0001
+    },
+    {
+      "feature": "close_open_ratio",
+      "importance": 0.0001
+    },
+    {
+      "feature": "daily_return",
+      "importance": 0.0001
+    },
+    {
+      "feature": "momentum_10",
+      "importance": 0.0001
+    },
+    {
+      "feature": "momentum_5",
+      "importance": 0.0001
+    },
+    {
+      "feature": "return_10d",
+      "importance": 0.0001
+    },
+    {
+      "feature": "return_5d",
+      "importance": 0.0001
+    },
+    {
+      "feature": "high_low_ratio",
+      "importance": 0.0
+    },
+    {
+      "feature": "price_range",
+      "importance": 0.0
+    }
+  ],
+  "tree_rules_sample": [
+    "IF volatility_20 <= 0.0113 (Samples: 964):",
+    "  IF momentum_5 <= 8.7525 (Samples: 193):",
+    "    IF return_10d <= -0.0118 (Samples: 141):",
+    "      IF return_10d <= -0.0415 (Samples: 34):",
+    "        --> Leaf [Predict Class: 1 | Samples: 6]",
+    "      ELSE (return_10d > -0.0415):",
+    "        IF SMA_50 <= 508.7136 (Samples: 28):",
+    "          --> Leaf [Predict Class: 0 | Samples: 25]",
+    "        ELSE (SMA_50 > 508.7136):",
+    "          --> Leaf [Predict Class: 1 | Samples: 3]",
+    "    ELSE (return_10d > -0.0118):",
+    "      IF return_10d <= 0.0251 (Samples: 107):",
+    "      ELSE (return_10d > 0.0251):",
+    "  ELSE (momentum_5 > 8.7525):",
+    "ELSE (volatility_20 > 0.0113):"
+  ]
+}

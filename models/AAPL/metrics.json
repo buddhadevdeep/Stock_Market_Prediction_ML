@@ -1,0 +1,552 @@
+{
+  "symbol": "AAPL",
+  "dataset_info": {
+    "total_records": 1205,
+    "train_records": 964,
+    "test_records": 241,
+    "start_date": "2021-12-03",
+    "end_date": "2026-09-23",
+    "features_count": 22
+  },
+  "regression": {
+    "linear_regression_high": {
+      "train": {
+        "MAE": 1.7579,
+        "MSE": 6.5662,
+        "RMSE": 2.5625,
+        "R2": 0.9936
+      },
+      "test": {
+        "MAE": 2.6878,
+        "MSE": 15.152,
+        "RMSE": 3.8926,
+        "R2": 0.9777
+      },
+      "fit_status": "Well-Fitted (Balanced generalization on unseen test period)",
+      "sample_actual": [
+        306.0,
+        307.49,
+        307.66,
+        311.49,
+        319.28,
+        320.28,
+        312.38,
+        313.36,
+        313.59,
+        315.43,
+        315.4,
+        322.37,
+        321.24,
+        327.3,
+        328.4,
+        330.81,
+        328.93,
+        320.7,
+        319.15,
+        326.74,
+        336.22,
+        335.5,
+        331.78,
+        335.48,
+        338.34,
+        338.49,
+        339.64,
+        345.34,
+        341.8,
+        337.1
+      ],
+      "sample_predicted": [
+        307.61,
+        310.53,
+        308.71,
+        307.52,
+        312.57,
+        320.14,
+        313.61,
+        311.42,
+        312.86,
+        312.22,
+        315.66,
+        316.97,
+        322.31,
+        318.26,
+        328.01,
+        327.12,
+        330.5,
+        320.73,
+        319.01,
+        317.64,
+        330.26,
+        335.46,
+        335.05,
+        333.18,
+        334.99,
+        339.19,
+        337.97,
+        341.39,
+        342.02,
+        338.25
+      ]
+    },
+    "linear_regression_low": {
+      "train": {
+        "MAE": 1.7942,
+        "MSE": 6.6733,
+        "RMSE": 2.5833,
+        "R2": 0.9934
+      },
+      "test": {
+        "MAE": 2.6072,
+        "MSE": 14.7959,
+        "RMSE": 3.8465,
+        "R2": 0.9772
+      },
+      "fit_status": "Well-Fitted (Balanced generalization on unseen test period)",
+      "sample_actual": [
+        302.05,
+        304.3,
+        302.94,
+        305.74,
+        309.6,
+        310.65,
+        307.01,
+        309.97,
+        308.21,
+        308.8,
+        309.4,
+        315.45,
+        312.8,
+        314.73,
+        323.53,
+        324.11,
+        317.86,
+        314.9,
+        309.9,
+        316.51,
+        326.3,
+        331.34,
+        328.35,
+        330.7,
+        330.18,
+        332.53,
+        333.05,
+        338.75,
+        335.5,
+        334.3
+      ],
+      "sample_predicted": [
+        299.41,
+        302.97,
+        302.61,
+        301.52,
+        306.29,
+        312.84,
+        306.98,
+        305.1,
+        306.57,
+        305.43,
+        309.31,
+        310.98,
+        316.91,
+        313.38,
+        320.67,
+        323.02,
+        324.68,
+        315.06,
+        310.96,
+        309.93,
+        321.86,
+        329.25,
+        331.44,
+        328.7,
+        329.18,
+        333.84,
+        333.24,
+        335.81,
+        336.53,
+        333.13
+      ]
+    },
+    "random_forest_high": {
+      "train": {
+        "MAE": 0.8855,
+        "MSE": 1.8376,
+        "RMSE": 1.3556,
+        "R2": 0.9982
+      },
+      "test": {
+        "MAE": 29.9019,
+        "MSE": 1527.5466,
+        "RMSE": 39.0838,
+        "R2": -1.2468
+      },
+      "fit_status": "Moderate Overfitting (Train score significantly higher than test)",
+      "sample_actual": [
+        306.0,
+        307.49,
+        307.66,
+        311.49,
+        319.28,
+        320.28,
+        312.38,
+        313.36,
+        313.59,
+        315.43,
+        315.4,
+        322.37,
+        321.24,
+        327.3,
+        328.4,
+        330.81,
+        328.93,
+        320.7,
+        319.15,
+        326.74,
+        336.22,
+        335.5,
+        331.78,
+        335.48,
+        338.34,
+        338.49,
+        339.64,
+        345.34,
+        341.8,
+        337.1
+      ],
+      "sample_predicted": [
+        257.16,
+        258.44,
+        258.32,
+        258.27,
+        258.23,
+        258.09,
+        257.37,
+        257.14,
+        258.09,
+        258.16,
+        258.5,
+        258.38,
+        258.27,
+        257.16,
+        258.0,
+        257.9,
+        258.33,
+        257.22,
+        257.29,
+        257.01,
+        258.29,
+        258.3,
+        258.1,
+        257.69,
+        258.01,
+        258.47,
+        257.39,
+        258.59,
+        258.16,
+        257.44
+      ]
+    },
+    "random_forest_low": {
+      "train": {
+        "MAE": 0.9221,
+        "MSE": 2.0278,
+        "RMSE": 1.424,
+        "R2": 0.998
+      },
+      "test": {
+        "MAE": 27.7615,
+        "MSE": 1357.0158,
+        "RMSE": 36.8377,
+        "R2": -1.0918
+      },
+      "fit_status": "Moderate Overfitting (Train score significantly higher than test)",
+      "sample_actual": [
+        302.05,
+        304.3,
+        302.94,
+        305.74,
+        309.6,
+        310.65,
+        307.01,
+        309.97,
+        308.21,
+        308.8,
+        309.4,
+        315.45,
+        312.8,
+        314.73,
+        323.53,
+        324.11,
+        317.86,
+        314.9,
+        309.9,
+        316.51,
+        326.3,
+        331.34,
+        328.35,
+        330.7,
+        330.18,
+        332.53,
+        333.05,
+        338.75,
+        335.5,
+        334.3
+      ],
+      "sample_predicted": [
+        253.96,
+        255.19,
+        255.57,
+        255.39,
+        255.14,
+        254.44,
+        253.44,
+        254.11,
+        255.3,
+        255.61,
+        255.45,
+        255.5,
+        254.08,
+        253.02,
+        253.83,
+        254.18,
+        254.09,
+        253.99,
+        254.54,
+        255.01,
+        254.83,
+        254.62,
+        254.16,
+        253.67,
+        254.59,
+        254.42,
+        254.98,
+        254.41,
+        253.93,
+        253.58
+      ]
+    }
+  },
+  "classification": {
+    "custom_decision_tree_direction": {
+      "train": {
+        "accuracy": 62.55,
+        "precision": 62.64,
+        "recall": 62.55,
+        "f1": 62.58
+      },
+      "test": {
+        "accuracy": 53.11,
+        "precision": 52.51,
+        "recall": 53.11,
+        "f1": 52.24
+      },
+      "confusion_matrix": [
+        [
+          43,
+          69
+        ],
+        [
+          44,
+          85
+        ]
+      ],
+      "fit_status": "Well-Fitted (Generalizing across unseen temporal regimes)"
+    },
+    "random_forest_direction": {
+      "train": {
+        "accuracy": 93.57,
+        "precision": 93.94,
+        "recall": 93.57,
+        "f1": 93.54
+      },
+      "test": {
+        "accuracy": 48.13,
+        "precision": 62.09,
+        "recall": 48.13,
+        "f1": 34.32
+      },
+      "confusion_matrix": [
+        [
+          110,
+          2
+        ],
+        [
+          123,
+          6
+        ]
+      ],
+      "fit_status": "Overfitting (High training memorization)"
+    },
+    "custom_decision_tree_signal": {
+      "train": {
+        "accuracy": 64.63,
+        "precision": 64.97,
+        "recall": 64.63,
+        "f1": 62.91
+      },
+      "test": {
+        "accuracy": 50.21,
+        "precision": 49.05,
+        "recall": 50.21,
+        "f1": 48.57
+      },
+      "confusion_matrix": [
+        [
+          96,
+          13,
+          33
+        ],
+        [
+          37,
+          9,
+          9
+        ],
+        [
+          25,
+          3,
+          16
+        ]
+      ],
+      "fit_status": "Well-Fitted (Generalizing across unseen temporal regimes)"
+    },
+    "random_forest_signal": {
+      "train": {
+        "accuracy": 77.28,
+        "precision": 83.61,
+        "recall": 77.28,
+        "f1": 75.63
+      },
+      "test": {
+        "accuracy": 59.75,
+        "precision": 43.91,
+        "recall": 59.75,
+        "f1": 47.35
+      },
+      "confusion_matrix": [
+        [
+          139,
+          0,
+          3
+        ],
+        [
+          52,
+          0,
+          3
+        ],
+        [
+          39,
+          0,
+          5
+        ]
+      ],
+      "fit_status": "Well-Fitted (Generalizing across unseen temporal regimes)"
+    }
+  },
+  "feature_importance": [
+    {
+      "feature": "High",
+      "importance": 0.4446
+    },
+    {
+      "feature": "Close",
+      "importance": 0.3906
+    },
+    {
+      "feature": "SMA_10",
+      "importance": 0.0585
+    },
+    {
+      "feature": "Low",
+      "importance": 0.0479
+    },
+    {
+      "feature": "Open",
+      "importance": 0.0313
+    },
+    {
+      "feature": "SMA_5",
+      "importance": 0.0238
+    },
+    {
+      "feature": "volume_change",
+      "importance": 0.0004
+    },
+    {
+      "feature": "volatility_20",
+      "importance": 0.0003
+    },
+    {
+      "feature": "daily_return",
+      "importance": 0.0003
+    },
+    {
+      "feature": "close_open_ratio",
+      "importance": 0.0003
+    },
+    {
+      "feature": "volatility_5",
+      "importance": 0.0003
+    },
+    {
+      "feature": "Volume",
+      "importance": 0.0003
+    },
+    {
+      "feature": "SMA_50",
+      "importance": 0.0002
+    },
+    {
+      "feature": "SMA_20",
+      "importance": 0.0002
+    },
+    {
+      "feature": "return_3d",
+      "importance": 0.0002
+    },
+    {
+      "feature": "volatility_10",
+      "importance": 0.0002
+    },
+    {
+      "feature": "return_10d",
+      "importance": 0.0001
+    },
+    {
+      "feature": "momentum_10",
+      "importance": 0.0001
+    },
+    {
+      "feature": "high_low_ratio",
+      "importance": 0.0001
+    },
+    {
+      "feature": "price_range",
+      "importance": 0.0001
+    },
+    {
+      "feature": "return_5d",
+      "importance": 0.0001
+    },
+    {
+      "feature": "momentum_5",
+      "importance": 0.0001
+    }
+  ],
+  "tree_rules_sample": [
+    "IF Open <= 144.4115 (Samples: 964):",
+    "  IF return_10d <= 0.0514 (Samples: 85):",
+    "    IF price_range <= 4.4510 (Samples: 68):",
+    "      IF price_range <= 3.8680 (Samples: 44):",
+    "        IF return_5d <= 0.0398 (Samples: 35):",
+    "          --> Leaf [Predict Class: 1 | Samples: 29]",
+    "        ELSE (return_5d > 0.0398):",
+    "          --> Leaf [Predict Class: 0 | Samples: 6]",
+    "      ELSE (price_range > 3.8680):",
+    "        IF Volume <= 78661550.0000 (Samples: 9):",
+    "          --> Leaf [Predict Class: 0 | Samples: 3]",
+    "        ELSE (Volume > 78661550.0000):",
+    "    ELSE (price_range > 4.4510):",
+    "  ELSE (return_10d > 0.0514):",
+    "ELSE (Open > 144.4115):"
+  ]
+}

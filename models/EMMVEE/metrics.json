@@ -1,0 +1,551 @@
+{
+  "symbol": "EMMVEE",
+  "dataset_info": {
+    "total_records": 166,
+    "train_records": 132,
+    "test_records": 34,
+    "start_date": "2026-01-28",
+    "end_date": "2026-09-23",
+    "features_count": 22
+  },
+  "regression": {
+    "linear_regression_high": {
+      "train": {
+        "MAE": 4.8548,
+        "MSE": 40.3216,
+        "RMSE": 6.3499,
+        "R2": 0.9869
+      },
+      "test": {
+        "MAE": 4.6241,
+        "MSE": 39.355,
+        "RMSE": 6.2734,
+        "R2": 0.4824
+      },
+      "fit_status": "Moderate Overfitting (Train score significantly higher than test)",
+      "sample_actual": [
+        323.0,
+        326.65,
+        325.0,
+        321.55,
+        339.6,
+        328.95,
+        327.5,
+        334.75,
+        337.8,
+        337.9,
+        331.0,
+        327.0,
+        323.15,
+        327.45,
+        328.6,
+        330.9,
+        334.7,
+        332.75,
+        338.0,
+        344.9,
+        348.2,
+        346.0,
+        349.7,
+        330.6,
+        326.75,
+        333.0,
+        354.8,
+        346.8,
+        341.9,
+        331.15
+      ],
+      "sample_predicted": [
+        330.19,
+        326.96,
+        326.1,
+        325.22,
+        323.84,
+        329.75,
+        330.59,
+        331.7,
+        341.77,
+        338.8,
+        333.74,
+        331.88,
+        326.93,
+        327.52,
+        332.95,
+        333.88,
+        331.12,
+        332.27,
+        340.85,
+        336.74,
+        349.82,
+        354.84,
+        351.65,
+        334.57,
+        328.56,
+        334.09,
+        334.55,
+        337.49,
+        346.19,
+        337.3
+      ]
+    },
+    "linear_regression_low": {
+      "train": {
+        "MAE": 4.2078,
+        "MSE": 28.384,
+        "RMSE": 5.3277,
+        "R2": 0.9903
+      },
+      "test": {
+        "MAE": 7.0138,
+        "MSE": 61.7961,
+        "RMSE": 7.861,
+        "R2": -0.278
+      },
+      "fit_status": "Moderate Overfitting (Train score significantly higher than test)",
+      "sample_actual": [
+        317.0,
+        319.0,
+        316.4,
+        314.35,
+        324.1,
+        322.6,
+        321.5,
+        322.05,
+        331.25,
+        325.5,
+        322.75,
+        318.4,
+        317.4,
+        315.9,
+        324.0,
+        322.3,
+        320.25,
+        323.25,
+        327.95,
+        328.6,
+        332.9,
+        346.0,
+        322.45,
+        318.6,
+        316.05,
+        326.6,
+        330.1,
+        338.3,
+        327.1,
+        316.05
+      ],
+      "sample_predicted": [
+        316.47,
+        310.47,
+        310.53,
+        309.19,
+        306.65,
+        312.48,
+        313.53,
+        314.4,
+        324.77,
+        320.85,
+        317.28,
+        314.16,
+        308.27,
+        309.26,
+        317.27,
+        316.86,
+        314.92,
+        316.17,
+        322.23,
+        318.84,
+        330.96,
+        335.06,
+        331.82,
+        321.56,
+        312.88,
+        317.24,
+        320.68,
+        323.32,
+        331.51,
+        321.97
+      ]
+    },
+    "random_forest_high": {
+      "train": {
+        "MAE": 2.638,
+        "MSE": 12.6414,
+        "RMSE": 3.5555,
+        "R2": 0.9959
+      },
+      "test": {
+        "MAE": 5.9653,
+        "MSE": 53.2418,
+        "RMSE": 7.2967,
+        "R2": 0.2997
+      },
+      "fit_status": "Moderate Overfitting (Train score significantly higher than test)",
+      "sample_actual": [
+        323.0,
+        326.65,
+        325.0,
+        321.55,
+        339.6,
+        328.95,
+        327.5,
+        334.75,
+        337.8,
+        337.9,
+        331.0,
+        327.0,
+        323.15,
+        327.45,
+        328.6,
+        330.9,
+        334.7,
+        332.75,
+        338.0,
+        344.9,
+        348.2,
+        346.0,
+        349.7,
+        330.6,
+        326.75,
+        333.0,
+        354.8,
+        346.8,
+        341.9,
+        331.15
+      ],
+      "sample_predicted": [
+        330.73,
+        332.18,
+        331.67,
+        328.3,
+        328.24,
+        334.36,
+        331.96,
+        333.15,
+        336.22,
+        337.08,
+        335.36,
+        332.65,
+        331.82,
+        329.48,
+        332.13,
+        333.26,
+        332.34,
+        333.64,
+        336.0,
+        335.23,
+        359.49,
+        359.69,
+        360.05,
+        336.85,
+        331.57,
+        332.09,
+        334.74,
+        351.25,
+        352.84,
+        337.48
+      ]
+    },
+    "random_forest_low": {
+      "train": {
+        "MAE": 2.2727,
+        "MSE": 10.4435,
+        "RMSE": 3.2316,
+        "R2": 0.9964
+      },
+      "test": {
+        "MAE": 4.2954,
+        "MSE": 34.0421,
+        "RMSE": 5.8346,
+        "R2": 0.296
+      },
+      "fit_status": "Moderate Overfitting (Train score significantly higher than test)",
+      "sample_actual": [
+        317.0,
+        319.0,
+        316.4,
+        314.35,
+        324.1,
+        322.6,
+        321.5,
+        322.05,
+        331.25,
+        325.5,
+        322.75,
+        318.4,
+        317.4,
+        315.9,
+        324.0,
+        322.3,
+        320.25,
+        323.25,
+        327.95,
+        328.6,
+        332.9,
+        346.0,
+        322.45,
+        318.6,
+        316.05,
+        326.6,
+        330.1,
+        338.3,
+        327.1,
+        316.05
+      ],
+      "sample_predicted": [
+        319.43,
+        320.22,
+        320.35,
+        316.52,
+        313.87,
+        321.63,
+        320.26,
+        320.4,
+        328.58,
+        330.5,
+        322.95,
+        320.0,
+        320.35,
+        318.1,
+        319.03,
+        320.79,
+        319.78,
+        319.66,
+        326.96,
+        324.94,
+        339.84,
+        339.66,
+        339.21,
+        325.09,
+        319.77,
+        319.52,
+        322.72,
+        338.38,
+        338.15,
+        330.81
+      ]
+    }
+  },
+  "classification": {
+    "custom_decision_tree_direction": {
+      "train": {
+        "accuracy": 83.33,
+        "precision": 86.27,
+        "recall": 83.33,
+        "f1": 82.54
+      },
+      "test": {
+        "accuracy": 52.94,
+        "precision": 55.71,
+        "recall": 52.94,
+        "f1": 53.6
+      },
+      "confusion_matrix": [
+        [
+          11,
+          10
+        ],
+        [
+          6,
+          7
+        ]
+      ],
+      "fit_status": "Overfitting (High training memorization)"
+    },
+    "random_forest_direction": {
+      "train": {
+        "accuracy": 99.24,
+        "precision": 99.26,
+        "recall": 99.24,
+        "f1": 99.24
+      },
+      "test": {
+        "accuracy": 52.94,
+        "precision": 69.93,
+        "recall": 52.94,
+        "f1": 49.41
+      },
+      "confusion_matrix": [
+        [
+          6,
+          15
+        ],
+        [
+          1,
+          12
+        ]
+      ],
+      "fit_status": "Overfitting (High training memorization)"
+    },
+    "custom_decision_tree_signal": {
+      "train": {
+        "accuracy": 77.27,
+        "precision": 81.28,
+        "recall": 77.27,
+        "f1": 76.79
+      },
+      "test": {
+        "accuracy": 26.47,
+        "precision": 50.36,
+        "recall": 26.47,
+        "f1": 25.23
+      },
+      "confusion_matrix": [
+        [
+          2,
+          4,
+          13
+        ],
+        [
+          0,
+          4,
+          5
+        ],
+        [
+          1,
+          2,
+          3
+        ]
+      ],
+      "fit_status": "Underfitting (Market noise dominates classification)"
+    },
+    "random_forest_signal": {
+      "train": {
+        "accuracy": 100.0,
+        "precision": 100.0,
+        "recall": 100.0,
+        "f1": 100.0
+      },
+      "test": {
+        "accuracy": 35.29,
+        "precision": 42.94,
+        "recall": 35.29,
+        "f1": 25.81
+      },
+      "confusion_matrix": [
+        [
+          1,
+          10,
+          8
+        ],
+        [
+          0,
+          8,
+          1
+        ],
+        [
+          1,
+          2,
+          3
+        ]
+      ],
+      "fit_status": "Underfitting (Market noise dominates classification)"
+    }
+  },
+  "feature_importance": [
+    {
+      "feature": "Close",
+      "importance": 0.4655
+    },
+    {
+      "feature": "SMA_50",
+      "importance": 0.1794
+    },
+    {
+      "feature": "Low",
+      "importance": 0.1161
+    },
+    {
+      "feature": "High",
+      "importance": 0.1068
+    },
+    {
+      "feature": "SMA_20",
+      "importance": 0.059
+    },
+    {
+      "feature": "SMA_5",
+      "importance": 0.0448
+    },
+    {
+      "feature": "Open",
+      "importance": 0.0118
+    },
+    {
+      "feature": "SMA_10",
+      "importance": 0.0069
+    },
+    {
+      "feature": "volatility_5",
+      "importance": 0.0014
+    },
+    {
+      "feature": "volatility_20",
+      "importance": 0.0012
+    },
+    {
+      "feature": "momentum_10",
+      "importance": 0.0011
+    },
+    {
+      "feature": "return_5d",
+      "importance": 0.001
+    },
+    {
+      "feature": "daily_return",
+      "importance": 0.0009
+    },
+    {
+      "feature": "return_10d",
+      "importance": 0.0008
+    },
+    {
+      "feature": "momentum_5",
+      "importance": 0.0006
+    },
+    {
+      "feature": "return_3d",
+      "importance": 0.0005
+    },
+    {
+      "feature": "Volume",
+      "importance": 0.0005
+    },
+    {
+      "feature": "volatility_10",
+      "importance": 0.0005
+    },
+    {
+      "feature": "volume_change",
+      "importance": 0.0004
+    },
+    {
+      "feature": "close_open_ratio",
+      "importance": 0.0004
+    },
+    {
+      "feature": "high_low_ratio",
+      "importance": 0.0003
+    },
+    {
+      "feature": "price_range",
+      "importance": 0.0002
+    }
+  ],
+  "tree_rules_sample": [
+    "IF Close <= 333.6200 (Samples: 132):",
+    "  IF price_range <= 6.8670 (Samples: 110):",
+    "    --> Leaf [Predict Class: 1 | Samples: 10]",
+    "  ELSE (price_range > 6.8670):",
+    "    IF volatility_10 <= 0.0331 (Samples: 100):",
+    "      IF volatility_20 <= 0.0251 (Samples: 50):",
+    "        --> Leaf [Predict Class: 0 | Samples: 3]",
+    "      ELSE (volatility_20 > 0.0251):",
+    "        IF daily_return <= 0.0132 (Samples: 47):",
+    "          --> Leaf [Predict Class: 1 | Samples: 34]",
+    "        ELSE (daily_return > 0.0132):",
+    "          --> Leaf [Predict Class: 1 | Samples: 13]",
+    "    ELSE (volatility_10 > 0.0331):",
+    "ELSE (Close > 333.6200):"
+  ]
+}
