@@ -22,6 +22,24 @@ connectDB();
 app.use(cors({ origin: '*' }));
 app.use(express.json());
 
+// Root endpoint
+app.get('/', (req, res) => {
+  res.json({
+    status: 'OK',
+    service: 'Stock Prediction Node/Express Backend',
+    databaseConnected: getDBStatus(),
+    docs: {
+      health: '/api/health',
+      auth: '/api/auth',
+      stocks: '/api/stocks',
+      predictions: '/api/predictions',
+      models: '/api/models',
+      portfolio: '/api/portfolio',
+      history: '/api/history'
+    }
+  });
+});
+
 // API Health Check
 app.get('/api/health', (req, res) => {
   res.json({
@@ -39,6 +57,15 @@ app.use('/api/stocks', stockRoutes);
 app.use('/api/predictions', predictionRoutes);
 app.use('/api/models', modelRoutes);
 app.use('/api/history', historyRoutes);
+
+// Fallback aliases in case VITE_API_URL is configured without /api
+app.use('/auth', authRoutes);
+app.use('/portfolio', portfolioRoutes);
+app.use('/stocks', stockRoutes);
+app.use('/predictions', predictionRoutes);
+app.use('/models', modelRoutes);
+app.use('/history', historyRoutes);
+app.use('/health', (req, res) => res.redirect('/api/health'));
 
 // Error Handling Middleware
 app.use(errorHandler);

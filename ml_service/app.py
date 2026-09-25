@@ -28,6 +28,16 @@ app = Flask(__name__)
 # Enable CORS for all routes (supports frontend and backend calls)
 CORS(app, resources={r"/*": {"origins": "*"}})
 
+@app.route('/', methods=['GET'])
+def root():
+    """Root endpoint for ML service."""
+    return jsonify({
+        "status": "OK",
+        "service": "Python Stock Prediction ML Service",
+        "health": "/health",
+        "supported_default_tickers": ["TCS", "INFY", "RELIANCE", "HDFCBANK", "ICICIBANK", "ITC", "TATAMOTORS"]
+    }), 200
+
 @app.route('/health', methods=['GET'])
 def health():
     """Health check endpoint for ML service status."""

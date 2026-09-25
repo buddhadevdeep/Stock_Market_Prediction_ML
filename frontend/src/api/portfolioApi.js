@@ -1,7 +1,8 @@
 import axios from 'axios';
 import { stockApi, STOCK_CATALOG } from './stockApi';
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+const rawBase = (import.meta.env.VITE_API_URL || 'http://localhost:5000/api').trim().replace(/\/+$/, '');
+const API_BASE_URL = rawBase.endsWith('/api') ? rawBase : `${rawBase}/api`;
 
 const getAuthHeaders = () => {
   const token = localStorage.getItem('stockai_token');
