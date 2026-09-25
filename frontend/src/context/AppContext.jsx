@@ -15,46 +15,12 @@ export const AppProvider = ({ children }) => {
         return null;
       }
     }
-    // Default to Instant Demo user if not logged in
-    return {
-      id: 'demo-guest',
-      name: 'Demo Explorer',
-      email: 'guest@demo.stockai',
-      isDemo: true
-    };
+    return null;
   });
-
-  // Auth Suggestion Modal State for Locked Demo Features
-  const [showAuthPromptModal, setShowAuthPromptModal] = useState(false);
-  const [authPromptFeature, setAuthPromptFeature] = useState('');
-
-  const isDemoMode = Boolean(!user || user.isDemo);
-
-  const openAuthPrompt = (featureName = '') => {
-    setAuthPromptFeature(featureName);
-    setShowAuthPromptModal(true);
-  };
-
-  const closeAuthPrompt = () => {
-    setShowAuthPromptModal(false);
-    setAuthPromptFeature('');
-  };
-
-  const enterDemoMode = () => {
-    const demoUser = {
-      id: 'demo-guest',
-      name: 'Demo Explorer',
-      email: 'guest@demo.stockai',
-      isDemo: true
-    };
-    setUser(demoUser);
-    localStorage.setItem('stockai_user', JSON.stringify(demoUser));
-    addNotification('⚡ Switched to Instant Demo Access. Explore stocks and forecasts freely!', 'info');
-  };
 
   const [currentSymbol, setCurrentSymbol] = useState('NIFTY 50');
 
-  const [watchlist, setWatchlist] = useState(['RELIANCE', 'TCS', 'HDFCBANK', 'INFY', 'TATAPOWER']);
+  const [watchlist, setWatchlist] = useState([]);
   const [alerts, setAlerts] = useState([]);
   const [theme, setTheme] = useState(() => {
     return localStorage.getItem('stockai_theme') || 'dark';
@@ -108,23 +74,17 @@ export const AppProvider = ({ children }) => {
   useEffect(() => {
     const loadInitialState = async () => {
       try {
-        if (!isDemoMode) {
-          const wl = await stockApi.getWatchlist();
-          if (Array.isArray(wl) && wl.length > 0) {
-            setWatchlist(wl.map((w) => w.symbol));
-          }
-          const al = await alertApi.getAlerts();
-          if (Array.isArray(al)) {
-            setAlerts(al);
-          }
-        }
+        const wl = await stockApi.getWatchlist();
+        setWatchlist(wl.map((w) => w.symbol));
+        const al = await alertApi.getAlerts();
+        setAlerts(al);
         await fetchLiveMarketData();
       } catch (err) {
         console.error('Failed to load initial workspace state:', err);
       }
     };
     loadInitialState();
-  }, [fetchLiveMarketData, isDemoMode]);
+  }, [fetchLiveMarketData]);
 
   // 60-Second Countdown & Auto-Refresh Timer
   useEffect(() => {
@@ -153,10 +113,8 @@ export const AppProvider = ({ children }) => {
   const handleLogin = async (email, password, rememberMe = true) => {
     const res = await authApi.login(email, password, rememberMe);
     if (res.success && res.user) {
-      const authUser = { ...res.user, isDemo: false };
-      setUser(authUser);
-      localStorage.setItem('stockai_user', JSON.stringify(authUser));
-      addNotification(`Welcome back, ${authUser.name}! Full access unlocked.`, 'success');
+      setUser(res.user);
+      addNotification(`Welcome back, ${res.user.name}!`, 'success');
     }
     return res;
   };
@@ -164,78 +122,48 @@ export const AppProvider = ({ children }) => {
   const handleLogout = () => {
     localStorage.removeItem('stockai_token');
     localStorage.removeItem('stockai_user');
-    // Switch to clean demo guest user
-    enterDemoMode();
-    addNotification('Signed out to Instant Demo mode', 'info');
+    setUser(null);
+    addNotification('Logged out successfully', 'info');
   };
 
   const handleRegister = async (name, email, password) => {
     const res = await authApi.register(name, email, password);
     if (res.success && res.user) {
-      const authUser = { ...res.user, isDemo: false };
-      setUser(authUser);
-      localStorage.setItem('stockai_user', JSON.stringify(authUser));
-      addNotification(`Account created! Welcome, ${authUser.name}! Full access unlocked.`, 'success');
+      setUser(res.user);
+      addNotification(`Account created! Welcome, ${res.user.name}!`, 'success');
     }
     return res;
   };
 
   const updateUserProfile = (profileUpdates) => {
-    if (isDemoMode) {
-      openAuthPrompt('Profile & Settings');
-      return;
-    }
     setUser((prev) => {
       const updated = {
         ...(prev || { name: 'Arjun Trader', email: 'arjun@stockai.com' }),
-        ...profileUpdates,
-        isDemo: false
+        ...profileUpdates
       };
       localStorage.setItem('stockai_user', JSON.stringify(updated));
       return updated;
     });
-    addNotification('Profile details updated successfully!', 'success');
+    addNotification('Profile avatar and details updated successfully!', 'success');
   };
 
   const handleAddToWatchlist = async (symbol) => {
-    if (isDemoMode) {
+    const res = await stockApi.addToWatchlist(symbol);
+    if (res.success) {
       setWatchlist((prev) => (prev.includes(symbol) ? prev : [...prev, symbol]));
-      addNotification(`🔒 Added ${symbol} in Demo Mode (Temporary - Sign in to save permanently)`, 'info', symbol);
-      return;
-    }
-    try {
-      const res = await stockApi.addToWatchlist(symbol);
-      if (res.success) {
-        setWatchlist((prev) => (prev.includes(symbol) ? prev : [...prev, symbol]));
-        addNotification(`${symbol} added to watchlist`, 'success');
-      }
-    } catch (e) {
-      setWatchlist((prev) => (prev.includes(symbol) ? prev : [...prev, symbol]));
+      addNotification(`${symbol} added to watchlist`, 'success');
     }
   };
 
   const handleRemoveFromWatchlist = async (symbol) => {
-    if (isDemoMode) {
+    const res = await stockApi.removeFromWatchlist(symbol);
+    if (res.success) {
       setWatchlist((prev) => prev.filter((s) => s !== symbol));
-      addNotification(`${symbol} removed from temporary watchlist`, 'info');
-      return;
-    }
-    try {
-      const res = await stockApi.removeFromWatchlist(symbol);
-      if (res.success) {
-        setWatchlist((prev) => prev.filter((s) => s !== symbol));
-        addNotification(`${symbol} removed from watchlist`, 'info');
-      }
-    } catch (e) {
-      setWatchlist((prev) => prev.filter((s) => s !== symbol));
+      addNotification(`${symbol} removed from watchlist`, 'info');
     }
   };
 
   const handleCreateAlert = async (symbol, condition) => {
-    if (isDemoMode) {
-      openAuthPrompt('Live Price Alerts');
-      return;
-    }
     const updated = await alertApi.createAlert(symbol, condition);
     setAlerts(updated);
     addNotification(`Alert created for ${symbol}: ${condition}`, 'success', symbol);
@@ -349,13 +277,6 @@ export const AppProvider = ({ children }) => {
         dismissNotification,
         clearAllNotifications,
         markAllNotificationsAsRead,
-        // Demo Mode & Auth Suggestion Controls
-        isDemoMode,
-        enterDemoMode,
-        showAuthPromptModal,
-        authPromptFeature,
-        openAuthPrompt,
-        closeAuthPrompt,
         // Real-Time 1-2 Minute Auto-Refresh Engine
         autoRefreshEnabled,
         toggleAutoRefresh,

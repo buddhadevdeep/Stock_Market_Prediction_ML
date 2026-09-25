@@ -22,7 +22,7 @@ import {
 } from 'lucide-react';
 
 const LandingPage = () => {
-  const { login, register, user, enterDemoMode } = useApp();
+  const { login, register, user } = useApp();
   const navigate = useNavigate();
 
   // Mobile menu drawer state
@@ -65,11 +65,17 @@ const LandingPage = () => {
     }
   };
 
-  const handleInstantDemo = () => {
+  const handleInstantDemo = async () => {
+    setAuthLoading(true);
     setMobileMenuOpen(false);
-    setShowAuthModal(false);
-    enterDemoMode();
-    navigate('/dashboard');
+    try {
+      await login('arjun@stockai.com', 'demo123', true);
+      navigate('/dashboard');
+    } catch (e) {
+      navigate('/dashboard');
+    } finally {
+      setAuthLoading(false);
+    }
   };
 
   return (

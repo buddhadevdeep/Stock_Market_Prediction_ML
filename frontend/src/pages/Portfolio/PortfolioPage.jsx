@@ -9,7 +9,7 @@ import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from 'recha
 import { PlusCircle, Trash2, ArrowUpRight, ArrowDownRight, Briefcase, Search, Sparkles, RefreshCw, UserCheck } from 'lucide-react';
 
 export const PortfolioPage = () => {
-  const { user, isDemoMode, openAuthPrompt } = useApp();
+  const { user } = useApp();
   const [holdings, setHoldings] = useState([]);
   const [enrichedHoldings, setEnrichedHoldings] = useState([]);
   const [summary, setSummary] = useState({
@@ -39,21 +39,9 @@ export const PortfolioPage = () => {
   const loadUserPortfolio = async () => {
     setLoading(true);
     try {
-      if (isDemoMode) {
-        // Sample demonstration portfolio for guest explorer
-        const demoHoldings = [
-          { symbol: 'RELIANCE', shares: 15, avgPrice: 2850.00, notes: 'Blue-chip energy leader' },
-          { symbol: 'TCS', shares: 20, avgPrice: 3550.00, notes: 'IT giant compounding holding' },
-          { symbol: 'TATAPOWER', shares: 60, avgPrice: 380.00, notes: 'Green energy transition' },
-          { symbol: 'HDFCBANK', shares: 25, avgPrice: 1620.00, notes: 'Banking core' }
-        ];
-        setHoldings(demoHoldings);
-        await enrichWithLiveQuotes(demoHoldings);
-      } else {
-        const rawHoldings = await portfolioApi.getUserPortfolio();
-        setHoldings(rawHoldings);
-        await enrichWithLiveQuotes(rawHoldings);
-      }
+      const rawHoldings = await portfolioApi.getUserPortfolio();
+      setHoldings(rawHoldings);
+      await enrichWithLiveQuotes(rawHoldings);
     } catch (err) {
       console.error('Failed to load portfolio:', err);
     } finally {
@@ -185,12 +173,6 @@ export const PortfolioPage = () => {
   const handleAddTransaction = async (e) => {
     e.preventDefault();
     setActionError('');
-
-    if (isDemoMode) {
-      openAuthPrompt('Portfolio Tracking & Saving');
-      return;
-    }
-
     if (!searchSymbol.trim() || !qty || !price) {
       setActionError('Stock Symbol, Shares Quantity, and Purchase Price are required.');
       return;
@@ -234,10 +216,6 @@ export const PortfolioPage = () => {
   };
 
   const handleDeleteHolding = async (id, sym) => {
-    if (isDemoMode) {
-      openAuthPrompt('Portfolio Management');
-      return;
-    }
     if (window.confirm(`Are you sure you want to remove ${sym} from your portfolio?`)) {
       try {
         const updated = await portfolioApi.deleteStock(id || sym);

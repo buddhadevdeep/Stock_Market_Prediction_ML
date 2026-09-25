@@ -12,17 +12,17 @@ import {
 } from 'lucide-react';
 
 export const MobileBottomNav = () => {
-  const { toggleMobileSidebar, notifications, alerts, isDemoMode } = useApp();
+  const { toggleMobileSidebar, notifications, alerts } = useApp();
   const location = useLocation();
 
   const unreadAlerts = notifications.filter((n) => !n.read).length;
 
   const navTabs = [
-    { name: 'Dashboard', path: '/dashboard', icon: LayoutDashboard, lockedInDemo: false },
-    { name: 'Predict', path: '/prediction', icon: TrendingUp, lockedInDemo: false },
-    { name: 'Portfolio', path: '/portfolio', icon: Briefcase, lockedInDemo: true },
-    { name: 'Watchlist', path: '/watchlist', icon: Eye, lockedInDemo: false },
-    { name: 'Bull/Bear', path: '/bullbear', icon: Activity, lockedInDemo: false },
+    { name: 'Dashboard', path: '/dashboard', icon: LayoutDashboard },
+    { name: 'Predict', path: '/prediction', icon: TrendingUp },
+    { name: 'Portfolio', path: '/portfolio', icon: Briefcase },
+    { name: 'Watchlist', path: '/watchlist', icon: Eye },
+    { name: 'Bull/Bear', path: '/bullbear', icon: Activity },
   ];
 
   return (
@@ -31,7 +31,6 @@ export const MobileBottomNav = () => {
         {navTabs.map((tab) => {
           const Icon = tab.icon;
           const isActive = location.pathname === tab.path;
-          const isLocked = isDemoMode && tab.lockedInDemo;
           return (
             <NavLink
               key={tab.name}
@@ -42,22 +41,6 @@ export const MobileBottomNav = () => {
                 <Icon size={20} strokeWidth={isActive ? 2.5 : 2} />
                 {tab.name === 'Dashboard' && unreadAlerts > 0 && (
                   <span className="dock-badge-dot" />
-                )}
-                {isLocked && (
-                  <span 
-                    style={{
-                      position: 'absolute',
-                      top: '-2px',
-                      right: '-2px',
-                      fontSize: '0.55rem',
-                      lineHeight: '1',
-                      background: 'rgba(245, 158, 11, 0.2)',
-                      padding: '1px 2px',
-                      borderRadius: '3px'
-                    }}
-                  >
-                    🔒
-                  </span>
                 )}
               </div>
               <span className="dock-label">{tab.name}</span>
