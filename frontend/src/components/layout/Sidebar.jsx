@@ -27,26 +27,27 @@ const Sidebar = () => {
     isMobileSidebarOpen, 
     closeMobileSidebar, 
     logout, 
-    user 
+    user,
+    isDemoMode,
+    openAuthPrompt 
   } = useApp();
   const navigate = useNavigate();
 
   const handleLogout = () => {
     logout();
     closeMobileSidebar();
-    navigate('/');
   };
 
   const menuItems = [
-    { name: 'Dashboard', path: '/dashboard', icon: LayoutDashboard },
-    { name: 'Prediction', path: '/prediction', icon: TrendingUp },
-    { name: 'Bull vs Bear', path: '/bullbear', icon: Activity },
-    { name: 'Portfolio', path: '/portfolio', icon: Briefcase },
-    { name: 'Watchlist', path: '/watchlist', icon: Eye },
-    { name: 'Analytics', path: '/analytics', icon: BarChart2 },
-    { name: 'Compare', path: '/compare', icon: Columns },
-    { name: 'Alerts', path: '/alerts', icon: Bell },
-    { name: 'Settings', path: '/settings', icon: Settings },
+    { name: 'Dashboard', path: '/dashboard', icon: LayoutDashboard, lockedInDemo: false },
+    { name: 'Prediction', path: '/prediction', icon: TrendingUp, lockedInDemo: false },
+    { name: 'Bull vs Bear', path: '/bullbear', icon: Activity, lockedInDemo: false },
+    { name: 'Portfolio', path: '/portfolio', icon: Briefcase, lockedInDemo: true },
+    { name: 'Watchlist', path: '/watchlist', icon: Eye, lockedInDemo: false },
+    { name: 'Analytics', path: '/analytics', icon: BarChart2, lockedInDemo: false },
+    { name: 'Compare', path: '/compare', icon: Columns, lockedInDemo: true },
+    { name: 'Alerts', path: '/alerts', icon: Bell, lockedInDemo: true },
+    { name: 'Settings', path: '/settings', icon: Settings, lockedInDemo: true },
   ];
 
   return (
@@ -160,6 +161,7 @@ const Sidebar = () => {
         >
           {menuItems.map((item) => {
             const Icon = item.icon;
+            const isLocked = isDemoMode && item.lockedInDemo;
             return (
               <NavLink
                 key={item.path}
@@ -179,69 +181,137 @@ const Sidebar = () => {
                   transition: 'all 0.2s ease',
                   justifyContent: (isSidebarCollapsed && !isMobileSidebarOpen) ? 'center' : 'flex-start',
                   borderLeft: isActive ? '3px solid var(--accent-purple)' : '3px solid transparent',
+                  position: 'relative'
                 })}
               >
                 <Icon size={20} style={{ flexShrink: 0 }} />
                 {(!isSidebarCollapsed || isMobileSidebarOpen) && (
                   <span style={{ fontSize: '0.9rem', whiteSpace: 'nowrap' }}>{item.name}</span>
                 )}
+                {isLocked && (!isSidebarCollapsed || isMobileSidebarOpen) && (
+                  <span 
+                    title="Sign in to unlock full features & save data"
+                    style={{
+                      marginLeft: 'auto',
+                      fontSize: '0.7rem',
+                      color: 'var(--warning-amber)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '2px',
+                      background: 'rgba(245, 158, 11, 0.12)',
+                      padding: '2px 5px',
+                      borderRadius: '4px'
+                    }}
+                  >
+                    🔒 Lock
+                  </span>
+                )}
               </NavLink>
             );
           })}
         </div>
 
-        {/* Footer Profile & Logout */}
-        {user && (
-          <div 
-            style={{
-              padding: '16px',
-              borderTop: '1px solid var(--border-color)',
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '12px',
-              overflow: 'hidden',
-              backgroundColor: 'var(--bg-secondary)'
-            }}
-          >
-            {(!isSidebarCollapsed || isMobileSidebarOpen) && (
-              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <UserAvatar user={user} size={36} />
-                <div style={{ display: 'flex', flexDirection: 'column', minWidth: 0 }}>
-                  <span style={{ fontSize: '0.85rem', fontWeight: '700', color: 'var(--text-primary)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{user.name}</span>
-                  <span style={{ fontSize: '0.7rem', color: 'var(--bullish-green)', display: 'flex', alignItems: 'center', gap: '3px' }}>
-                    <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: 'var(--bullish-green)' }}></span>
-                    Premium
-                  </span>
+        {/* Footer Profile / Demo Mode Status */}
+        <div 
+          style={{
+            padding: '14px 16px',
+            borderTop: '1px solid var(--border-color)',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '10px',
+            overflow: 'hidden',
+            backgroundColor: 'var(--bg-secondary)'
+          }}
+        >
+          {isDemoMode ? (
+            <>
+              {(!isSidebarCollapsed || isMobileSidebarOpen) && (
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                  <div style={{
+                    width: '34px',
+                    height: '34px',
+                    borderRadius: '50%',
+                    backgroundColor: 'rgba(99, 102, 241, 0.15)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    color: 'var(--accent-purple)',
+                    fontWeight: '800',
+                    fontSize: '0.8rem',
+                    flexShrink: 0
+                  }}>
+                    ⚡
+                  </div>
+                  <div style={{ display: 'flex', flexDirection: 'column', minWidth: 0 }}>
+                    <span style={{ fontSize: '0.82rem', fontWeight: '800', color: 'var(--text-primary)' }}>Instant Demo</span>
+                    <span style={{ fontSize: '0.68rem', color: 'var(--text-muted)' }}>Guest mode active</span>
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
 
-            <button
-              onClick={handleLogout}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: (isSidebarCollapsed && !isMobileSidebarOpen) ? 'center' : 'flex-start',
-                gap: '12px',
-                padding: '10px 12px',
-                borderRadius: '8px',
-                border: 'none',
-                background: 'transparent',
-                color: 'var(--bearish-red)',
-                cursor: 'pointer',
-                fontWeight: '600',
-                fontSize: '0.88rem',
-                transition: 'background 0.2s ease',
-                width: '100%'
-              }}
-              onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'rgba(239, 68, 68, 0.08)'}
-              onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
-            >
-              <LogOut size={18} style={{ flexShrink: 0 }} />
-              {(!isSidebarCollapsed || isMobileSidebarOpen) && <span>Logout</span>}
-            </button>
-          </div>
-        )}
+              <button
+                onClick={() => openAuthPrompt('Full Account Access')}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '6px',
+                  padding: '9px 12px',
+                  borderRadius: '8px',
+                  border: 'none',
+                  background: 'linear-gradient(135deg, #6366f1 0%, #4f46e5 100%)',
+                  color: '#fff',
+                  cursor: 'pointer',
+                  fontWeight: '700',
+                  fontSize: '0.82rem',
+                  boxShadow: '0 4px 12px rgba(99, 102, 241, 0.3)',
+                  width: '100%'
+                }}
+              >
+                {(!isSidebarCollapsed || isMobileSidebarOpen) ? 'Sign In / Register' : '🔑'}
+              </button>
+            </>
+          ) : (
+            <>
+              {(!isSidebarCollapsed || isMobileSidebarOpen) && (
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                  <UserAvatar user={user} size={34} />
+                  <div style={{ display: 'flex', flexDirection: 'column', minWidth: 0 }}>
+                    <span style={{ fontSize: '0.84rem', fontWeight: '700', color: 'var(--text-primary)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{user.name}</span>
+                    <span style={{ fontSize: '0.68rem', color: 'var(--bullish-green)', display: 'flex', alignItems: 'center', gap: '3px' }}>
+                      <span style={{ width: '5px', height: '5px', borderRadius: '50%', backgroundColor: 'var(--bullish-green)' }}></span>
+                      Full Access
+                    </span>
+                  </div>
+                </div>
+              )}
+
+              <button
+                onClick={handleLogout}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: (isSidebarCollapsed && !isMobileSidebarOpen) ? 'center' : 'flex-start',
+                  gap: '10px',
+                  padding: '8px 10px',
+                  borderRadius: '6px',
+                  border: 'none',
+                  background: 'transparent',
+                  color: 'var(--bearish-red)',
+                  cursor: 'pointer',
+                  fontWeight: '600',
+                  fontSize: '0.82rem',
+                  width: '100%'
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'rgba(239, 68, 68, 0.08)'}
+                onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
+              >
+                <LogOut size={16} style={{ flexShrink: 0 }} />
+                {(!isSidebarCollapsed || isMobileSidebarOpen) && <span>Logout</span>}
+              </button>
+            </>
+          )}
+        </div>
       </div>
     </>
   );

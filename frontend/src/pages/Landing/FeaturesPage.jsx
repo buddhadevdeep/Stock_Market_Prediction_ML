@@ -6,43 +6,33 @@ const FeaturesPage = () => {
   return (
     <div style={{ backgroundColor: 'var(--bg-primary)', color: 'var(--text-primary)', minHeight: '100vh' }}>
       {/* Header */}
-      <header style={{ 
-        height: '75px', 
-        borderBottom: '1px solid var(--border-color)', 
-        display: 'flex', 
-        justifyContent: 'space-between', 
-        alignItems: 'center', 
-        padding: '0 5%',
-        backgroundColor: 'rgba(7, 11, 19, 0.8)',
-        backdropFilter: 'blur(10px)'
-      }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-          <Cpu size={28} style={{ color: 'var(--accent-purple)' }} />
-          <span style={{ fontWeight: '800', fontSize: '1.4rem' }}>Stock<span style={{ color: 'var(--accent-purple)' }}>AI</span></span>
-        </div>
-        <nav style={{ display: 'flex', gap: '30px' }}>
-          <Link to="/" style={{ color: 'var(--text-secondary)', textDecoration: 'none', fontWeight: '500' }}>Home</Link>
-          <Link to="/features" style={{ color: 'var(--text-primary)', textDecoration: 'none', fontWeight: '500' }}>Features</Link>
-          <Link to="/how-it-works" style={{ color: 'var(--text-secondary)', textDecoration: 'none', fontWeight: '500' }}>How It Works</Link>
-          <Link to="/pricing" style={{ color: 'var(--text-secondary)', textDecoration: 'none', fontWeight: '500' }}>Pricing</Link>
-          <Link to="/about" style={{ color: 'var(--text-secondary)', textDecoration: 'none', fontWeight: '500' }}>About</Link>
+      <header className="landing-header">
+        <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none', color: '#fff' }}>
+          <Cpu size={26} style={{ color: 'var(--accent-purple)' }} />
+          <span style={{ fontWeight: '800', fontSize: '1.3rem' }}>Stock<span style={{ color: 'var(--accent-purple)' }}>AI</span></span>
+        </Link>
+        <nav className="hide-on-mobile" style={{ display: 'flex', gap: '24px' }}>
+          <Link to="/" style={{ color: 'var(--text-secondary)', textDecoration: 'none', fontWeight: '500', fontSize: '0.9rem' }}>Home</Link>
+          <Link to="/features" style={{ color: '#fff', textDecoration: 'none', fontWeight: '600', fontSize: '0.9rem' }}>Features</Link>
+          <Link to="/how-it-works" style={{ color: 'var(--text-secondary)', textDecoration: 'none', fontWeight: '500', fontSize: '0.9rem' }}>How It Works</Link>
+          <Link to="/about" style={{ color: 'var(--text-secondary)', textDecoration: 'none', fontWeight: '500', fontSize: '0.9rem' }}>About</Link>
         </nav>
-        <div>
-          <Link to="/login" style={{ marginRight: '20px', color: '#fff', textDecoration: 'none', fontWeight: '500' }}>Login</Link>
-          <Link to="/register" className="btn-primary-custom" style={{ textDecoration: 'none' }}>Get Started</Link>
+        <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+          <Link to="/login" style={{ color: '#fff', textDecoration: 'none', fontWeight: '600', fontSize: '0.85rem', padding: '6px 10px' }}>Login</Link>
+          <Link to="/register" className="btn-primary-custom" style={{ textDecoration: 'none', padding: '7px 14px', fontSize: '0.82rem' }}>Get Started</Link>
         </div>
       </header>
 
       {/* Main Content */}
-      <div style={{ padding: '60px 5%', maxWidth: '1200px', margin: '0 auto' }}>
-        <h1 style={{ fontSize: '2.5rem', fontWeight: '800', marginBottom: '16px', textAlign: 'center' }}>
+      <div style={{ padding: '40px 5%', maxWidth: '1200px', margin: '0 auto' }}>
+        <h1 style={{ fontSize: 'clamp(1.8rem, 4vw, 2.5rem)', fontWeight: '800', marginBottom: '16px', textAlign: 'center' }}>
           Technical Indicators & AI Infrastructure
         </h1>
-        <p style={{ color: 'var(--text-secondary)', textAlign: 'center', maxWidth: '600px', margin: '0 auto 50px auto' }}>
+        <p style={{ color: 'var(--text-secondary)', textAlign: 'center', maxWidth: '600px', margin: '0 auto 40px auto', fontSize: '0.94rem' }}>
           Advanced quantitative modeling tools built on neural networks and technical algorithms to simplify your market research.
         </p>
 
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '30px', marginBottom: '50px' }}>
+        <div className="landing-features-grid" style={{ marginBottom: '40px' }}>
           <div className="glass-card" style={{ padding: '24px' }}>
             <div style={{ display: 'flex', gap: '16px', alignItems: 'flex-start' }}>
               <Zap size={24} style={{ color: 'var(--accent-purple)', marginTop: '4px' }} />

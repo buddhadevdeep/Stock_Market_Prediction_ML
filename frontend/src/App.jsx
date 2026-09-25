@@ -5,6 +5,8 @@ import Sidebar from './components/layout/Sidebar';
 import TopNavbar from './components/layout/TopNavbar';
 import MobileBottomNav from './components/layout/MobileBottomNav';
 import { DisclaimerBanner } from './components/DisclaimerBanner';
+import DemoModeBanner from './components/common/DemoModeBanner';
+import AuthPromptModal from './components/common/AuthPromptModal';
 
 // Public Landing & Marketing Pages
 import LandingPage from './pages/Landing/LandingPage';
@@ -40,11 +42,13 @@ const AppLayout = ({ children }) => {
       <Sidebar />
       <div className="app-main-content">
         <TopNavbar />
+        <DemoModeBanner />
         <DisclaimerBanner />
         <main className="app-page-body">
           {children}
         </main>
         <MobileBottomNav />
+        <AuthPromptModal />
       </div>
     </div>
   );

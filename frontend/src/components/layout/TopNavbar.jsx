@@ -264,16 +264,16 @@ export const TopNavbar = () => {
             <div 
               style={{
                 position: 'absolute',
-                top: '46px',
+                top: '44px',
                 left: 0,
-                width: 'min(420px, calc(100vw - 32px))',
+                width: 'min(400px, calc(100vw - 20px))',
                 backgroundColor: 'var(--bg-secondary)',
                 border: '1px solid var(--border-color)',
                 borderRadius: '10px',
                 boxShadow: 'var(--shadow-dropdown)',
-                maxHeight: '400px',
+                maxHeight: 'min(380px, 65vh)',
                 overflowY: 'auto',
-                zIndex: 100,
+                zIndex: 1100,
                 backdropFilter: 'blur(16px)',
                 padding: '6px 0'
               }}
@@ -360,7 +360,7 @@ export const TopNavbar = () => {
                             color: 'var(--text-primary)', 
                             fontSize: '0.86rem', 
                             fontFamily: 'var(--font-mono)',
-                            minWidth: '80px'
+                            minWidth: '70px'
                           }}
                         >
                           {stock.symbol}
@@ -429,7 +429,7 @@ export const TopNavbar = () => {
       </div>
 
       {/* Right: Auto-Refresh + Focus Tag + Theme Toggle + Notification Bell */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
         
         {/* Auto-Refresh Live Button */}
         <button
@@ -438,11 +438,11 @@ export const TopNavbar = () => {
           style={{
             display: 'flex',
             alignItems: 'center',
-            gap: '6px',
+            gap: '5px',
             background: isSyncing ? 'rgba(99, 102, 241, 0.2)' : 'rgba(16, 185, 129, 0.1)',
             border: isSyncing ? '1px solid var(--accent-purple)' : '1px solid rgba(16, 185, 129, 0.3)',
-            padding: '5px 10px',
-            borderRadius: '20px',
+            padding: '5px 8px',
+            borderRadius: '16px',
             color: isSyncing ? 'var(--accent-purple)' : 'var(--bullish-green)',
             fontSize: '0.72rem',
             fontWeight: '700',
@@ -456,9 +456,9 @@ export const TopNavbar = () => {
           <span className="hide-on-desktop">{refreshCountdown}s</span>
         </button>
 
-        {/* Active Radar Stock Tag */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', background: 'rgba(99, 102, 241, 0.12)', padding: '5px 10px', borderRadius: '8px', border: '1px solid rgba(99, 102, 241, 0.3)' }}>
-          <span className="hide-on-mobile" style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>Focus:</span>
+        {/* Active Radar Stock Tag (Desktop) */}
+        <div className="hide-on-mobile" style={{ display: 'flex', alignItems: 'center', gap: '6px', background: 'rgba(99, 102, 241, 0.12)', padding: '5px 10px', borderRadius: '8px', border: '1px solid rgba(99, 102, 241, 0.3)' }}>
+          <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>Focus:</span>
           <span style={{ fontWeight: '800', color: 'var(--accent-purple)', fontSize: '0.85rem', fontFamily: 'var(--font-mono)' }}>
             {currentSymbol === '^NSEI' ? 'NIFTY 50' : currentSymbol === '^BSESN' ? 'SENSEX' : currentSymbol}
           </span>
@@ -473,15 +473,18 @@ export const TopNavbar = () => {
             border: '1px solid var(--border-color)',
             color: 'var(--text-primary)',
             cursor: 'pointer',
-            padding: '7px',
+            padding: '6px',
             borderRadius: '8px',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            transition: 'all 0.2s ease'
+            transition: 'all 0.2s ease',
+            width: '32px',
+            height: '32px',
+            flexShrink: 0
           }}
         >
-          {theme === 'dark' ? <Sun size={17} style={{ color: '#fbbf24' }} /> : <Moon size={17} style={{ color: '#6366f1' }} />}
+          {theme === 'dark' ? <Sun size={15} style={{ color: '#fbbf24' }} /> : <Moon size={15} style={{ color: '#6366f1' }} />}
         </button>
 
         {/* Notification Bell */}
@@ -494,26 +497,29 @@ export const TopNavbar = () => {
               border: '1px solid var(--border-color)',
               color: 'var(--text-primary)',
               cursor: 'pointer',
-              padding: '7px',
+              padding: '6px',
               borderRadius: '8px',
               position: 'relative',
               display: 'flex',
               alignItems: 'center',
-              justifyContent: 'center'
+              justifyContent: 'center',
+              width: '32px',
+              height: '32px',
+              flexShrink: 0
             }}
           >
-            <Bell size={17} />
+            <Bell size={15} />
             {unreadCount > 0 && (
               <span 
                 style={{
                   position: 'absolute',
-                  top: '-3px',
-                  right: '-3px',
-                  width: '14px',
-                  height: '14px',
+                  top: '-2px',
+                  right: '-2px',
+                  width: '13px',
+                  height: '13px',
                   backgroundColor: 'var(--bearish-red)',
                   borderRadius: '50%',
-                  fontSize: '0.62rem',
+                  fontSize: '0.6rem',
                   fontWeight: '800',
                   color: '#fff',
                   display: 'flex',
@@ -531,14 +537,14 @@ export const TopNavbar = () => {
             <div 
               style={{
                 position: 'absolute',
-                top: '44px',
+                top: '40px',
                 right: 0,
-                width: 'min(360px, calc(100vw - 32px))',
+                width: 'min(340px, calc(100vw - 20px))',
                 backgroundColor: 'var(--bg-secondary)',
                 border: '1px solid var(--border-color)',
                 borderRadius: '10px',
                 boxShadow: 'var(--shadow-dropdown)',
-                zIndex: 100,
+                zIndex: 1100,
                 overflow: 'hidden'
               }}
             >
