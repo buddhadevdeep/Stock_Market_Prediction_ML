@@ -67,22 +67,6 @@ export const AuthRequiredModal = () => {
     }
   };
 
-  const handleQuickDemoLogin = async () => {
-    setError('');
-    setLoading(true);
-    try {
-      await login('arjun@stockai.com', 'demo123', true);
-      closeAuthModal();
-      if (returnPath) {
-        navigate(returnPath);
-      }
-    } catch (err) {
-      setError('Demo authentication failed.');
-    } finally {
-      setLoading(false);
-    }
-  };
-
   const handleDismiss = () => {
     closeAuthModal();
   };
@@ -407,32 +391,6 @@ export const AuthRequiredModal = () => {
               )}
             </button>
           </form>
-
-          {/* 1-Click Fast Demo Bypass */}
-          <div style={{ marginTop: '14px', paddingTop: '12px', borderTop: '1px solid var(--border-color)', textAlign: 'center' }}>
-            <button
-              type="button"
-              onClick={handleQuickDemoLogin}
-              disabled={loading}
-              style={{
-                width: '100%',
-                background: 'rgba(99, 102, 241, 0.1)',
-                border: '1px solid rgba(99, 102, 241, 0.25)',
-                color: 'var(--accent-purple)',
-                padding: '9px 12px',
-                borderRadius: '8px',
-                fontSize: '0.8rem',
-                fontWeight: '700',
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '6px'
-              }}
-            >
-              <Zap size={14} /> 1-Click Demo Login (Instant Full Access)
-            </button>
-          </div>
 
         </div>
 
