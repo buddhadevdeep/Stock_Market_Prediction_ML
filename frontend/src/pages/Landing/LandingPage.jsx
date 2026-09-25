@@ -113,8 +113,8 @@ const LandingPage = () => {
           </span>
         </div>
 
-        {/* Navigation Links */}
-        <nav style={{ display: 'flex', gap: '32px', alignItems: 'center' }}>
+        {/* Navigation Links (Hidden on small mobile screens) */}
+        <nav className="hide-on-mobile" style={{ display: 'flex', gap: '28px', alignItems: 'center' }}>
           <a href="#hero" style={{ color: '#ffffff', textDecoration: 'none', fontWeight: '600', fontSize: '0.9rem', transition: 'color 0.2s' }}>Home</a>
           <a href="#features" style={{ color: '#94a3b8', textDecoration: 'none', fontWeight: '500', fontSize: '0.9rem', transition: 'color 0.2s' }}>Features</a>
           <a href="#how-it-works" style={{ color: '#94a3b8', textDecoration: 'none', fontWeight: '500', fontSize: '0.9rem', transition: 'color 0.2s' }}>How It Works</a>
@@ -122,7 +122,7 @@ const LandingPage = () => {
         </nav>
 
         {/* Right CTA Actions */}
-        <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
+        <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
           {user ? (
             <button
               onClick={() => navigate('/dashboard')}
@@ -131,17 +131,17 @@ const LandingPage = () => {
                 color: '#fff',
                 border: 'none',
                 borderRadius: '8px',
-                padding: '9px 20px',
-                fontSize: '0.88rem',
+                padding: '9px 16px',
+                fontSize: '0.84rem',
                 fontWeight: '700',
                 cursor: 'pointer',
                 display: 'flex',
                 alignItems: 'center',
-                gap: '8px',
+                gap: '6px',
                 boxShadow: '0 4px 14px rgba(99, 102, 241, 0.35)'
               }}
             >
-              Go to Dashboard <ArrowRight size={15} />
+              Dashboard <ArrowRight size={15} />
             </button>
           ) : (
             <>
@@ -153,8 +153,8 @@ const LandingPage = () => {
                   color: '#ffffff', 
                   cursor: 'pointer', 
                   fontWeight: '600', 
-                  fontSize: '0.9rem',
-                  padding: '8px 12px'
+                  fontSize: '0.85rem',
+                  padding: '6px 10px'
                 }}
               >
                 Login
@@ -166,8 +166,8 @@ const LandingPage = () => {
                   color: '#ffffff', 
                   border: 'none',
                   borderRadius: '8px', 
-                  padding: '9px 20px', 
-                  fontSize: '0.88rem',
+                  padding: '8px 16px', 
+                  fontSize: '0.84rem',
                   fontWeight: '700',
                   cursor: 'pointer',
                   boxShadow: '0 4px 14px rgba(99, 102, 241, 0.35)',
@@ -182,8 +182,8 @@ const LandingPage = () => {
       </header>
 
       {/* Hero Section */}
-      <section id="hero" style={{ padding: '75px 6% 65px 6%', maxWidth: '1380px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
-        <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: '50px', alignItems: 'center' }}>
+      <section id="hero" style={{ padding: '50px 5% 50px 5%', maxWidth: '1380px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
+        <div className="responsive-split-2-1" style={{ alignItems: 'center' }}>
           
           {/* Left Hero Details */}
           <div>
@@ -385,7 +385,7 @@ const LandingPage = () => {
             </p>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))', gap: '24px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px' }}>
             
             <div className="glass-card" style={{ padding: '28px', backgroundColor: 'rgba(15, 23, 42, 0.65)', border: '1px solid rgba(255, 255, 255, 0.06)', borderRadius: '14px' }}>
               <div style={{ width: '44px', height: '44px', borderRadius: '10px', background: 'rgba(99, 102, 241, 0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '18px' }}>

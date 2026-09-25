@@ -82,9 +82,9 @@ export const StockPrediction = () => {
     <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
       
       {/* 1. Stock Selector Bar */}
-      <div className="glass-card" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '16px' }}>
-        <div style={{ display: 'flex', gap: '8px', overflowX: 'auto', padding: '4px 0', alignItems: 'center' }}>
-          <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)', fontWeight: '600', marginRight: '4px' }}>QUICK NSE TICKERS:</span>
+      <div className="glass-card" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px' }}>
+        <div className="horizontal-scroll-container" style={{ flex: 1, minWidth: 0, padding: '4px 0', alignItems: 'center' }}>
+          <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)', fontWeight: '700', flexShrink: 0, marginRight: '4px' }}>QUICK NSE TICKERS:</span>
           {POPULAR_SYMBOLS.map(sym => (
             <button
               key={sym}

@@ -144,8 +144,8 @@ const BullBearAnalysis = () => {
         </div>
 
         {/* Quick Ticker Switcher */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
-          <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: '600' }}>QUICK NSE:</span>
+        <div className="horizontal-scroll-container" style={{ width: '100%', maxWidth: '100%', padding: '4px 0', alignItems: 'center' }}>
+          <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: '700', flexShrink: 0 }}>QUICK NSE:</span>
           {POPULAR_TICKERS.map((sym) => (
             <button
               key={sym}

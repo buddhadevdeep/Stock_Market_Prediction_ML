@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AppProvider, useApp } from './context/AppContext';
 import Sidebar from './components/layout/Sidebar';
 import TopNavbar from './components/layout/TopNavbar';
+import MobileBottomNav from './components/layout/MobileBottomNav';
 import { DisclaimerBanner } from './components/DisclaimerBanner';
 
 // Public Landing & Marketing Pages
@@ -35,19 +36,15 @@ const AppLayout = ({ children }) => {
   const { isSidebarCollapsed } = useApp();
 
   return (
-    <div className="app-layout-wrapper">
+    <div className={`app-layout-wrapper ${isSidebarCollapsed ? 'sidebar-collapsed' : 'sidebar-expanded'}`}>
       <Sidebar />
-      <div 
-        className="app-main-content"
-        style={{
-          marginLeft: isSidebarCollapsed ? 'var(--sidebar-collapsed-width)' : 'var(--sidebar-width)',
-        }}
-      >
+      <div className="app-main-content">
         <TopNavbar />
         <DisclaimerBanner />
         <main className="app-page-body">
           {children}
         </main>
+        <MobileBottomNav />
       </div>
     </div>
   );
