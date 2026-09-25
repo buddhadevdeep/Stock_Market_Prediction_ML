@@ -31,6 +31,35 @@ export const AppProvider = ({ children }) => {
     { id: 1, message: 'Real-time yfinance feed active for NIFTY & NSE equities', type: 'info', read: false }
   ]);
 
+  // Auth / Sign-in Warning Modal for Instant Demo Mode
+  const [authModal, setAuthModal] = useState({
+    isOpen: false,
+    mode: 'login',
+    featureName: '',
+    returnPath: ''
+  });
+
+  const openAuthModal = useCallback(({ mode = 'login', featureName = '', returnPath = '' } = {}) => {
+    setAuthModal({
+      isOpen: true,
+      mode,
+      featureName,
+      returnPath
+    });
+  }, []);
+
+  const closeAuthModal = useCallback(() => {
+    setAuthModal((prev) => ({ ...prev, isOpen: false }));
+  }, []);
+
+  const requireAuth = useCallback((actionCallback, featureName = '', returnPath = '') => {
+    if (user) {
+      if (typeof actionCallback === 'function') actionCallback();
+    } else {
+      openAuthModal({ mode: 'login', featureName, returnPath });
+    }
+  }, [user, openAuthModal]);
+
   // Live Auto-Refresh State (1-2 Minute / 60-Second Real-Time Engine)
   const [autoRefreshEnabled, setAutoRefreshEnabled] = useState(true);
   const [refreshCountdown, setRefreshCountdown] = useState(60);
@@ -251,10 +280,16 @@ export const AppProvider = ({ children }) => {
     <AppContext.Provider
       value={{
         user,
+        isGuest: !user,
+        isDemoMode: !user,
         login: handleLogin,
         logout: handleLogout,
         register: handleRegister,
         updateUserProfile,
+        authModal,
+        openAuthModal,
+        closeAuthModal,
+        requireAuth,
         currentSymbol,
         setCurrentSymbol,
         watchlist,

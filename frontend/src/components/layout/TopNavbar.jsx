@@ -37,6 +37,7 @@ export const TopNavbar = () => {
     toggleTheme,
     toggleMobileSidebar,
     user,
+    openAuthModal,
     autoRefreshEnabled,
     toggleAutoRefresh,
     refreshCountdown,
@@ -109,7 +110,15 @@ export const TopNavbar = () => {
     setCurrentSymbol(cleanSym);
     setSearchQuery('');
     setShowSuggestions(false);
-    navigate('/prediction');
+    if (!user) {
+      openAuthModal({
+        mode: 'login',
+        featureName: 'AI Stock Prediction',
+        returnPath: '/prediction'
+      });
+    } else {
+      navigate('/prediction');
+    }
   };
 
   const handleKeyDown = (e) => {
@@ -639,24 +648,48 @@ export const TopNavbar = () => {
           )}
         </div>
 
-        {/* Trader Pro Badge (Desktop only) */}
-        <div 
-          className="hide-on-mobile"
-          style={{
-            background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.25), rgba(139, 92, 246, 0.25))',
-            border: '1px solid rgba(129, 140, 248, 0.4)',
-            padding: '4px 10px',
-            borderRadius: '6px',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '6px'
-          }}
-        >
-          <ShieldCheck size={14} style={{ color: 'var(--accent-purple)' }} />
-          <span style={{ fontSize: '0.72rem', fontWeight: '800', color: 'var(--accent-purple)', letterSpacing: '0.5px' }}>
-            TERMINAL PRO
-          </span>
-        </div>
+        {/* Trader Pro Badge OR Instant Demo Mode Badge (Desktop only) */}
+        {user ? (
+          <div 
+            className="hide-on-mobile"
+            style={{
+              background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.25), rgba(139, 92, 246, 0.25))',
+              border: '1px solid rgba(129, 140, 248, 0.4)',
+              padding: '4px 10px',
+              borderRadius: '6px',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px'
+            }}
+          >
+            <ShieldCheck size={14} style={{ color: 'var(--accent-purple)' }} />
+            <span style={{ fontSize: '0.72rem', fontWeight: '800', color: 'var(--accent-purple)', letterSpacing: '0.5px' }}>
+              TERMINAL PRO
+            </span>
+          </div>
+        ) : (
+          <button
+            onClick={() => openAuthModal({ mode: 'login' })}
+            className="hide-on-mobile"
+            style={{
+              background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(99, 102, 241, 0.2))',
+              border: '1px solid rgba(245, 158, 11, 0.4)',
+              padding: '5px 10px',
+              borderRadius: '6px',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '5px',
+              cursor: 'pointer',
+              color: 'var(--warning-amber)',
+              fontWeight: '800',
+              fontSize: '0.72rem',
+              transition: 'all 0.2s ease'
+            }}
+          >
+            <span>⚡ DEMO MODE</span>
+            <span style={{ color: 'var(--accent-purple)', fontSize: '0.68rem' }}>• SIGN IN 🔒</span>
+          </button>
+        )}
 
       </div>
     </div>

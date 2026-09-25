@@ -40,7 +40,7 @@ const DEFAULT_LOSERS = [
 ];
 
 const Dashboard = () => {
-  const { currentSymbol, setCurrentSymbol, setSelectedStock, marketIndicesLive, user } = useApp();
+  const { currentSymbol, setCurrentSymbol, setSelectedStock, marketIndicesLive, user, openAuthModal } = useApp();
   const navigate = useNavigate();
   const [indices, setIndices] = useState([]);
   const [portfolio, setPortfolio] = useState(null);
@@ -106,7 +106,15 @@ const Dashboard = () => {
     if (setSelectedStock) {
       setSelectedStock(sym.toUpperCase().trim());
     }
-    navigate('/prediction');
+    if (!user) {
+      openAuthModal({
+        mode: 'login',
+        featureName: 'AI Stock Prediction',
+        returnPath: '/prediction'
+      });
+    } else {
+      navigate('/prediction');
+    }
   };
 
   const portTotalVal = Number(portfolio?.summary?.totalValue || 0);
@@ -171,7 +179,17 @@ const Dashboard = () => {
 
         <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
           <button
-            onClick={() => navigate('/prediction')}
+            onClick={() => {
+              if (!user) {
+                openAuthModal({
+                  mode: 'login',
+                  featureName: 'AI Stock Prediction',
+                  returnPath: '/prediction'
+                });
+              } else {
+                navigate('/prediction');
+              }
+            }}
             className="glow-btn"
             style={{ padding: '8px 16px', fontSize: '0.8rem', display: 'flex', alignItems: 'center', gap: '6px' }}
           >
@@ -254,7 +272,17 @@ const Dashboard = () => {
               Active Radar Symbol: <strong style={{ color: 'var(--accent-purple)' }}>{currentSymbol}</strong> (1-Month Trend)
             </span>
             <button
-              onClick={() => navigate('/analytics')}
+              onClick={() => {
+                if (!user) {
+                  openAuthModal({
+                    mode: 'login',
+                    featureName: 'Technical Analytics',
+                    returnPath: '/analytics'
+                  });
+                } else {
+                  navigate('/analytics');
+                }
+              }}
               style={{
                 display: 'flex',
                 alignItems: 'center',

@@ -17,25 +17,34 @@ const getAuthHeaders = () => {
 export const portfolioApi = {
   // Get all raw holdings for the currently logged-in user
   getUserPortfolio: async () => {
-    try {
-      const response = await axios.get(`${API_BASE_URL}/portfolio`, {
-        headers: getAuthHeaders(),
-      });
-      if (Array.isArray(response.data?.holdings)) {
-        return response.data.holdings;
-      }
-    } catch (err) {
-      console.warn('Backend portfolio fetch error, using local user store:', err.message);
-    }
-
-    // User-specific local fallback
+    const token = localStorage.getItem('stockai_token');
     const userStr = localStorage.getItem('stockai_user');
     const user = userStr ? JSON.parse(userStr) : null;
-    if (!user || !user.email) return [];
-    
-    const email = user.email.toLowerCase();
+
+    if (token && user?.email) {
+      try {
+        const response = await axios.get(`${API_BASE_URL}/portfolio`, {
+          headers: getAuthHeaders(),
+        });
+        if (Array.isArray(response.data?.holdings)) {
+          return response.data.holdings;
+        }
+      } catch (err) {
+        console.warn('Backend portfolio fetch note, using local user store:', err.message);
+      }
+    }
+
+    // Instant Demo / Guest user fallback (in-memory / local storage without saving to DB)
+    const email = user?.email ? user.email.toLowerCase() : 'demo_guest';
     const local = localStorage.getItem(`portfolio_${email}`);
-    return local ? JSON.parse(local) : [];
+    if (local) {
+      try {
+        return JSON.parse(local);
+      } catch (e) {
+        return [];
+      }
+    }
+    return [];
   },
 
   // Calculate full portfolio summary, valuations, and algorithmic stability rank
@@ -161,20 +170,24 @@ export const portfolioApi = {
 
   // Add a new stock transaction to user's portfolio
   addStock: async (stockData) => {
-    try {
-      const response = await axios.post(`${API_BASE_URL}/portfolio`, stockData, {
-        headers: getAuthHeaders(),
-      });
-      if (Array.isArray(response.data?.holdings)) {
-        return response.data.holdings;
-      }
-    } catch (err) {
-      console.warn('Backend add stock error, updating local store:', err.message);
-    }
-
+    const token = localStorage.getItem('stockai_token');
     const userStr = localStorage.getItem('stockai_user');
     const user = userStr ? JSON.parse(userStr) : null;
-    const email = user?.email ? user.email.toLowerCase() : 'demo';
+
+    if (token && user?.email) {
+      try {
+        const response = await axios.post(`${API_BASE_URL}/portfolio`, stockData, {
+          headers: getAuthHeaders(),
+        });
+        if (Array.isArray(response.data?.holdings)) {
+          return response.data.holdings;
+        }
+      } catch (err) {
+        console.warn('Backend add stock note, updating local store:', err.message);
+      }
+    }
+
+    const email = user?.email ? user.email.toLowerCase() : 'demo_guest';
     
     const current = await portfolioApi.getUserPortfolio();
     const cleanSym = stockData.symbol.toUpperCase();
@@ -213,20 +226,24 @@ export const portfolioApi = {
 
   // Remove a stock holding
   deleteStock: async (id) => {
-    try {
-      const response = await axios.delete(`${API_BASE_URL}/portfolio/${id}`, {
-        headers: getAuthHeaders(),
-      });
-      if (Array.isArray(response.data?.holdings)) {
-        return response.data.holdings;
-      }
-    } catch (err) {
-      console.warn('Backend delete stock error, updating local store:', err.message);
-    }
-
+    const token = localStorage.getItem('stockai_token');
     const userStr = localStorage.getItem('stockai_user');
     const user = userStr ? JSON.parse(userStr) : null;
-    const email = user?.email ? user.email.toLowerCase() : 'demo';
+
+    if (token && user?.email) {
+      try {
+        const response = await axios.delete(`${API_BASE_URL}/portfolio/${id}`, {
+          headers: getAuthHeaders(),
+        });
+        if (Array.isArray(response.data?.holdings)) {
+          return response.data.holdings;
+        }
+      } catch (err) {
+        console.warn('Backend delete stock note, updating local store:', err.message);
+      }
+    }
+
+    const email = user?.email ? user.email.toLowerCase() : 'demo_guest';
     
     const current = await portfolioApi.getUserPortfolio();
     const updated = current.filter((h) => h._id !== id && h.symbol !== String(id).toUpperCase());

@@ -65,17 +65,9 @@ const LandingPage = () => {
     }
   };
 
-  const handleInstantDemo = async () => {
-    setAuthLoading(true);
+  const handleInstantDemo = () => {
     setMobileMenuOpen(false);
-    try {
-      await login('arjun@stockai.com', 'demo123', true);
-      navigate('/dashboard');
-    } catch (e) {
-      navigate('/dashboard');
-    } finally {
-      setAuthLoading(false);
-    }
+    navigate('/dashboard');
   };
 
   return (
@@ -509,76 +501,76 @@ const LandingPage = () => {
       </section>
 
       {/* Feature Cards Grid: Engineered for Intelligent Investors */}
-      <section id="features" style={{ padding: '60px 6%', backgroundColor: 'rgba(15, 23, 42, 0.5)', borderTop: '1px solid rgba(255, 255, 255, 0.05)', borderBottom: '1px solid rgba(255, 255, 255, 0.05)' }}>
+      <section id="features" style={{ padding: '60px 6%', backgroundColor: 'rgba(10, 15, 29, 0.8)', borderTop: '1px solid rgba(255, 255, 255, 0.06)', borderBottom: '1px solid rgba(255, 255, 255, 0.06)' }}>
         <div style={{ maxWidth: '1380px', margin: '0 auto' }}>
           
-          <div style={{ textAlign: 'center', marginBottom: '44px' }}>
-            <h2 style={{ fontSize: 'clamp(1.7rem, 4vw, 2.4rem)', fontWeight: '900', marginBottom: '10px', letterSpacing: '-0.5px' }}>
+          <div style={{ textAlign: 'center', marginBottom: '44px', paddingTop: '10px' }}>
+            <h2 style={{ fontSize: 'clamp(1.7rem, 4vw, 2.4rem)', fontWeight: '900', marginBottom: '12px', letterSpacing: '-0.5px', color: '#ffffff' }}>
               Engineered for Intelligent Investors
             </h2>
-            <p style={{ color: '#94a3b8', maxWidth: '620px', margin: '0 auto', fontSize: '0.94rem' }}>
+            <p style={{ color: '#94a3b8', maxWidth: '620px', margin: '0 auto', fontSize: '0.94rem', lineHeight: '1.6' }}>
               Sophisticated metrics, AI analysis, and prediction tools merged into a seamless dashboard.
             </p>
           </div>
 
           <div className="landing-features-grid">
             
-            <div className="glass-card" style={{ padding: '24px 20px' }}>
-              <div style={{ width: '42px', height: '42px', borderRadius: '10px', background: 'rgba(99, 102, 241, 0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '16px' }}>
+            <div className="landing-feature-card" style={{ padding: '24px 20px', backgroundColor: 'rgba(15, 23, 42, 0.85)', borderRadius: '14px', border: '1px solid rgba(255, 255, 255, 0.1)', backdropFilter: 'blur(16px)', boxShadow: '0 10px 30px -10px rgba(0, 0, 0, 0.6)' }}>
+              <div style={{ width: '42px', height: '42px', borderRadius: '10px', background: 'rgba(99, 102, 241, 0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '16px' }}>
                 <Cpu size={22} style={{ color: '#818cf8' }} />
               </div>
-              <h4 style={{ fontSize: '1.1rem', fontWeight: '800', marginBottom: '8px' }}>AI Predictions</h4>
-              <p style={{ fontSize: '0.86rem', color: '#94a3b8', lineHeight: '1.6' }}>
+              <h4 style={{ fontSize: '1.1rem', fontWeight: '800', marginBottom: '8px', color: '#ffffff' }}>AI Predictions</h4>
+              <p style={{ fontSize: '0.86rem', color: '#94a3b8', lineHeight: '1.6', margin: 0 }}>
                 Tomorrow's High/Low calculations modeled with LSTM and XGBoost regressors based on OHLCV features.
               </p>
             </div>
 
-            <div className="glass-card" style={{ padding: '24px 20px' }}>
-              <div style={{ width: '42px', height: '42px', borderRadius: '10px', background: 'rgba(56, 189, 248, 0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '16px' }}>
+            <div className="landing-feature-card" style={{ padding: '24px 20px', backgroundColor: 'rgba(15, 23, 42, 0.85)', borderRadius: '14px', border: '1px solid rgba(255, 255, 255, 0.1)', backdropFilter: 'blur(16px)', boxShadow: '0 10px 30px -10px rgba(0, 0, 0, 0.6)' }}>
+              <div style={{ width: '42px', height: '42px', borderRadius: '10px', background: 'rgba(56, 189, 248, 0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '16px' }}>
                 <Activity size={22} style={{ color: '#38bdf8' }} />
               </div>
-              <h4 style={{ fontSize: '1.1rem', fontWeight: '800', marginBottom: '8px' }}>Real-Time Market Data</h4>
-              <p style={{ fontSize: '0.86rem', color: '#94a3b8', lineHeight: '1.6' }}>
+              <h4 style={{ fontSize: '1.1rem', fontWeight: '800', marginBottom: '8px', color: '#ffffff' }}>Real-Time Market Data</h4>
+              <p style={{ fontSize: '0.86rem', color: '#94a3b8', lineHeight: '1.6', margin: 0 }}>
                 Live streaming quotes for blue-chip companies, custom sparklines, and instant stock indicators.
               </p>
             </div>
 
-            <div className="glass-card" style={{ padding: '24px 20px' }}>
-              <div style={{ width: '42px', height: '42px', borderRadius: '10px', background: 'rgba(16, 185, 129, 0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '16px' }}>
+            <div className="landing-feature-card" style={{ padding: '24px 20px', backgroundColor: 'rgba(15, 23, 42, 0.85)', borderRadius: '14px', border: '1px solid rgba(255, 255, 255, 0.1)', backdropFilter: 'blur(16px)', boxShadow: '0 10px 30px -10px rgba(0, 0, 0, 0.6)' }}>
+              <div style={{ width: '42px', height: '42px', borderRadius: '10px', background: 'rgba(16, 185, 129, 0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '16px' }}>
                 <BarChart2 size={22} style={{ color: '#10b981' }} />
               </div>
-              <h4 style={{ fontSize: '1.1rem', fontWeight: '800', marginBottom: '8px' }}>Technical Analysis</h4>
-              <p style={{ fontSize: '0.86rem', color: '#94a3b8', lineHeight: '1.6' }}>
+              <h4 style={{ fontSize: '1.1rem', fontWeight: '800', marginBottom: '8px', color: '#ffffff' }}>Technical Analysis</h4>
+              <p style={{ fontSize: '0.86rem', color: '#94a3b8', lineHeight: '1.6', margin: 0 }}>
                 On-demand overlays for SMA, EMA, MACD, RSI 14, ATR, and Bollinger bands mapped to candlestick points.
               </p>
             </div>
 
-            <div className="glass-card" style={{ padding: '24px 20px' }}>
-              <div style={{ width: '42px', height: '42px', borderRadius: '10px', background: 'rgba(245, 158, 11, 0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '16px' }}>
+            <div className="landing-feature-card" style={{ padding: '24px 20px', backgroundColor: 'rgba(15, 23, 42, 0.85)', borderRadius: '14px', border: '1px solid rgba(255, 255, 255, 0.1)', backdropFilter: 'blur(16px)', boxShadow: '0 10px 30px -10px rgba(0, 0, 0, 0.6)' }}>
+              <div style={{ width: '42px', height: '42px', borderRadius: '10px', background: 'rgba(245, 158, 11, 0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '16px' }}>
                 <Layers size={22} style={{ color: '#fbbf24' }} />
               </div>
-              <h4 style={{ fontSize: '1.1rem', fontWeight: '800', marginBottom: '8px' }}>Smart Insights</h4>
-              <p style={{ fontSize: '0.86rem', color: '#94a3b8', lineHeight: '1.6' }}>
+              <h4 style={{ fontSize: '1.1rem', fontWeight: '800', marginBottom: '8px', color: '#ffffff' }}>Smart Insights</h4>
+              <p style={{ fontSize: '0.86rem', color: '#94a3b8', lineHeight: '1.6', margin: 0 }}>
                 Explainable AI predictions summarizing indicator state thresholds and historical trends.
               </p>
             </div>
 
-            <div className="glass-card" style={{ padding: '24px 20px' }}>
-              <div style={{ width: '42px', height: '42px', borderRadius: '10px', background: 'rgba(99, 102, 241, 0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '16px' }}>
+            <div className="landing-feature-card" style={{ padding: '24px 20px', backgroundColor: 'rgba(15, 23, 42, 0.85)', borderRadius: '14px', border: '1px solid rgba(255, 255, 255, 0.1)', backdropFilter: 'blur(16px)', boxShadow: '0 10px 30px -10px rgba(0, 0, 0, 0.6)' }}>
+              <div style={{ width: '42px', height: '42px', borderRadius: '10px', background: 'rgba(99, 102, 241, 0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '16px' }}>
                 <ShieldCheck size={22} style={{ color: '#818cf8' }} />
               </div>
-              <h4 style={{ fontSize: '1.1rem', fontWeight: '800', marginBottom: '8px' }}>Risk Management</h4>
-              <p style={{ fontSize: '0.86rem', color: '#94a3b8', lineHeight: '1.6' }}>
+              <h4 style={{ fontSize: '1.1rem', fontWeight: '800', marginBottom: '8px', color: '#ffffff' }}>Risk Management</h4>
+              <p style={{ fontSize: '0.86rem', color: '#94a3b8', lineHeight: '1.6', margin: 0 }}>
                 Real-time beta tracking, volatility indexes, and risk probability estimates for open positions.
               </p>
             </div>
 
-            <div className="glass-card" style={{ padding: '24px 20px' }}>
-              <div style={{ width: '42px', height: '42px', borderRadius: '10px', background: 'rgba(56, 189, 248, 0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '16px' }}>
+            <div className="landing-feature-card" style={{ padding: '24px 20px', backgroundColor: 'rgba(15, 23, 42, 0.85)', borderRadius: '14px', border: '1px solid rgba(255, 255, 255, 0.1)', backdropFilter: 'blur(16px)', boxShadow: '0 10px 30px -10px rgba(0, 0, 0, 0.6)' }}>
+              <div style={{ width: '42px', height: '42px', borderRadius: '10px', background: 'rgba(56, 189, 248, 0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '16px' }}>
                 <TrendingUp size={22} style={{ color: '#38bdf8' }} />
               </div>
-              <h4 style={{ fontSize: '1.1rem', fontWeight: '800', marginBottom: '8px' }}>Portfolio Tracking</h4>
-              <p style={{ fontSize: '0.86rem', color: '#94a3b8', lineHeight: '1.6' }}>
+              <h4 style={{ fontSize: '1.1rem', fontWeight: '800', marginBottom: '8px', color: '#ffffff' }}>Portfolio Tracking</h4>
+              <p style={{ fontSize: '0.86rem', color: '#94a3b8', lineHeight: '1.6', margin: 0 }}>
                 Holdings records consolidated with allocation charts and dynamic health index assessments.
               </p>
             </div>

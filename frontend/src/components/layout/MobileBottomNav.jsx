@@ -7,43 +7,78 @@ import {
   Briefcase,
   Eye,
   Menu,
-  Bell,
-  Activity
+  Activity,
+  Lock
 } from 'lucide-react';
 
 export const MobileBottomNav = () => {
-  const { toggleMobileSidebar, notifications, alerts } = useApp();
+  const { toggleMobileSidebar, notifications, user, openAuthModal } = useApp();
   const location = useLocation();
 
   const unreadAlerts = notifications.filter((n) => !n.read).length;
 
   const navTabs = [
-    { name: 'Dashboard', path: '/dashboard', icon: LayoutDashboard },
-    { name: 'Predict', path: '/prediction', icon: TrendingUp },
-    { name: 'Portfolio', path: '/portfolio', icon: Briefcase },
-    { name: 'Watchlist', path: '/watchlist', icon: Eye },
-    { name: 'Bull/Bear', path: '/bullbear', icon: Activity },
+    { name: 'Dashboard', path: '/dashboard', icon: LayoutDashboard, requiresAuth: false },
+    { name: 'Predict', path: '/prediction', icon: TrendingUp, requiresAuth: true },
+    { name: 'Portfolio', path: '/portfolio', icon: Briefcase, requiresAuth: false },
+    { name: 'Watchlist', path: '/watchlist', icon: Eye, requiresAuth: false },
+    { name: 'Bull/Bear', path: '/bullbear', icon: Activity, requiresAuth: true },
   ];
+
+  const handleTabClick = (e, tab) => {
+    if (tab.requiresAuth && !user) {
+      e.preventDefault();
+      openAuthModal({
+        mode: 'login',
+        featureName: tab.name,
+        returnPath: tab.path
+      });
+    }
+  };
 
   return (
     <nav className="mobile-app-dock" aria-label="Mobile Navigation">
       <div className="mobile-dock-container">
         {navTabs.map((tab) => {
           const Icon = tab.icon;
-          const isActive = location.pathname === tab.path;
+          const isLocked = tab.requiresAuth && !user;
+          const isActive = location.pathname === tab.path && !isLocked;
+
           return (
             <NavLink
               key={tab.name}
               to={tab.path}
+              onClick={(e) => handleTabClick(e, tab)}
               className={`mobile-dock-item ${isActive ? 'active' : ''}`}
             >
-              <div className="dock-icon-box">
+              <div className="dock-icon-box" style={{ position: 'relative' }}>
                 <Icon size={20} strokeWidth={isActive ? 2.5 : 2} />
                 {tab.name === 'Dashboard' && unreadAlerts > 0 && (
                   <span className="dock-badge-dot" />
                 )}
+                {isLocked && (
+                  <span
+                    style={{
+                      position: 'absolute',
+                      top: '-4px',
+                      right: '-6px',
+                      backgroundColor: 'var(--warning-amber)',
+                      color: '#000',
+                      borderRadius: '50%',
+                      width: '12px',
+                      height: '12px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center'
+                    }}
+                  >
+                    <Lock size={7} strokeWidth={3} />
+                  </span>
+                )}
               </div>
-              <span className="dock-label">{tab.name}</span>
+              <span className="dock-label" style={{ display: 'flex', alignItems: 'center', gap: '2px' }}>
+                {tab.name}
+              </span>
             </NavLink>
           );
         })}

@@ -5,6 +5,8 @@ import Sidebar from './components/layout/Sidebar';
 import TopNavbar from './components/layout/TopNavbar';
 import MobileBottomNav from './components/layout/MobileBottomNav';
 import { DisclaimerBanner } from './components/DisclaimerBanner';
+import AuthRequiredModal from './components/common/AuthRequiredModal';
+import ProtectedFeatureGuard from './components/common/ProtectedFeatureGuard';
 
 // Public Landing & Marketing Pages
 import LandingPage from './pages/Landing/LandingPage';
@@ -46,6 +48,7 @@ const AppLayout = ({ children }) => {
         </main>
         <MobileBottomNav />
       </div>
+      <AuthRequiredModal />
     </div>
   );
 };
@@ -68,12 +71,52 @@ export const App = () => {
 
           {/* StockAI Terminal Workspace Pages */}
           <Route path="/dashboard" element={<AppLayout><Dashboard /></AppLayout>} />
-          <Route path="/prediction" element={<AppLayout><StockPrediction /></AppLayout>} />
-          <Route path="/bullbear" element={<AppLayout><BullBearAnalysis /></AppLayout>} />
+          
+          {/* Protected AI & Comparison Features (Locked in Demo Mode) */}
+          <Route
+            path="/prediction"
+            element={
+              <AppLayout>
+                <ProtectedFeatureGuard featureName="AI Stock Prediction">
+                  <StockPrediction />
+                </ProtectedFeatureGuard>
+              </AppLayout>
+            }
+          />
+          <Route
+            path="/bullbear"
+            element={
+              <AppLayout>
+                <ProtectedFeatureGuard featureName="Bull vs Bear Analysis">
+                  <BullBearAnalysis />
+                </ProtectedFeatureGuard>
+              </AppLayout>
+            }
+          />
+          <Route
+            path="/analytics"
+            element={
+              <AppLayout>
+                <ProtectedFeatureGuard featureName="Technical Analytics">
+                  <AnalyticsPage />
+                </ProtectedFeatureGuard>
+              </AppLayout>
+            }
+          />
+          <Route
+            path="/compare"
+            element={
+              <AppLayout>
+                <ProtectedFeatureGuard featureName="Multi-Stock Comparison">
+                  <ComparePage />
+                </ProtectedFeatureGuard>
+              </AppLayout>
+            }
+          />
+
+          {/* Instant Demo Accessible Workspace Pages (Operate in-memory without saving to DB) */}
           <Route path="/portfolio" element={<AppLayout><PortfolioPage /></AppLayout>} />
           <Route path="/watchlist" element={<AppLayout><WatchlistPage /></AppLayout>} />
-          <Route path="/analytics" element={<AppLayout><AnalyticsPage /></AppLayout>} />
-          <Route path="/compare" element={<AppLayout><ComparePage /></AppLayout>} />
           <Route path="/alerts" element={<AppLayout><AlertsPage /></AppLayout>} />
           <Route path="/settings" element={<AppLayout><SettingsPage /></AppLayout>} />
           
