@@ -366,12 +366,20 @@ export const mlService = {
       console.warn(`getLiveQuote fallback for ${raw}:`, e.message);
     }
 
-    return {
-      symbol: raw,
-      price: raw.includes('NIFTY') ? 24541.15 : (raw.includes('SENSEX') ? 80604.65 : 2450.00),
-      change: 15.00,
-      pctChange: 0.61
-    };
+    // Known fallback for standard benchmarks and sample tickers only
+    const knownSamples = ['NIFTY 50', 'NIFTY', '^NSEI', 'SENSEX', '^BSESN', 'NIFTY BANK', '^NSEBANK', 'TCS', 'INFY', 'RELIANCE', 'SBIN', 'HDFCBANK', 'ICICIBANK', 'TATAPOWER', 'HAL', 'CUPID', 'TITAN'];
+    if (knownSamples.includes(raw) || raw.includes('NIFTY') || raw.includes('SENSEX')) {
+      return {
+        symbol: raw,
+        price: raw.includes('NIFTY') ? 24541.15 : (raw.includes('SENSEX') ? 80604.65 : (raw === 'TATAPOWER' ? 432.80 : (raw === 'HAL' ? 4420.50 : (raw === 'CUPID' ? 92.40 : 3680.00)))),
+        change: 15.00,
+        pctChange: 0.61
+      };
+    }
+
+    const err = new Error(`Stock ticker '${raw}' was not found on exchange.`);
+    err.status = 404;
+    throw err;
   }
 };
 

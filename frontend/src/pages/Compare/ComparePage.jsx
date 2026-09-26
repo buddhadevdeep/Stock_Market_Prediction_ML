@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { stockApi, STOCK_CATALOG } from '../../api/stockApi';
 import SkeletonLoader from '../../components/common/SkeletonLoader';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import { Check, Plus, X, Search, TrendingUp, TrendingDown, Sparkles, Award, BarChart3, AlertCircle, Zap, RefreshCw } from 'lucide-react';
+import { Check, Plus, X, Search, TrendingUp, TrendingDown, Sparkles, Award, BarChart3, AlertCircle, Zap, RefreshCw, SearchX } from 'lucide-react';
 
 const DEFAULT_STOCKS = ['TCS', 'INFY', 'RELIANCE', 'SBIN', 'HDFCBANK', 'ICICIBANK', 'WIPRO', 'TATAPOWER', 'HAL', 'ZOMATO', 'TITAN', 'AAPL'];
 const COLORS = ['#6366f1', '#06b6d4', '#10b981', '#f59e0b', '#ec4899', '#8b5cf6'];
@@ -365,7 +365,7 @@ export const ComparePage = () => {
             </form>
 
             {/* Auto-complete suggestions dropdown */}
-            {showSuggestions && suggestions.length > 0 && (
+            {showSuggestions && (
               <div 
                 style={{
                   position: 'absolute',
@@ -381,30 +381,41 @@ export const ComparePage = () => {
                   overflowY: 'auto'
                 }}
               >
-                {suggestions.map((s) => (
-                  <div
-                    key={s.symbol}
-                    onClick={() => addStockDirect(s.symbol)}
-                    style={{
-                      padding: '8px 12px',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'space-between',
-                      cursor: 'pointer',
-                      borderBottom: '1px solid var(--border-color)'
-                    }}
-                    onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'var(--bg-card-hover)'}
-                    onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
-                  >
-                    <div>
-                      <span style={{ fontWeight: '800', fontFamily: 'var(--font-mono)', fontSize: '0.85rem' }}>{s.symbol}</span>
-                      <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)', marginLeft: '8px' }}>{s.name}</span>
+                {suggestions.length > 0 ? (
+                  suggestions.map((s) => (
+                    <div
+                      key={s.symbol}
+                      onClick={() => addStockDirect(s.symbol)}
+                      style={{
+                        padding: '8px 12px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        cursor: 'pointer',
+                        borderBottom: '1px solid var(--border-color)'
+                      }}
+                      onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'var(--bg-card-hover)'}
+                      onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
+                    >
+                      <div>
+                        <span style={{ fontWeight: '800', fontFamily: 'var(--font-mono)', fontSize: '0.85rem' }}>{s.symbol}</span>
+                        <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)', marginLeft: '8px' }}>{s.name}</span>
+                      </div>
+                      <span style={{ fontSize: '0.68rem', background: 'var(--bg-chip)', padding: '2px 6px', borderRadius: '4px', color: 'var(--accent-purple)', fontWeight: '700' }}>
+                        {s.exchange}
+                      </span>
                     </div>
-                    <span style={{ fontSize: '0.68rem', background: 'var(--bg-chip)', padding: '2px 6px', borderRadius: '4px', color: 'var(--accent-purple)', fontWeight: '700' }}>
-                      {s.exchange}
-                    </span>
+                  ))
+                ) : searchQuery.trim() ? (
+                  <div style={{ padding: '14px 12px', textAlign: 'center' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', color: 'var(--bearish-red)', fontSize: '0.8rem', fontWeight: '700', marginBottom: '4px' }}>
+                      <SearchX size={15} /> Stock Not Found: "{searchQuery}"
+                    </div>
+                    <p style={{ fontSize: '0.72rem', color: 'var(--text-muted)', margin: 0 }}>
+                      Try listed tickers: TATAPOWER, HAL, SBIN, TCS, INFY, AAPL
+                    </p>
                   </div>
-                ))}
+                ) : null}
               </div>
             )}
           </div>

@@ -185,10 +185,11 @@ const AnalyticsPage = () => {
     return <SkeletonLoader type="chart" />;
   }
 
-  if (!stockDetails || enrichedData.length === 0) {
+  if (!stockDetails || stockDetails.notFound || enrichedData.length === 0) {
     return (
       <StockNotFound 
         symbol={currentSymbol} 
+        customMessage={stockDetails?.error || `No price history or technical indicators found for "${currentSymbol}".`}
         onReset={loadAnalyticsData} 
       />
     );

@@ -369,18 +369,24 @@ export const PortfolioPage = () => {
                   zIndex: 100
                 }}
               >
-                {symbolSuggestions.map((s) => (
-                  <div
-                    key={s.symbol}
-                    onClick={() => handleSelectSymbol(s.symbol)}
-                    style={{ padding: '8px 12px', cursor: 'pointer', display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid var(--border-color)' }}
-                    onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'var(--bg-card-hover)'}
-                    onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
-                  >
-                    <span style={{ fontWeight: '800', color: 'var(--accent-purple)', fontFamily: 'var(--font-mono)', fontSize: '0.85rem' }}>{s.symbol}</span>
-                    <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>{s.name}</span>
+                {symbolSuggestions.length > 0 ? (
+                  symbolSuggestions.map((s) => (
+                    <div
+                      key={s.symbol}
+                      onClick={() => handleSelectSymbol(s.symbol)}
+                      style={{ padding: '8px 12px', cursor: 'pointer', display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid var(--border-color)' }}
+                      onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'var(--bg-card-hover)'}
+                      onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
+                    >
+                      <span style={{ fontWeight: '800', color: 'var(--accent-purple)', fontFamily: 'var(--font-mono)', fontSize: '0.85rem' }}>{s.symbol}</span>
+                      <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>{s.name}</span>
+                    </div>
+                  ))
+                ) : (
+                  <div style={{ padding: '10px 12px', textAlign: 'center', fontSize: '0.74rem', color: 'var(--bearish-red)' }}>
+                    Stock "{searchSymbol}" not found
                   </div>
-                ))}
+                )}
               </div>
             )}
           </div>

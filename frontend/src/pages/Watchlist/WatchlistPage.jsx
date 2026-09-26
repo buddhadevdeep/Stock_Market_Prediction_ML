@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { stockApi } from '../../api/stockApi';
 import { useApp } from '../../context/AppContext';
 import SkeletonLoader from '../../components/common/SkeletonLoader';
-import { Trash2, PlusCircle, Search, EyeOff, Eye } from 'lucide-react';
+import { Trash2, PlusCircle, Search, EyeOff, Eye, SearchX } from 'lucide-react';
 
 const WatchlistPage = () => {
   const navigate = useNavigate();
@@ -90,7 +90,7 @@ const WatchlistPage = () => {
             <Search size={16} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
           </div>
 
-          {searchResults.length > 0 && (
+          {searchQuery.trim() && (
             <div 
               style={{
                 position: 'absolute',
@@ -104,43 +104,54 @@ const WatchlistPage = () => {
                 zIndex: 100
               }}
             >
-              {searchResults.map((s) => {
-                const isAdded = watchlist.includes(s.symbol);
-                return (
-                  <div 
-                    key={s.symbol}
-                    style={{
-                      padding: '10px 14px',
-                      display: 'flex',
-                      justifyContent: 'space-between',
-                      alignItems: 'center',
-                      borderBottom: '1px solid var(--border-color)'
-                    }}
-                  >
-                    <div>
-                      <span style={{ fontWeight: '700', color: 'var(--text-primary)' }}>{s.symbol}</span>
-                      <span style={{ fontSize: '0.7rem', color: 'var(--text-secondary)', marginLeft: '8px' }}>{s.name}</span>
-                    </div>
-                    <button
-                      onClick={() => isAdded ? removeFromWatchlist(s.symbol) : handleAdd(s.symbol)}
-                      style={{ 
-                        background: 'transparent', 
-                        border: 'none', 
-                        color: isAdded ? 'var(--bearish-red)' : 'var(--accent-purple)', 
-                        cursor: 'pointer',
+              {searchResults.length > 0 ? (
+                searchResults.map((s) => {
+                  const isAdded = watchlist.includes(s.symbol);
+                  return (
+                    <div 
+                      key={s.symbol}
+                      style={{
+                        padding: '10px 14px',
                         display: 'flex',
+                        justifyContent: 'space-between',
                         alignItems: 'center',
-                        gap: '4px',
-                        fontSize: '0.8rem',
-                        fontWeight: '600'
+                        borderBottom: '1px solid var(--border-color)'
                       }}
                     >
-                      {isAdded ? <EyeOff size={14} /> : <PlusCircle size={14} />}
-                      {isAdded ? 'Remove' : 'Add'}
-                    </button>
+                      <div>
+                        <span style={{ fontWeight: '700', color: 'var(--text-primary)' }}>{s.symbol}</span>
+                        <span style={{ fontSize: '0.7rem', color: 'var(--text-secondary)', marginLeft: '8px' }}>{s.name}</span>
+                      </div>
+                      <button
+                        onClick={() => isAdded ? removeFromWatchlist(s.symbol) : handleAdd(s.symbol)}
+                        style={{ 
+                          background: 'transparent', 
+                          border: 'none', 
+                          color: isAdded ? 'var(--bearish-red)' : 'var(--accent-purple)', 
+                          cursor: 'pointer',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '4px',
+                          fontSize: '0.8rem',
+                          fontWeight: '600'
+                        }}
+                      >
+                        {isAdded ? <EyeOff size={14} /> : <PlusCircle size={14} />}
+                        {isAdded ? 'Remove' : 'Add'}
+                      </button>
+                    </div>
+                  );
+                })
+              ) : (
+                <div style={{ padding: '12px 14px', textAlign: 'center' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', color: 'var(--bearish-red)', fontSize: '0.78rem', fontWeight: '700', marginBottom: '2px' }}>
+                    <SearchX size={14} /> Stock Not Found: "{searchQuery}"
                   </div>
-                );
-              })}
+                  <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>
+                    Try: TATAPOWER, HAL, TCS, SBIN
+                  </span>
+                </div>
+              )}
             </div>
           )}
         </div>

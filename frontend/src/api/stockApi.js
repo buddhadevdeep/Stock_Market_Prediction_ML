@@ -217,7 +217,16 @@ export const stockApi = {
 
       // Check if symbol exists in known catalog or verified database
       const matching = STOCK_CATALOG.find((s) => s.symbol === cleanSym || s.symbol === rawClean);
-      const mock = mockStocks[cleanSym] || mockStocks[rawClean] || (cleanSym.includes('NIFTY') ? mockStocks['NIFTY 50'] : null);
+      const mock = mockStocks[cleanSym] || mockStocks[rawClean] || (cleanSym.includes('NIFTY') ? mockStocks['NIFTY 50'] : (cleanSym.includes('SENSEX') ? mockStocks['SENSEX'] : null));
+
+      if (!matching && !mock) {
+        // Genuine stock not found - DO NOT generate fake 2450.00 mock stock
+        return {
+          notFound: true,
+          symbol: cleanSym,
+          error: `Stock symbol "${cleanSym}" was not found on NSE, BSE, or Global markets. Please verify the ticker.`
+        };
+      }
 
       const basePrice = mock?.price || (cleanSym.includes('NIFTY') ? 24541.15 : (cleanSym.includes('SENSEX') ? 80604.65 : 2450.0));
       const baseMock = mock || {
@@ -284,6 +293,13 @@ export const stockApi = {
     } catch (e) {
       console.warn(`getStockHistory fallback for ${cleanSym}:`, e.message);
     }
+
+    const matching = STOCK_CATALOG.find((s) => s.symbol === cleanSym);
+    const mock = mockStocks[cleanSym];
+    if (!matching && !mock && !cleanSym.includes('NIFTY') && !cleanSym.includes('SENSEX')) {
+      return [];
+    }
+
     return generateChartData(symbol, interval);
   },
 

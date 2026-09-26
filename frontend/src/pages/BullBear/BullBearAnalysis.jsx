@@ -69,12 +69,12 @@ const BullBearAnalysis = () => {
     return <SkeletonLoader type="table" />;
   }
 
-  if (error || !predictionData) {
+  if (error || !predictionData || predictionData.notFound || !stockDetails || stockDetails.notFound) {
     return (
       <StockNotFound 
         symbol={currentSymbol} 
-        customMessage={error} 
-        onReset={() => { setError(null); loadAnalysis('TCS'); }} 
+        customMessage={error || predictionData?.error || stockDetails?.error} 
+        onReset={() => { setError(null); loadAnalysis('NIFTY 50'); }} 
       />
     );
   }

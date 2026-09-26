@@ -19,7 +19,8 @@ import {
   Clock,
   Activity,
   RefreshCw,
-  Menu
+  Menu,
+  SearchX
 } from 'lucide-react';
 
 const QUICK_TRENDING = ['HAL', 'TATAPOWER', 'RELIANCE', 'TCS', 'SBIN', 'ZOMATO', 'IREDA', 'AAPL'];
@@ -396,6 +397,51 @@ export const TopNavbar = () => {
                     </div>
                   );
                 })}
+
+                {/* No matching stocks state */}
+                {searchQuery.trim() && suggestions.length === 0 && (
+                  <div style={{ padding: '18px 14px', textAlign: 'center' }}>
+                    <div style={{
+                      width: '38px',
+                      height: '38px',
+                      borderRadius: '50%',
+                      backgroundColor: 'rgba(239, 68, 68, 0.12)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      margin: '0 auto 8px auto',
+                      color: 'var(--bearish-red)'
+                    }}>
+                      <SearchX size={20} />
+                    </div>
+                    <div style={{ fontSize: '0.84rem', fontWeight: '700', color: 'var(--text-primary)', marginBottom: '4px' }}>
+                      Stock Not Found: "{searchQuery}"
+                    </div>
+                    <p style={{ fontSize: '0.74rem', color: 'var(--text-muted)', margin: '0 0 10px 0' }}>
+                      Ticker is unlisted or unavailable. Try these active tickers:
+                    </p>
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', justifyContent: 'center' }}>
+                      {QUICK_TRENDING.slice(0, 6).map((t) => (
+                        <button
+                          key={t}
+                          onClick={() => handleSelectStock(t)}
+                          style={{
+                            background: 'var(--bg-chip)',
+                            border: '1px solid var(--border-color)',
+                            borderRadius: '4px',
+                            padding: '3px 8px',
+                            fontSize: '0.72rem',
+                            color: 'var(--accent-purple)',
+                            cursor: 'pointer',
+                            fontWeight: '700'
+                          }}
+                        >
+                          {t}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           )}

@@ -62,12 +62,12 @@ export const StockPrediction = () => {
     );
   }
 
-  if (error) {
+  if (error || !stockDetails || stockDetails.notFound || !prediction || prediction.notFound) {
     return (
       <StockNotFound 
         symbol={currentSymbol} 
-        customMessage={error} 
-        onReset={() => setError('')} 
+        customMessage={error || stockDetails?.error || prediction?.error} 
+        onReset={() => { setError(''); setCurrentSymbol('NIFTY 50'); }} 
       />
     );
   }

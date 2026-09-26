@@ -54,8 +54,18 @@ export const predictionApi = {
       console.warn('Backend prediction API call fallback note:', err.message);
     }
 
-    // Dynamic High-Fidelity ML Fallback using Local Engine
-    const stock = mockStocks[normalizedSymbol] || mockStocks[rawClean] || (normalizedSymbol.includes('NIFTY') ? mockStocks['NIFTY 50'] : null);
+    // Dynamic ML Fallback for verified catalog stocks
+    const stock = mockStocks[normalizedSymbol] || mockStocks[rawClean] || (normalizedSymbol.includes('NIFTY') ? mockStocks['NIFTY 50'] : (normalizedSymbol.includes('SENSEX') ? mockStocks['SENSEX'] : null));
+    const inCatalog = stock || normalizeStockSymbol(rawClean).includes('NIFTY') || normalizeStockSymbol(rawClean).includes('SENSEX');
+
+    if (!inCatalog) {
+      return {
+        notFound: true,
+        symbol: normalizedSymbol,
+        error: `Prediction not available: "${normalizedSymbol}" was not found on exchange feeds.`
+      };
+    }
+
     const basePrice = stock?.price || (normalizedSymbol.includes('NIFTY') ? 24541.15 : (normalizedSymbol.includes('SENSEX') ? 80604.65 : 2450.0));
     const tomHigh = stock?.prediction?.tomorrowHigh || +(basePrice * 1.012).toFixed(2);
     const tomLow = stock?.prediction?.tomorrowLow || +(basePrice * 0.988).toFixed(2);
