@@ -1497,3 +1497,74 @@ select.custom-input option, select.search-input option {
   font-size: 0.88rem;
   line-height: 1.6;
 }
+
+/* Landing Section General Responsive Padding */
+.landing-section {
+  padding: 70px 6%;
+}
+
+@media (max-width: 992px) {
+  .landing-section {
+    padding: 50px 5%;
+  }
+}
+
+@media (max-width: 768px) {
+  .landing-section {
+    padding: 40px 16px;
+  }
+
+  .landing-hero-badge {
+    padding: 5px 12px;
+    margin-bottom: 16px;
+  }
+
+  .landing-badge-text {
+    font-size: 0.7rem;
+    letter-spacing: 0.5px;
+  }
+
+  .landing-terminal-card {
+    padding: 16px 14px;
+    border-radius: 16px;
+  }
+
+  .landing-faq-trigger {
+    padding: 14px 16px;
+    font-size: 0.9rem;
+  }
+
+  .landing-faq-content {
+    padding: 0 16px 14px 16px;
+    font-size: 0.84rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .landing-section {
+    padding: 32px 14px;
+  }
+
+  .landing-hero-title {
+    font-size: 2rem;
+    line-height: 1.15;
+    margin-bottom: 14px;
+  }
+
+  .landing-hero-desc {
+    font-size: 0.88rem;
+    line-height: 1.5;
+    margin-bottom: 20px;
+  }
+
+  .landing-stats-row {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+    padding-top: 16px;
+  }
+
+  .stock-selector-pill {
+    padding: 5px 9px;
+    font-size: 0.72rem;
+  }
+}

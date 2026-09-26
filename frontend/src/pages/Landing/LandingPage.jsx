@@ -23,8 +23,6 @@ import {
   Sun,
   Moon,
   Sparkles,
-  RefreshCw,
-  Gauge,
   Sliders,
   Radio
 } from 'lucide-react';
@@ -164,7 +162,6 @@ const LandingPage = () => {
 
   // Selected Stock in Hero Graphical Terminal & Sandbox
   const [selectedSymbol, setSelectedSymbol] = useState('TCS');
-  const [activeTab, setActiveTab] = useState('1D'); // '1D', '1W', '1M'
   const [openFaq, setOpenFaq] = useState(0);
 
   // Interactive Auth Modal State
@@ -247,7 +244,7 @@ const LandingPage = () => {
   }, [currentStock]);
 
   return (
-    <div className="landing-page-wrapper" style={{ backgroundColor: 'var(--bg-primary)', color: 'var(--text-primary)', minHeight: '100vh', overflowX: 'hidden' }}>
+    <div className="landing-page-wrapper" style={{ backgroundColor: 'var(--bg-primary)', color: 'var(--text-primary)', minHeight: '100vh', overflowX: 'hidden', width: '100%' }}>
       
       {/* Background ambient glowing light orbs */}
       <div style={{ position: 'fixed', width: 'min(600px, 90vw)', height: 'min(600px, 90vw)', borderRadius: '50%', background: 'radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, rgba(0,0,0,0) 70%)', top: '-150px', left: '-100px', pointerEvents: 'none', zIndex: 0 }} />
@@ -261,8 +258,8 @@ const LandingPage = () => {
           style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }}
         >
           <div style={{ 
-            width: '38px', 
-            height: '38px', 
+            width: '36px', 
+            height: '36px', 
             borderRadius: '10px', 
             background: 'linear-gradient(135deg, #6366f1 0%, #4f46e5 100%)',
             display: 'flex',
@@ -271,15 +268,15 @@ const LandingPage = () => {
             boxShadow: '0 0 16px rgba(99, 102, 241, 0.5)',
             flexShrink: 0
           }}>
-            <Cpu size={22} style={{ color: '#ffffff' }} />
+            <Cpu size={20} style={{ color: '#ffffff' }} />
           </div>
-          <span style={{ fontWeight: '800', fontSize: '1.35rem', letterSpacing: '-0.3px', color: 'var(--text-primary)' }}>
+          <span style={{ fontWeight: '800', fontSize: '1.28rem', letterSpacing: '-0.3px', color: 'var(--text-primary)' }}>
             Stock<span style={{ color: 'var(--accent-purple)' }}>AI</span>
           </span>
         </div>
 
         {/* Navigation Links (Desktop) */}
-        <nav className="hide-on-mobile" style={{ display: 'flex', gap: '28px', alignItems: 'center' }}>
+        <nav className="hide-on-mobile" style={{ display: 'flex', gap: '24px', alignItems: 'center' }}>
           <a href="#hero" style={{ color: 'var(--text-primary)', textDecoration: 'none', fontWeight: '700', fontSize: '0.9rem', transition: 'color 0.2s' }}>Home</a>
           <a href="#features" style={{ color: 'var(--text-secondary)', textDecoration: 'none', fontWeight: '600', fontSize: '0.9rem', transition: 'color 0.2s' }}>Features</a>
           <a href="#sandbox" style={{ color: 'var(--text-secondary)', textDecoration: 'none', fontWeight: '600', fontSize: '0.9rem', transition: 'color 0.2s' }}>AI Sandbox</a>
@@ -288,7 +285,7 @@ const LandingPage = () => {
         </nav>
 
         {/* Right Actions & Controls */}
-        <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+        <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
           
           {/* Market Status Pill */}
           <div className="hide-on-mobile" style={{
@@ -340,8 +337,8 @@ const LandingPage = () => {
                   color: '#fff',
                   border: 'none',
                   borderRadius: '8px',
-                  padding: '9px 18px',
-                  fontSize: '0.86rem',
+                  padding: '8px 16px',
+                  fontSize: '0.85rem',
                   fontWeight: '700',
                   cursor: 'pointer',
                   display: 'flex',
@@ -362,8 +359,8 @@ const LandingPage = () => {
                     color: 'var(--text-primary)', 
                     cursor: 'pointer', 
                     fontWeight: '700', 
-                    fontSize: '0.88rem',
-                    padding: '7px 14px'
+                    fontSize: '0.86rem',
+                    padding: '6px 12px'
                   }}
                 >
                   Sign In
@@ -375,15 +372,15 @@ const LandingPage = () => {
                     color: '#ffffff', 
                     border: 'none',
                     borderRadius: '8px', 
-                    padding: '9px 18px', 
-                    fontSize: '0.86rem',
+                    padding: '8px 16px', 
+                    fontSize: '0.85rem',
                     fontWeight: '700',
                     cursor: 'pointer',
                     boxShadow: '0 4px 14px rgba(99, 102, 241, 0.35)',
                     transition: 'all 0.2s ease'
                   }}
                 >
-                  Get Started Free
+                  Get Started
                 </button>
               </>
             )}
@@ -398,7 +395,7 @@ const LandingPage = () => {
                 color: '#fff', 
                 border: 'none', 
                 borderRadius: '8px', 
-                padding: '7px 12px', 
+                padding: '6px 10px', 
                 fontSize: '0.78rem', 
                 fontWeight: '700', 
                 cursor: 'pointer' 
@@ -415,7 +412,7 @@ const LandingPage = () => {
                 border: '1px solid var(--border-color)',
                 color: 'var(--text-primary)',
                 cursor: 'pointer',
-                padding: '7px',
+                padding: '6px',
                 borderRadius: '8px',
                 display: 'flex',
                 alignItems: 'center',
@@ -501,8 +498,8 @@ const LandingPage = () => {
                 color: '#fff', 
                 border: 'none',
                 borderRadius: '10px', 
-                padding: '13px', 
-                fontSize: '0.95rem',
+                padding: '12px', 
+                fontSize: '0.92rem',
                 fontWeight: '700',
                 cursor: 'pointer',
                 textAlign: 'center',
@@ -578,8 +575,8 @@ const LandingPage = () => {
                   alignItems: 'center', 
                   justifyContent: 'center',
                   gap: '10px', 
-                  padding: '14px 28px', 
-                  fontSize: '0.96rem',
+                  padding: '13px 26px', 
+                  fontSize: '0.94rem',
                   fontWeight: '700',
                   cursor: 'pointer',
                   boxShadow: '0 8px 24px rgba(99, 102, 241, 0.4)',
@@ -600,31 +597,31 @@ const LandingPage = () => {
                   alignItems: 'center', 
                   justifyContent: 'center',
                   gap: '10px', 
-                  padding: '14px 24px', 
-                  fontSize: '0.96rem',
+                  padding: '13px 22px', 
+                  fontSize: '0.94rem',
                   fontWeight: '600',
                   cursor: 'pointer',
                   backdropFilter: 'blur(10px)',
                   transition: 'all 0.2s ease'
                 }}
               >
-                <Play size={16} fill="currentColor" /> Interactive Demo
+                <Play size={15} fill="currentColor" /> Interactive Demo
               </button>
             </div>
 
             {/* Quick Stats Panel */}
             <div className="landing-stats-row">
               <div>
-                <h4 style={{ fontSize: '1.85rem', fontWeight: '900', color: 'var(--bullish-green)', fontFamily: 'var(--font-mono)' }}>98.92%</h4>
-                <p style={{ fontSize: '0.78rem', color: 'var(--text-secondary)', marginTop: '2px', fontWeight: '600' }}>Historical Accuracy</p>
+                <h4 style={{ fontSize: 'clamp(1.2rem, 4vw, 1.85rem)', fontWeight: '900', color: 'var(--bullish-green)', fontFamily: 'var(--font-mono)' }}>98.92%</h4>
+                <p style={{ fontSize: 'clamp(0.68rem, 2vw, 0.78rem)', color: 'var(--text-secondary)', marginTop: '2px', fontWeight: '600' }}>Historical Accuracy</p>
               </div>
               <div>
-                <h4 style={{ fontSize: '1.85rem', fontWeight: '900', color: 'var(--accent-cyan)', fontFamily: 'var(--font-mono)' }}>6+</h4>
-                <p style={{ fontSize: '0.78rem', color: 'var(--text-secondary)', marginTop: '2px', fontWeight: '600' }}>Key NSE Engines</p>
+                <h4 style={{ fontSize: 'clamp(1.2rem, 4vw, 1.85rem)', fontWeight: '900', color: 'var(--accent-cyan)', fontFamily: 'var(--font-mono)' }}>6+</h4>
+                <p style={{ fontSize: 'clamp(0.68rem, 2vw, 0.78rem)', color: 'var(--text-secondary)', marginTop: '2px', fontWeight: '600' }}>Key NSE Engines</p>
               </div>
               <div>
-                <h4 style={{ fontSize: '1.85rem', fontWeight: '900', color: 'var(--accent-purple)', fontFamily: 'var(--font-mono)' }}>LSTM + XGB</h4>
-                <p style={{ fontSize: '0.78rem', color: 'var(--text-secondary)', marginTop: '2px', fontWeight: '600' }}>Ensemble Architecture</p>
+                <h4 style={{ fontSize: 'clamp(1.2rem, 4vw, 1.85rem)', fontWeight: '900', color: 'var(--accent-purple)', fontFamily: 'var(--font-mono)' }}>LSTM + XGB</h4>
+                <p style={{ fontSize: 'clamp(0.68rem, 2vw, 0.78rem)', color: 'var(--text-secondary)', marginTop: '2px', fontWeight: '600' }}>Ensemble Architecture</p>
               </div>
             </div>
           </div>
@@ -634,8 +631,8 @@ const LandingPage = () => {
             <div className="landing-terminal-card">
               
               {/* Terminal Header Bar with Stock Selector Tabs */}
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', flexWrap: 'wrap', gap: '8px' }}>
-                <div style={{ display: 'flex', gap: '6px', overflowX: 'auto', paddingBottom: '4px', maxWidth: '100%' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px', flexWrap: 'wrap', gap: '8px' }}>
+                <div style={{ display: 'flex', gap: '5px', overflowX: 'auto', paddingBottom: '4px', maxWidth: '100%', WebkitOverflowScrolling: 'touch' }}>
                   {Object.keys(PREVIEW_STOCKS).map((sym) => (
                     <button
                       key={sym}
@@ -655,7 +652,8 @@ const LandingPage = () => {
                     borderRadius: '6px', 
                     background: 'rgba(16, 185, 129, 0.15)', 
                     color: 'var(--bullish-green)', 
-                    border: '1px solid rgba(16, 185, 129, 0.3)' 
+                    border: '1px solid rgba(16, 185, 129, 0.3)',
+                    whiteSpace: 'nowrap'
                   }}>
                     {currentStock.signal}
                   </span>
@@ -663,14 +661,12 @@ const LandingPage = () => {
               </div>
 
               {/* Price & Change Banner */}
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '14px', borderBottom: '1px solid var(--border-color)', paddingBottom: '12px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '12px', borderBottom: '1px solid var(--border-color)', paddingBottom: '10px', flexWrap: 'wrap', gap: '6px' }}>
                 <div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                    <span style={{ fontSize: '0.74rem', color: 'var(--text-muted)', fontWeight: '700', textTransform: 'uppercase' }}>
-                      {currentStock.exchange} • {currentStock.name}
-                    </span>
-                  </div>
-                  <h3 style={{ fontSize: '1.75rem', fontWeight: '900', fontFamily: 'var(--font-mono)', marginTop: '2px', color: 'var(--text-primary)' }}>
+                  <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)', fontWeight: '700', textTransform: 'uppercase' }}>
+                    {currentStock.exchange} • {currentStock.name}
+                  </span>
+                  <h3 style={{ fontSize: '1.65rem', fontWeight: '900', fontFamily: 'var(--font-mono)', marginTop: '2px', color: 'var(--text-primary)' }}>
                     ₹{currentStock.price.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
                   </h3>
                 </div>
@@ -678,9 +674,9 @@ const LandingPage = () => {
                   <span style={{ 
                     backgroundColor: 'rgba(16, 185, 129, 0.15)', 
                     color: 'var(--bullish-green)', 
-                    padding: '4px 10px', 
+                    padding: '3px 8px', 
                     borderRadius: '6px', 
-                    fontSize: '0.85rem', 
+                    fontSize: '0.82rem', 
                     fontWeight: '800',
                     display: 'inline-flex',
                     alignItems: 'center',
@@ -688,7 +684,6 @@ const LandingPage = () => {
                   }}>
                     +{currentStock.change}% ▲
                   </span>
-                  <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', marginTop: '4px' }}>Session Range</div>
                 </div>
               </div>
 
@@ -696,19 +691,21 @@ const LandingPage = () => {
               <div style={{ 
                 position: 'relative', 
                 width: '100%', 
-                height: '140px', 
+                height: '135px', 
                 background: 'var(--bg-chip)', 
                 borderRadius: '12px', 
-                padding: '8px 10px', 
-                marginBottom: '16px',
+                padding: '6px 8px', 
+                marginBottom: '14px',
                 border: '1px solid var(--border-color)',
                 display: 'flex',
                 alignItems: 'center',
-                justifyContent: 'center'
+                justifyContent: 'center',
+                overflow: 'hidden'
               }}>
                 <svg 
                   viewBox={`0 0 ${chartSvgData.width} ${chartSvgData.height}`} 
-                  style={{ width: '100%', height: '100%', overflow: 'visible' }}
+                  style={{ width: '100%', height: '100%' }}
+                  preserveAspectRatio="none"
                 >
                   <defs>
                     <linearGradient id="chartGradient" x1="0" y1="0" x2="0" y2="1">
@@ -750,7 +747,7 @@ const LandingPage = () => {
                       key={i} 
                       cx={pt.x} 
                       cy={pt.y} 
-                      r="3.5" 
+                      r="3" 
                       fill="#6366f1" 
                       stroke="var(--card-bg)" 
                       strokeWidth="1.5" 
@@ -761,151 +758,143 @@ const LandingPage = () => {
                   <circle 
                     cx={chartSvgData.predCoord.x} 
                     cy={chartSvgData.predCoord.y} 
-                    r="6" 
+                    r="5.5" 
                     fill="#10b981" 
                     stroke="#fff" 
                     strokeWidth="2" 
-                  />
-                  <circle 
-                    cx={chartSvgData.predCoord.x} 
-                    cy={chartSvgData.predCoord.y} 
-                    r="11" 
-                    fill="none" 
-                    stroke="#10b981" 
-                    strokeWidth="1" 
-                    opacity="0.6" 
                   />
                 </svg>
 
                 {/* AI Target Tooltip Pin */}
                 <div style={{
                   position: 'absolute',
-                  top: '12px',
-                  right: '12px',
+                  top: '8px',
+                  right: '8px',
                   background: 'rgba(16, 185, 129, 0.2)',
                   border: '1px solid rgba(16, 185, 129, 0.4)',
                   borderRadius: '6px',
                   padding: '3px 8px',
-                  fontSize: '0.72rem',
+                  fontSize: '0.7rem',
                   fontWeight: '800',
                   color: 'var(--bullish-green)',
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '4px'
+                  gap: '4px',
+                  pointerEvents: 'none'
                 }}>
-                  <Sparkles size={12} /> AI Target: ₹{currentStock.forecast} (+{currentStock.forecastChange}%)
+                  <Sparkles size={11} /> Target: ₹{currentStock.forecast} (+{currentStock.forecastChange}%)
                 </div>
               </div>
 
               {/* Technical Indicator Badges */}
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '8px', marginBottom: '16px' }}>
-                <div style={{ backgroundColor: 'var(--bg-chip)', border: '1px solid var(--border-color)', borderRadius: '10px', padding: '10px', textAlign: 'center' }}>
-                  <div style={{ fontSize: '0.68rem', color: 'var(--text-muted)', fontWeight: '700' }}>RSI (14)</div>
-                  <div style={{ fontSize: '0.95rem', fontWeight: '800', color: 'var(--bullish-green)', fontFamily: 'var(--font-mono)', marginTop: '2px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '6px', marginBottom: '14px' }}>
+                <div style={{ backgroundColor: 'var(--bg-chip)', border: '1px solid var(--border-color)', borderRadius: '8px', padding: '8px 4px', textAlign: 'center' }}>
+                  <div style={{ fontSize: '0.64rem', color: 'var(--text-muted)', fontWeight: '700' }}>RSI (14)</div>
+                  <div style={{ fontSize: '0.88rem', fontWeight: '800', color: 'var(--bullish-green)', fontFamily: 'var(--font-mono)', marginTop: '2px' }}>
                     {currentStock.rsi}
                   </div>
                 </div>
 
-                <div style={{ backgroundColor: 'var(--bg-chip)', border: '1px solid var(--border-color)', borderRadius: '10px', padding: '10px', textAlign: 'center' }}>
-                  <div style={{ fontSize: '0.68rem', color: 'var(--text-muted)', fontWeight: '700' }}>MACD SIGNAL</div>
-                  <div style={{ fontSize: '0.85rem', fontWeight: '800', color: 'var(--accent-cyan)', marginTop: '2px' }}>
+                <div style={{ backgroundColor: 'var(--bg-chip)', border: '1px solid var(--border-color)', borderRadius: '8px', padding: '8px 4px', textAlign: 'center' }}>
+                  <div style={{ fontSize: '0.64rem', color: 'var(--text-muted)', fontWeight: '700' }}>MACD</div>
+                  <div style={{ fontSize: '0.8rem', fontWeight: '800', color: 'var(--accent-cyan)', marginTop: '2px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                     Bullish Cross
                   </div>
                 </div>
 
-                <div style={{ backgroundColor: 'var(--bg-chip)', border: '1px solid var(--border-color)', borderRadius: '10px', padding: '10px', textAlign: 'center' }}>
-                  <div style={{ fontSize: '0.68rem', color: 'var(--text-muted)', fontWeight: '700' }}>CONFIDENCE</div>
-                  <div style={{ fontSize: '0.95rem', fontWeight: '800', color: 'var(--accent-purple)', fontFamily: 'var(--font-mono)', marginTop: '2px' }}>
+                <div style={{ backgroundColor: 'var(--bg-chip)', border: '1px solid var(--border-color)', borderRadius: '8px', padding: '8px 4px', textAlign: 'center' }}>
+                  <div style={{ fontSize: '0.64rem', color: 'var(--text-muted)', fontWeight: '700' }}>CONFIDENCE</div>
+                  <div style={{ fontSize: '0.88rem', fontWeight: '800', color: 'var(--accent-purple)', fontFamily: 'var(--font-mono)', marginTop: '2px' }}>
                     {currentStock.lstmConfidence}
                   </div>
                 </div>
               </div>
 
               {/* Bull vs Bear Split Meter */}
-              <div style={{ backgroundColor: 'rgba(99, 102, 241, 0.08)', border: '1px solid rgba(99, 102, 241, 0.25)', borderRadius: '12px', padding: '12px 14px' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px', fontSize: '0.78rem' }}>
-                  <span style={{ fontWeight: '700', color: 'var(--bullish-green)' }}>🐂 Bullish Pressure ({currentStock.sentimentScore}%)</span>
+              <div style={{ backgroundColor: 'rgba(99, 102, 241, 0.08)', border: '1px solid rgba(99, 102, 241, 0.25)', borderRadius: '10px', padding: '10px 12px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px', fontSize: '0.74rem' }}>
+                  <span style={{ fontWeight: '700', color: 'var(--bullish-green)' }}>🐂 Bullish ({currentStock.sentimentScore}%)</span>
                   <span style={{ fontWeight: '700', color: 'var(--bearish-red)' }}>🐻 Bearish ({100 - currentStock.sentimentScore}%)</span>
                 </div>
-                <div style={{ width: '100%', height: '6px', borderRadius: '4px', backgroundColor: 'rgba(239, 68, 68, 0.3)', overflow: 'hidden', display: 'flex' }}>
-                  <div style={{ width: `${currentStock.sentimentScore}%`, height: '100%', background: 'linear-gradient(90deg, #10b981 0%, #38bdf8 100%)', borderRadius: '4px' }} />
+                <div style={{ width: '100%', height: '5px', borderRadius: '3px', backgroundColor: 'rgba(239, 68, 68, 0.3)', overflow: 'hidden', display: 'flex' }}>
+                  <div style={{ width: `${currentStock.sentimentScore}%`, height: '100%', background: 'linear-gradient(90deg, #10b981 0%, #38bdf8 100%)', borderRadius: '3px' }} />
                 </div>
               </div>
 
             </div>
 
             {/* Glowing Ambient Backdrop */}
-            <div style={{ position: 'absolute', width: 'min(300px, 80%)', height: 'min(300px, 80%)', borderRadius: '50%', background: 'rgba(99, 102, 241, 0.25)', filter: 'blur(80px)', top: '15%', right: '10%', zIndex: -1, pointerEvents: 'none' }} />
+            <div style={{ position: 'absolute', width: 'min(280px, 80%)', height: 'min(280px, 80%)', borderRadius: '50%', background: 'rgba(99, 102, 241, 0.22)', filter: 'blur(80px)', top: '15%', right: '10%', zIndex: -1, pointerEvents: 'none' }} />
           </div>
 
         </div>
       </section>
 
       {/* Interactive Live AI Prediction Sandbox Playground */}
-      <section id="sandbox" style={{ padding: '60px 6%', backgroundColor: 'var(--bg-secondary)', borderTop: '1px solid var(--border-color)', borderBottom: '1px solid var(--border-color)' }}>
+      <section id="sandbox" className="landing-section" style={{ backgroundColor: 'var(--bg-secondary)', borderTop: '1px solid var(--border-color)', borderBottom: '1px solid var(--border-color)' }}>
         <div style={{ maxWidth: '1380px', margin: '0 auto' }}>
           
-          <div style={{ textAlign: 'center', marginBottom: '40px' }}>
-            <div className="landing-hero-badge" style={{ marginBottom: '14px' }}>
+          <div style={{ textAlign: 'center', marginBottom: '36px' }}>
+            <div className="landing-hero-badge" style={{ marginBottom: '12px' }}>
               <Sparkles size={14} style={{ color: 'var(--accent-purple)' }} />
               <span className="landing-badge-text">Interactive Live Sandbox</span>
             </div>
-            <h2 style={{ fontSize: 'clamp(1.7rem, 4vw, 2.4rem)', fontWeight: '900', marginBottom: '12px', letterSpacing: '-0.5px', color: 'var(--text-primary)' }}>
+            <h2 style={{ fontSize: 'clamp(1.6rem, 4vw, 2.3rem)', fontWeight: '900', marginBottom: '10px', letterSpacing: '-0.5px', color: 'var(--text-primary)' }}>
               Test The AI Forecasting Engine Live
             </h2>
-            <p style={{ color: 'var(--text-secondary)', maxWidth: '640px', margin: '0 auto', fontSize: '0.94rem', lineHeight: '1.6' }}>
-              Select any blue-chip stock below to simulate real-time neural regression inference, indicator breakdown, and multi-model consensus.
+            <p style={{ color: 'var(--text-secondary)', maxWidth: '640px', margin: '0 auto', fontSize: '0.92rem', lineHeight: '1.6' }}>
+              Select any blue-chip stock in the preview terminal above to simulate real-time neural regression inference, indicator breakdown, and multi-model consensus.
             </p>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '16px' }}>
             
             {/* Box 1: Model Consensus */}
-            <div className="glass-card" style={{ padding: '22px' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '16px' }}>
+            <div className="glass-card" style={{ padding: '20px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '14px' }}>
                 <div style={{ width: '36px', height: '36px', borderRadius: '8px', background: 'rgba(99, 102, 241, 0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                   <Cpu size={18} style={{ color: 'var(--accent-purple)' }} />
                 </div>
                 <div>
-                  <h4 style={{ fontSize: '1rem', fontWeight: '800' }}>Ensemble Consensus</h4>
-                  <p style={{ fontSize: '0.74rem', color: 'var(--text-muted)' }}>Multi-Architecture Validation</p>
+                  <h4 style={{ fontSize: '0.98rem', fontWeight: '800' }}>Ensemble Consensus</h4>
+                  <p style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>Multi-Architecture Validation</p>
                 </div>
               </div>
 
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '8px 12px', background: 'var(--bg-chip)', borderRadius: '8px', border: '1px solid var(--border-color)' }}>
-                  <span style={{ fontSize: '0.82rem', fontWeight: '600' }}>Deep LSTM Regressor</span>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '8px 10px', background: 'var(--bg-chip)', borderRadius: '8px', border: '1px solid var(--border-color)' }}>
+                  <span style={{ fontSize: '0.8rem', fontWeight: '600' }}>Deep LSTM Regressor</span>
                   <span style={{ fontSize: '0.82rem', fontWeight: '800', color: 'var(--bullish-green)', fontFamily: 'var(--font-mono)' }}>{currentStock.lstmConfidence}</span>
                 </div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '8px 12px', background: 'var(--bg-chip)', borderRadius: '8px', border: '1px solid var(--border-color)' }}>
-                  <span style={{ fontSize: '0.82rem', fontWeight: '600' }}>XGBoost Gradient Tree</span>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '8px 10px', background: 'var(--bg-chip)', borderRadius: '8px', border: '1px solid var(--border-color)' }}>
+                  <span style={{ fontSize: '0.8rem', fontWeight: '600' }}>XGBoost Gradient Tree</span>
                   <span style={{ fontSize: '0.82rem', fontWeight: '800', color: 'var(--accent-cyan)', fontFamily: 'var(--font-mono)' }}>{currentStock.xgboostConfidence}</span>
                 </div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '8px 12px', background: 'var(--bg-chip)', borderRadius: '8px', border: '1px solid var(--border-color)' }}>
-                  <span style={{ fontSize: '0.82rem', fontWeight: '600' }}>Random Forest Backtester</span>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '8px 10px', background: 'var(--bg-chip)', borderRadius: '8px', border: '1px solid var(--border-color)' }}>
+                  <span style={{ fontSize: '0.8rem', fontWeight: '600' }}>Random Forest Engine</span>
                   <span style={{ fontSize: '0.82rem', fontWeight: '800', color: 'var(--accent-purple)', fontFamily: 'var(--font-mono)' }}>90.4%</span>
                 </div>
               </div>
             </div>
 
             {/* Box 2: Tomorrow Forecast Signal */}
-            <div className="glass-card" style={{ padding: '22px' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '16px' }}>
+            <div className="glass-card" style={{ padding: '20px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '14px' }}>
                 <div style={{ width: '36px', height: '36px', borderRadius: '8px', background: 'rgba(16, 185, 129, 0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                   <TrendingUp size={18} style={{ color: 'var(--bullish-green)' }} />
                 </div>
                 <div>
-                  <h4 style={{ fontSize: '1rem', fontWeight: '800' }}>Target Projection</h4>
-                  <p style={{ fontSize: '0.74rem', color: 'var(--text-muted)' }}>Session High Calculation</p>
+                  <h4 style={{ fontSize: '0.98rem', fontWeight: '800' }}>Target Projection</h4>
+                  <p style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>Session High Calculation</p>
                 </div>
               </div>
 
-              <div style={{ textAlign: 'center', padding: '16px 12px', background: 'var(--bg-chip)', borderRadius: '10px', border: '1px solid var(--border-color)', marginBottom: '12px' }}>
-                <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)', fontWeight: '700', textTransform: 'uppercase' }}>Estimated Tomorrow High</span>
-                <h3 style={{ fontSize: '1.65rem', fontWeight: '900', color: 'var(--bullish-green)', fontFamily: 'var(--font-mono)', marginTop: '4px' }}>
+              <div style={{ textAlign: 'center', padding: '14px 10px', background: 'var(--bg-chip)', borderRadius: '10px', border: '1px solid var(--border-color)', marginBottom: '10px' }}>
+                <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)', fontWeight: '700', textTransform: 'uppercase' }}>Estimated Tomorrow High</span>
+                <h3 style={{ fontSize: '1.5rem', fontWeight: '900', color: 'var(--bullish-green)', fontFamily: 'var(--font-mono)', marginTop: '3px' }}>
                   ₹{currentStock.forecast.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
                 </h3>
-                <span style={{ fontSize: '0.8rem', fontWeight: '800', color: 'var(--bullish-green)' }}>
+                <span style={{ fontSize: '0.78rem', fontWeight: '800', color: 'var(--bullish-green)' }}>
                   +{currentStock.forecastChange}% Projected Upside
                 </span>
               </div>
@@ -918,8 +907,8 @@ const LandingPage = () => {
                   color: '#fff', 
                   border: 'none', 
                   borderRadius: '8px', 
-                  padding: '10px', 
-                  fontSize: '0.84rem', 
+                  padding: '9px', 
+                  fontSize: '0.82rem', 
                   fontWeight: '700', 
                   cursor: 'pointer',
                   display: 'flex',
@@ -933,20 +922,20 @@ const LandingPage = () => {
             </div>
 
             {/* Box 3: Explainable Feature Breakdown */}
-            <div className="glass-card" style={{ padding: '22px' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '16px' }}>
+            <div className="glass-card" style={{ padding: '20px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '14px' }}>
                 <div style={{ width: '36px', height: '36px', borderRadius: '8px', background: 'rgba(56, 189, 248, 0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                   <Sliders size={18} style={{ color: 'var(--accent-cyan)' }} />
                 </div>
                 <div>
-                  <h4 style={{ fontSize: '1rem', fontWeight: '800' }}>Explainable AI Metrics</h4>
-                  <p style={{ fontSize: '0.74rem', color: 'var(--text-muted)' }}>Top Driving Feature Weights</p>
+                  <h4 style={{ fontSize: '0.98rem', fontWeight: '800' }}>Explainable AI Metrics</h4>
+                  <p style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>Top Driving Feature Weights</p>
                 </div>
               </div>
 
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '9px' }}>
                 <div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.76rem', marginBottom: '4px', fontWeight: '600' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem', marginBottom: '3px', fontWeight: '600' }}>
                     <span>14-Day RSI Momentum</span>
                     <span style={{ color: 'var(--bullish-green)' }}>38% Influence</span>
                   </div>
@@ -956,7 +945,7 @@ const LandingPage = () => {
                 </div>
 
                 <div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.76rem', marginBottom: '4px', fontWeight: '600' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem', marginBottom: '3px', fontWeight: '600' }}>
                     <span>MACD Crossover Delta</span>
                     <span style={{ color: 'var(--accent-cyan)' }}>32% Influence</span>
                   </div>
@@ -966,8 +955,8 @@ const LandingPage = () => {
                 </div>
 
                 <div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.76rem', marginBottom: '4px', fontWeight: '600' }}>
-                    <span>50-Day Moving Average Lag</span>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem', marginBottom: '3px', fontWeight: '600' }}>
+                    <span>50-Day MA Lag</span>
                     <span style={{ color: 'var(--accent-purple)' }}>30% Influence</span>
                   </div>
                   <div style={{ height: '5px', background: 'var(--bg-chip)', borderRadius: '3px', overflow: 'hidden' }}>
@@ -982,80 +971,80 @@ const LandingPage = () => {
       </section>
 
       {/* Feature Cards Grid: Engineered for Intelligent Investors */}
-      <section id="features" style={{ padding: '70px 6%', backgroundColor: 'var(--bg-primary)' }}>
+      <section id="features" className="landing-section" style={{ backgroundColor: 'var(--bg-primary)' }}>
         <div style={{ maxWidth: '1380px', margin: '0 auto' }}>
           
-          <div style={{ textAlign: 'center', marginBottom: '48px' }}>
-            <div className="landing-hero-badge" style={{ marginBottom: '14px' }}>
+          <div style={{ textAlign: 'center', marginBottom: '40px' }}>
+            <div className="landing-hero-badge" style={{ marginBottom: '12px' }}>
               <Layers size={14} style={{ color: 'var(--accent-purple)' }} />
               <span className="landing-badge-text">Architecture & Capabilities</span>
             </div>
-            <h2 style={{ fontSize: 'clamp(1.7rem, 4vw, 2.4rem)', fontWeight: '900', marginBottom: '12px', letterSpacing: '-0.5px', color: 'var(--text-primary)' }}>
+            <h2 style={{ fontSize: 'clamp(1.6rem, 4vw, 2.3rem)', fontWeight: '900', marginBottom: '10px', letterSpacing: '-0.5px', color: 'var(--text-primary)' }}>
               Engineered for Intelligent Investors
             </h2>
-            <p style={{ color: 'var(--text-secondary)', maxWidth: '620px', margin: '0 auto', fontSize: '0.94rem', lineHeight: '1.6' }}>
+            <p style={{ color: 'var(--text-secondary)', maxWidth: '620px', margin: '0 auto', fontSize: '0.92rem', lineHeight: '1.6' }}>
               Sophisticated metrics, AI analysis, and prediction tools merged into a seamless dashboard.
             </p>
           </div>
 
           <div className="landing-features-grid">
             
-            <div className="landing-feature-card" style={{ padding: '24px 20px', backgroundColor: 'var(--card-bg)', borderRadius: '16px', border: '1px solid var(--border-color)', boxShadow: 'var(--card-shadow)' }}>
-              <div style={{ width: '44px', height: '44px', borderRadius: '12px', background: 'rgba(99, 102, 241, 0.18)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '16px' }}>
+            <div className="landing-feature-card">
+              <div style={{ width: '42px', height: '42px', borderRadius: '12px', background: 'rgba(99, 102, 241, 0.18)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '14px' }}>
                 <Cpu size={22} style={{ color: 'var(--accent-purple)' }} />
               </div>
-              <h4 style={{ fontSize: '1.1rem', fontWeight: '800', marginBottom: '8px', color: 'var(--text-primary)' }}>Neural LSTM Predictions</h4>
-              <p style={{ fontSize: '0.86rem', color: 'var(--text-secondary)', lineHeight: '1.6', margin: 0 }}>
+              <h4 style={{ fontSize: '1.05rem', fontWeight: '800', marginBottom: '6px', color: 'var(--text-primary)' }}>Neural LSTM Predictions</h4>
+              <p style={{ fontSize: '0.84rem', color: 'var(--text-secondary)', lineHeight: '1.6', margin: 0 }}>
                 Tomorrow's High/Low calculations modeled with LSTM and XGBoost regressors based on multi-day OHLCV temporal features.
               </p>
             </div>
 
-            <div className="landing-feature-card" style={{ padding: '24px 20px', backgroundColor: 'var(--card-bg)', borderRadius: '16px', border: '1px solid var(--border-color)', boxShadow: 'var(--card-shadow)' }}>
-              <div style={{ width: '44px', height: '44px', borderRadius: '12px', background: 'rgba(56, 189, 248, 0.18)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '16px' }}>
+            <div className="landing-feature-card">
+              <div style={{ width: '42px', height: '42px', borderRadius: '12px', background: 'rgba(56, 189, 248, 0.18)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '14px' }}>
                 <Activity size={22} style={{ color: 'var(--accent-cyan)' }} />
               </div>
-              <h4 style={{ fontSize: '1.1rem', fontWeight: '800', marginBottom: '8px', color: 'var(--text-primary)' }}>Real-Time Market Feeds</h4>
-              <p style={{ fontSize: '0.86rem', color: 'var(--text-secondary)', lineHeight: '1.6', margin: 0 }}>
+              <h4 style={{ fontSize: '1.05rem', fontWeight: '800', marginBottom: '6px', color: 'var(--text-primary)' }}>Real-Time Market Feeds</h4>
+              <p style={{ fontSize: '0.84rem', color: 'var(--text-secondary)', lineHeight: '1.6', margin: 0 }}>
                 Live streaming quotes for NSE blue-chip companies, custom sparklines, and instant stock indicators.
               </p>
             </div>
 
-            <div className="landing-feature-card" style={{ padding: '24px 20px', backgroundColor: 'var(--card-bg)', borderRadius: '16px', border: '1px solid var(--border-color)', boxShadow: 'var(--card-shadow)' }}>
-              <div style={{ width: '44px', height: '44px', borderRadius: '12px', background: 'rgba(16, 185, 129, 0.18)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '16px' }}>
+            <div className="landing-feature-card">
+              <div style={{ width: '42px', height: '42px', borderRadius: '12px', background: 'rgba(16, 185, 129, 0.18)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '14px' }}>
                 <BarChart2 size={22} style={{ color: 'var(--bullish-green)' }} />
               </div>
-              <h4 style={{ fontSize: '1.1rem', fontWeight: '800', marginBottom: '8px', color: 'var(--text-primary)' }}>14+ Technical Overlays</h4>
-              <p style={{ fontSize: '0.86rem', color: 'var(--text-secondary)', lineHeight: '1.6', margin: 0 }}>
+              <h4 style={{ fontSize: '1.05rem', fontWeight: '800', marginBottom: '6px', color: 'var(--text-primary)' }}>14+ Technical Overlays</h4>
+              <p style={{ fontSize: '0.84rem', color: 'var(--text-secondary)', lineHeight: '1.6', margin: 0 }}>
                 On-demand overlays for SMA, EMA, MACD, RSI 14, ATR, and Bollinger bands mapped to candlestick points.
               </p>
             </div>
 
-            <div className="landing-feature-card" style={{ padding: '24px 20px', backgroundColor: 'var(--card-bg)', borderRadius: '16px', border: '1px solid var(--border-color)', boxShadow: 'var(--card-shadow)' }}>
-              <div style={{ width: '44px', height: '44px', borderRadius: '12px', background: 'rgba(245, 158, 11, 0.18)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '16px' }}>
+            <div className="landing-feature-card">
+              <div style={{ width: '42px', height: '42px', borderRadius: '12px', background: 'rgba(245, 158, 11, 0.18)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '14px' }}>
                 <Layers size={22} style={{ color: 'var(--warning-yellow)' }} />
               </div>
-              <h4 style={{ fontSize: '1.1rem', fontWeight: '800', marginBottom: '8px', color: 'var(--text-primary)' }}>Explainable AI Insights</h4>
-              <p style={{ fontSize: '0.86rem', color: 'var(--text-secondary)', lineHeight: '1.6', margin: 0 }}>
+              <h4 style={{ fontSize: '1.05rem', fontWeight: '800', marginBottom: '6px', color: 'var(--text-primary)' }}>Explainable AI Insights</h4>
+              <p style={{ fontSize: '0.84rem', color: 'var(--text-secondary)', lineHeight: '1.6', margin: 0 }}>
                 Explainable AI predictions summarizing indicator state thresholds, feature weights, and historical trends.
               </p>
             </div>
 
-            <div className="landing-feature-card" style={{ padding: '24px 20px', backgroundColor: 'var(--card-bg)', borderRadius: '16px', border: '1px solid var(--border-color)', boxShadow: 'var(--card-shadow)' }}>
-              <div style={{ width: '44px', height: '44px', borderRadius: '12px', background: 'rgba(99, 102, 241, 0.18)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '16px' }}>
+            <div className="landing-feature-card">
+              <div style={{ width: '42px', height: '42px', borderRadius: '12px', background: 'rgba(99, 102, 241, 0.18)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '14px' }}>
                 <ShieldCheck size={22} style={{ color: 'var(--accent-purple)' }} />
               </div>
-              <h4 style={{ fontSize: '1.1rem', fontWeight: '800', marginBottom: '8px', color: 'var(--text-primary)' }}>Institutional Risk Guard</h4>
-              <p style={{ fontSize: '0.86rem', color: 'var(--text-secondary)', lineHeight: '1.6', margin: 0 }}>
+              <h4 style={{ fontSize: '1.05rem', fontWeight: '800', marginBottom: '6px', color: 'var(--text-primary)' }}>Institutional Risk Guard</h4>
+              <p style={{ fontSize: '0.84rem', color: 'var(--text-secondary)', lineHeight: '1.6', margin: 0 }}>
                 Real-time beta tracking, volatility indexes, and risk probability estimates for open positions.
               </p>
             </div>
 
-            <div className="landing-feature-card" style={{ padding: '24px 20px', backgroundColor: 'var(--card-bg)', borderRadius: '16px', border: '1px solid var(--border-color)', boxShadow: 'var(--card-shadow)' }}>
-              <div style={{ width: '44px', height: '44px', borderRadius: '12px', background: 'rgba(56, 189, 248, 0.18)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '16px' }}>
+            <div className="landing-feature-card">
+              <div style={{ width: '42px', height: '42px', borderRadius: '12px', background: 'rgba(56, 189, 248, 0.18)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '14px' }}>
                 <TrendingUp size={22} style={{ color: 'var(--accent-cyan)' }} />
               </div>
-              <h4 style={{ fontSize: '1.1rem', fontWeight: '800', marginBottom: '8px', color: 'var(--text-primary)' }}>Portfolio Health Matrix</h4>
-              <p style={{ fontSize: '0.86rem', color: 'var(--text-secondary)', lineHeight: '1.6', margin: 0 }}>
+              <h4 style={{ fontSize: '1.05rem', fontWeight: '800', marginBottom: '6px', color: 'var(--text-primary)' }}>Portfolio Health Matrix</h4>
+              <p style={{ fontSize: '0.84rem', color: 'var(--text-secondary)', lineHeight: '1.6', margin: 0 }}>
                 Holdings records consolidated with allocation charts, sector exposure, and health assessments.
               </p>
             </div>
@@ -1065,18 +1054,18 @@ const LandingPage = () => {
       </section>
 
       {/* How it Works Workflow Section */}
-      <section id="how-it-works" style={{ padding: '70px 6%', backgroundColor: 'var(--bg-secondary)', borderTop: '1px solid var(--border-color)' }}>
+      <section id="how-it-works" className="landing-section" style={{ backgroundColor: 'var(--bg-secondary)', borderTop: '1px solid var(--border-color)' }}>
         <div style={{ maxWidth: '1200px', margin: '0 auto', textAlign: 'center' }}>
           
-          <div className="landing-hero-badge" style={{ marginBottom: '14px' }}>
+          <div className="landing-hero-badge" style={{ marginBottom: '12px' }}>
             <Radio size={14} style={{ color: 'var(--accent-purple)' }} />
             <span className="landing-badge-text">Processing Pipeline</span>
           </div>
 
-          <h2 style={{ fontSize: 'clamp(1.7rem, 4vw, 2.4rem)', fontWeight: '900', marginBottom: '12px', letterSpacing: '-0.5px', color: 'var(--text-primary)' }}>
+          <h2 style={{ fontSize: 'clamp(1.6rem, 4vw, 2.3rem)', fontWeight: '900', marginBottom: '10px', letterSpacing: '-0.5px', color: 'var(--text-primary)' }}>
             How StockAI Works
           </h2>
-          <p style={{ color: 'var(--text-secondary)', maxWidth: '620px', margin: '0 auto 40px auto', fontSize: '0.94rem' }}>
+          <p style={{ color: 'var(--text-secondary)', maxWidth: '620px', margin: '0 auto 36px auto', fontSize: '0.92rem' }}>
             From raw exchange ticks to high-confidence probability forecasts across 5 synchronized stages.
           </p>
 
@@ -1090,35 +1079,35 @@ const LandingPage = () => {
               { num: '5', label: 'Target Projections', sub: 'Tomorrow High / Low & Signals' }
             ].map((step, idx, arr) => (
               <React.Fragment key={idx}>
-                <div style={{ flex: 1, minWidth: '150px' }}>
+                <div style={{ flex: 1, minWidth: '130px' }}>
                   <div style={{ 
-                    width: '42px', 
-                    height: '42px', 
+                    width: '40px', 
+                    height: '40px', 
                     borderRadius: '50%', 
                     backgroundColor: 'var(--accent-purple)', 
                     display: 'flex', 
                     alignItems: 'center', 
                     justifyContent: 'center', 
-                    margin: '0 auto 12px auto',
+                    margin: '0 auto 10px auto',
                     fontWeight: '800',
-                    fontSize: '0.95rem',
+                    fontSize: '0.92rem',
                     color: '#ffffff',
                     boxShadow: '0 0 16px rgba(99, 102, 241, 0.5)'
                   }}>
                     {step.num}
                   </div>
-                  <h5 style={{ fontSize: '0.92rem', fontWeight: '800', marginBottom: '4px', color: 'var(--text-primary)' }}>{step.label}</h5>
-                  <p style={{ fontSize: '0.74rem', color: 'var(--text-secondary)' }}>{step.sub}</p>
+                  <h5 style={{ fontSize: '0.88rem', fontWeight: '800', marginBottom: '3px', color: 'var(--text-primary)' }}>{step.label}</h5>
+                  <p style={{ fontSize: '0.72rem', color: 'var(--text-secondary)' }}>{step.sub}</p>
                 </div>
                 {idx < arr.length - 1 && (
-                  <div style={{ color: 'var(--text-muted)', fontSize: '1.4rem', fontWeight: 'bold' }}>→</div>
+                  <div style={{ color: 'var(--text-muted)', fontSize: '1.2rem', fontWeight: 'bold' }}>→</div>
                 )}
               </React.Fragment>
             ))}
           </div>
 
           {/* Mobile Workflow Vertical Timeline */}
-          <div className="hide-on-desktop" style={{ display: 'flex', flexDirection: 'column', gap: '12px', textAlign: 'left' }}>
+          <div className="hide-on-desktop" style={{ display: 'flex', flexDirection: 'column', gap: '10px', textAlign: 'left' }}>
             {[
               { num: '1', label: 'Market Data Ingestion', sub: 'Live NSE & Global OHLCV Historical Feed' },
               { num: '2', label: 'Feature Engineering', sub: '14+ Technical Overlays & Price Momentum' },
@@ -1128,23 +1117,23 @@ const LandingPage = () => {
             ].map((step, idx) => (
               <div key={idx} className="landing-workflow-step-mobile">
                 <div style={{
-                  width: '34px',
-                  height: '34px',
+                  width: '32px',
+                  height: '32px',
                   borderRadius: '50%',
                   backgroundColor: 'var(--accent-purple)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   fontWeight: '800',
-                  fontSize: '0.85rem',
+                  fontSize: '0.82rem',
                   color: '#fff',
                   flexShrink: 0
                 }}>
                   {step.num}
                 </div>
                 <div>
-                  <h5 style={{ fontSize: '0.9rem', fontWeight: '800', color: 'var(--text-primary)', marginBottom: '2px' }}>{step.label}</h5>
-                  <p style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>{step.sub}</p>
+                  <h5 style={{ fontSize: '0.88rem', fontWeight: '800', color: 'var(--text-primary)', marginBottom: '2px' }}>{step.label}</h5>
+                  <p style={{ fontSize: '0.74rem', color: 'var(--text-secondary)' }}>{step.sub}</p>
                 </div>
               </div>
             ))}
@@ -1154,19 +1143,19 @@ const LandingPage = () => {
       </section>
 
       {/* Supported Analysis Section & Model Integrity Statement */}
-      <section style={{ padding: '70px 6%', backgroundColor: 'var(--bg-primary)', borderTop: '1px solid var(--border-color)' }}>
+      <section className="landing-section" style={{ backgroundColor: 'var(--bg-primary)', borderTop: '1px solid var(--border-color)' }}>
         <div style={{ maxWidth: '1280px', margin: '0 auto' }}>
           <div className="landing-matrix-grid">
             
             <div>
-              <h2 style={{ fontSize: 'clamp(1.6rem, 3.5vw, 2.2rem)', fontWeight: '900', marginBottom: '14px', letterSpacing: '-0.5px', color: 'var(--text-primary)' }}>
+              <h2 style={{ fontSize: 'clamp(1.5rem, 3.5vw, 2.1rem)', fontWeight: '900', marginBottom: '12px', letterSpacing: '-0.5px', color: 'var(--text-primary)' }}>
                 Supported Technical Analysis Matrix
               </h2>
-              <p style={{ color: 'var(--text-secondary)', marginBottom: '24px', lineHeight: '1.6', fontSize: '0.92rem' }}>
+              <p style={{ color: 'var(--text-secondary)', marginBottom: '20px', lineHeight: '1.6', fontSize: '0.9rem' }}>
                 StockAI parses millions of market data vectors dynamically to feed our deep learning regression models, evaluating each session against key parameters:
               </p>
               
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                 {[
                   'Daily Close & Volume Momentum Spikes',
                   'Relative Strength Index (RSI 14) threshold divergence',
@@ -1175,11 +1164,11 @@ const LandingPage = () => {
                   'Average True Range (ATR) historical volatility index',
                   'Historical ML backtest vs actual output calibration'
                 ].map((item, idx) => (
-                  <div key={idx} style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                    <div style={{ width: '22px', height: '22px', borderRadius: '50%', background: 'rgba(16, 185, 129, 0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                      <CheckCircle size={15} style={{ color: 'var(--bullish-green)' }} />
+                  <div key={idx} style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                    <div style={{ width: '20px', height: '20px', borderRadius: '50%', background: 'rgba(16, 185, 129, 0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                      <CheckCircle size={14} style={{ color: 'var(--bullish-green)' }} />
                     </div>
-                    <span style={{ fontSize: '0.9rem', color: 'var(--text-primary)', fontWeight: '600' }}>{item}</span>
+                    <span style={{ fontSize: '0.88rem', color: 'var(--text-primary)', fontWeight: '600' }}>{item}</span>
                   </div>
                 ))}
               </div>
@@ -1187,31 +1176,31 @@ const LandingPage = () => {
             
             {/* Model Integrity Statement Card */}
             <div style={{ 
-              padding: '28px 24px', 
+              padding: '24px 20px', 
               backgroundColor: 'var(--card-bg)', 
-              borderRadius: '18px', 
+              borderRadius: '16px', 
               border: '1px solid var(--border-color)', 
               boxShadow: 'var(--card-shadow)',
               backdropFilter: 'blur(16px)'
             }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}>
-                <ShieldCheck size={22} style={{ color: 'var(--accent-purple)' }} />
-                <h4 style={{ fontWeight: '800', fontSize: '1.1rem', color: 'var(--text-primary)' }}>Model Integrity Statement</h4>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '10px' }}>
+                <ShieldCheck size={20} style={{ color: 'var(--accent-purple)' }} />
+                <h4 style={{ fontWeight: '800', fontSize: '1.05rem', color: 'var(--text-primary)' }}>Model Integrity Statement</h4>
               </div>
-              <p style={{ fontSize: '0.84rem', color: 'var(--text-secondary)', lineHeight: '1.6', marginBottom: '20px' }}>
+              <p style={{ fontSize: '0.82rem', color: 'var(--text-secondary)', lineHeight: '1.6', marginBottom: '16px' }}>
                 Our systems calculate predictive vectors using mathematical statistical regressions. These values represent mathematical probabilities based on historical indices, not financial advisory recommendations.
               </p>
               
-              <div style={{ backgroundColor: 'var(--bg-chip)', padding: '16px', borderRadius: '12px', border: '1px solid var(--border-color)' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px', fontSize: '0.8rem' }}>
+              <div style={{ backgroundColor: 'var(--bg-chip)', padding: '14px', borderRadius: '10px', border: '1px solid var(--border-color)' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px', fontSize: '0.78rem' }}>
                   <span style={{ color: 'var(--text-muted)' }}>Target:</span>
                   <span style={{ fontWeight: '700', color: 'var(--text-primary)' }}>Tomorrow's Session High</span>
                 </div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px', fontSize: '0.8rem' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px', fontSize: '0.78rem' }}>
                   <span style={{ color: 'var(--text-muted)' }}>Input Features:</span>
                   <span style={{ fontWeight: '700', color: 'var(--text-primary)' }}>OHLCV + 14 Technical Indicators</span>
                 </div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.8rem' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.78rem' }}>
                   <span style={{ color: 'var(--text-muted)' }}>Validation Spec:</span>
                   <span style={{ fontWeight: '700', color: 'var(--bullish-green)' }}>10 Years NSE History</span>
                 </div>
@@ -1223,14 +1212,14 @@ const LandingPage = () => {
       </section>
 
       {/* Interactive FAQ Section */}
-      <section style={{ padding: '70px 6%', backgroundColor: 'var(--bg-secondary)', borderTop: '1px solid var(--border-color)' }}>
+      <section className="landing-section" style={{ backgroundColor: 'var(--bg-secondary)', borderTop: '1px solid var(--border-color)' }}>
         <div style={{ maxWidth: '900px', margin: '0 auto' }}>
           
-          <div style={{ textAlign: 'center', marginBottom: '40px' }}>
-            <h2 style={{ fontSize: 'clamp(1.6rem, 3.5vw, 2.2rem)', fontWeight: '900', marginBottom: '10px', color: 'var(--text-primary)' }}>
+          <div style={{ textAlign: 'center', marginBottom: '32px' }}>
+            <h2 style={{ fontSize: 'clamp(1.5rem, 3.5vw, 2.1rem)', fontWeight: '900', marginBottom: '8px', color: 'var(--text-primary)' }}>
               Frequently Asked Questions
             </h2>
-            <p style={{ color: 'var(--text-secondary)', fontSize: '0.92rem' }}>
+            <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>
               Everything you need to know about StockAI machine learning models and data feeds.
             </p>
           </div>
@@ -1242,13 +1231,14 @@ const LandingPage = () => {
                   className="landing-faq-trigger"
                   onClick={() => setOpenFaq(openFaq === idx ? -1 : idx)}
                 >
-                  <span>{faq.q}</span>
+                  <span style={{ paddingRight: '8px' }}>{faq.q}</span>
                   <ChevronDown 
                     size={18} 
                     style={{ 
                       transform: openFaq === idx ? 'rotate(180deg)' : 'rotate(0deg)', 
                       transition: 'transform 0.2s ease',
-                      color: openFaq === idx ? 'var(--accent-purple)' : 'var(--text-muted)'
+                      color: openFaq === idx ? 'var(--accent-purple)' : 'var(--text-muted)',
+                      flexShrink: 0
                     }} 
                   />
                 </button>
@@ -1265,24 +1255,24 @@ const LandingPage = () => {
       </section>
 
       {/* Conversion Banner */}
-      <section style={{ padding: '60px 6%', backgroundColor: 'var(--bg-primary)', borderTop: '1px solid var(--border-color)' }}>
+      <section className="landing-section" style={{ backgroundColor: 'var(--bg-primary)', borderTop: '1px solid var(--border-color)' }}>
         <div style={{ 
           maxWidth: '1100px', 
           margin: '0 auto', 
           background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.15) 0%, rgba(6, 182, 212, 0.1) 100%)', 
           border: '1px solid rgba(99, 102, 241, 0.35)', 
-          borderRadius: '24px', 
-          padding: '48px 32px', 
+          borderRadius: '20px', 
+          padding: '40px 24px', 
           textAlign: 'center',
           boxShadow: '0 20px 50px rgba(0,0,0,0.2)'
         }}>
-          <h2 style={{ fontSize: 'clamp(1.8rem, 4vw, 2.5rem)', fontWeight: '900', marginBottom: '14px', color: 'var(--text-primary)' }}>
+          <h2 style={{ fontSize: 'clamp(1.6rem, 4vw, 2.3rem)', fontWeight: '900', marginBottom: '12px', color: 'var(--text-primary)' }}>
             Supercharge Your Trading with AI Forecasting
           </h2>
-          <p style={{ color: 'var(--text-secondary)', maxWidth: '580px', margin: '0 auto 28px auto', fontSize: '0.96rem', lineHeight: '1.6' }}>
+          <p style={{ color: 'var(--text-secondary)', maxWidth: '580px', margin: '0 auto 24px auto', fontSize: '0.94rem', lineHeight: '1.6' }}>
             Access deep LSTM neural forecasts, real-time indicators, and explainable AI confidence scores today.
           </p>
-          <div style={{ display: 'flex', justifyContent: 'center', gap: '14px', flexWrap: 'wrap' }}>
+          <div style={{ display: 'flex', justifyContent: 'center', gap: '12px', flexWrap: 'wrap' }}>
             <button
               onClick={() => handleOpenAuth('register')}
               style={{
@@ -1290,8 +1280,8 @@ const LandingPage = () => {
                 color: '#fff',
                 border: 'none',
                 borderRadius: '10px',
-                padding: '14px 32px',
-                fontSize: '0.96rem',
+                padding: '12px 28px',
+                fontSize: '0.94rem',
                 fontWeight: '700',
                 cursor: 'pointer',
                 boxShadow: '0 8px 24px rgba(99, 102, 241, 0.4)'
@@ -1306,8 +1296,8 @@ const LandingPage = () => {
                 color: 'var(--text-primary)',
                 border: '1px solid var(--border-color)',
                 borderRadius: '10px',
-                padding: '14px 26px',
-                fontSize: '0.96rem',
+                padding: '12px 22px',
+                fontSize: '0.94rem',
                 fontWeight: '600',
                 cursor: 'pointer'
               }}
@@ -1319,8 +1309,8 @@ const LandingPage = () => {
       </section>
 
       {/* Footer */}
-      <footer style={{ borderTop: '1px solid var(--border-color)', padding: '36px 6%', textAlign: 'center', fontSize: '0.82rem', color: 'var(--text-muted)' }}>
-        <div style={{ display: 'flex', justifyContent: 'center', gap: '20px', marginBottom: '12px', flexWrap: 'wrap' }}>
+      <footer style={{ borderTop: '1px solid var(--border-color)', padding: '32px 6%', textAlign: 'center', fontSize: '0.82rem', color: 'var(--text-muted)' }}>
+        <div style={{ display: 'flex', justifyContent: 'center', gap: '18px', marginBottom: '12px', flexWrap: 'wrap' }}>
           <Link to="/" style={{ color: 'var(--text-secondary)', textDecoration: 'none', fontWeight: '500' }}>Home</Link>
           <Link to="/features" style={{ color: 'var(--text-secondary)', textDecoration: 'none', fontWeight: '500' }}>Features</Link>
           <Link to="/how-it-works" style={{ color: 'var(--text-secondary)', textDecoration: 'none', fontWeight: '500' }}>How It Works</Link>
@@ -1358,7 +1348,7 @@ const LandingPage = () => {
               backgroundColor: 'var(--card-bg)',
               border: '1px solid var(--border-color)',
               borderRadius: '18px',
-              padding: '28px 24px',
+              padding: '24px 20px',
               boxShadow: 'var(--card-shadow)',
               position: 'relative'
             }}
@@ -1368,8 +1358,8 @@ const LandingPage = () => {
               onClick={() => setShowAuthModal(false)}
               style={{
                 position: 'absolute',
-                top: '16px',
-                right: '16px',
+                top: '14px',
+                right: '14px',
                 background: 'transparent',
                 border: 'none',
                 color: 'var(--text-muted)',
@@ -1381,8 +1371,8 @@ const LandingPage = () => {
             </button>
 
             {/* Modal Title */}
-            <div style={{ textAlign: 'center', marginBottom: '20px' }}>
-              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
+            <div style={{ textAlign: 'center', marginBottom: '18px' }}>
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
                 <div style={{ width: '32px', height: '32px', borderRadius: '8px', background: 'linear-gradient(135deg, #6366f1 0%, #4f46e5 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                   <Cpu size={18} style={{ color: '#fff' }} />
                 </div>
@@ -1390,7 +1380,7 @@ const LandingPage = () => {
                   Stock<span style={{ color: 'var(--accent-purple)' }}>AI</span>
                 </span>
               </div>
-              <h3 style={{ fontSize: '1.15rem', fontWeight: '800', color: 'var(--text-primary)' }}>
+              <h3 style={{ fontSize: '1.1rem', fontWeight: '800', color: 'var(--text-primary)' }}>
                 {authMode === 'login' ? 'Sign In to Terminal' : 'Create Free Account'}
               </h3>
               <p style={{ fontSize: '0.78rem', color: 'var(--text-secondary)', marginTop: '2px' }}>
@@ -1399,13 +1389,13 @@ const LandingPage = () => {
             </div>
 
             {authError && (
-              <div style={{ backgroundColor: 'rgba(239, 68, 68, 0.12)', border: '1px solid rgba(239, 68, 68, 0.3)', borderRadius: '8px', padding: '10px 12px', color: 'var(--bearish-red)', fontSize: '0.8rem', marginBottom: '14px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <div style={{ backgroundColor: 'rgba(239, 68, 68, 0.12)', border: '1px solid rgba(239, 68, 68, 0.3)', borderRadius: '8px', padding: '10px 12px', color: 'var(--bearish-red)', fontSize: '0.8rem', marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <AlertCircle size={15} />
                 <span>{authError}</span>
               </div>
             )}
 
-            <form onSubmit={handleAuthSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+            <form onSubmit={handleAuthSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
               {authMode === 'register' && (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
                   <label style={{ fontSize: '0.7rem', fontWeight: '700', color: 'var(--text-secondary)', textTransform: 'uppercase' }}>Full Name</label>
@@ -1474,7 +1464,7 @@ const LandingPage = () => {
             </form>
 
             {/* Quick 1-Click Instant Demo Access */}
-            <div style={{ marginTop: '14px', borderTop: '1px solid var(--border-color)', paddingTop: '12px' }}>
+            <div style={{ marginTop: '12px', borderTop: '1px solid var(--border-color)', paddingTop: '10px' }}>
               <button
                 type="button"
                 onClick={handleInstantDemo}
@@ -1499,7 +1489,7 @@ const LandingPage = () => {
             </div>
 
             {/* Mode Switcher */}
-            <div style={{ textAlign: 'center', marginTop: '16px', fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
+            <div style={{ textAlign: 'center', marginTop: '14px', fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
               {authMode === 'login' ? (
                 <>
                   Don't have an account?{' '}

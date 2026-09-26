@@ -157,6 +157,7 @@ export const portfolioApi = {
         todayGain: Math.round(totalToday),
         todayPct,
         stabilityScore,
+        healthScore: stabilityScore,
         stabilityRank,
         stabilityDesc,
       }
