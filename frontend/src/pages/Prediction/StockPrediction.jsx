@@ -123,23 +123,23 @@ export const StockPrediction = () => {
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '8px' }}>
               <div>
                 <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-                  {stockDetails.exchange} LIVE QUOTE
+                  {stockDetails.exchange || 'NSE'} LIVE QUOTE
                 </span>
                 <h2 style={{ fontSize: '1.85rem', fontWeight: '800', display: 'flex', alignItems: 'center', gap: '10px', marginTop: '4px', color: 'var(--text-primary)' }}>
                   {stockDetails.symbol}
-                  <span style={{ fontSize: '0.95rem', color: 'var(--text-secondary)', fontWeight: '500' }}>({stockDetails.name})</span>
+                  <span style={{ fontSize: '0.95rem', color: 'var(--text-secondary)', fontWeight: '500' }}>({stockDetails.name || `${stockDetails.symbol} Equity`})</span>
                 </h2>
               </div>
               <div style={{ textAlign: 'right' }}>
                 <h3 style={{ fontSize: '2rem', fontWeight: '800', fontFamily: 'var(--font-mono)', color: 'var(--text-primary)' }}>
-                  ₹{stockDetails.price?.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                  ₹{Number(stockDetails.price || 0).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                 </h3>
                 <span 
-                  className={stockDetails.change >= 0 ? 'text-bullish' : 'text-bearish'} 
+                  className={Number(stockDetails.change || 0) >= 0 ? 'text-bullish' : 'text-bearish'} 
                   style={{ fontSize: '0.95rem', fontWeight: '700', display: 'inline-flex', alignItems: 'center', gap: '4px' }}
                 >
-                  {stockDetails.change >= 0 ? <TrendingUp size={16} /> : <TrendingDown size={16} />}
-                  {stockDetails.change >= 0 ? '+' : ''}{stockDetails.change?.toFixed(2)} ({stockDetails.pctChange >= 0 ? '+' : ''}{stockDetails.pctChange}%)
+                  {Number(stockDetails.change || 0) >= 0 ? <TrendingUp size={16} /> : <TrendingDown size={16} />}
+                  {Number(stockDetails.change || 0) >= 0 ? '+' : ''}{Number(stockDetails.change || 0).toFixed(2)} ({Number(stockDetails.pctChange || 0) >= 0 ? '+' : ''}{stockDetails.pctChange}%)
                 </span>
               </div>
             </div>
@@ -148,35 +148,35 @@ export const StockPrediction = () => {
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '10px', borderTop: '1px solid var(--border-color)', paddingTop: '16px' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', padding: '10px 12px', background: 'var(--bg-chip)', borderRadius: '8px' }}>
                 <span style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>Open</span>
-                <strong style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-primary)' }}>₹{stockDetails.open?.toFixed(2)}</strong>
+                <strong style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-primary)' }}>₹{Number(stockDetails.open || 0).toFixed(2)}</strong>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between', padding: '10px 12px', background: 'var(--bg-chip)', borderRadius: '8px' }}>
                 <span style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>Day High</span>
-                <strong className="text-bullish" style={{ fontFamily: 'var(--font-mono)' }}>₹{stockDetails.high?.toFixed(2)}</strong>
+                <strong className="text-bullish" style={{ fontFamily: 'var(--font-mono)' }}>₹{Number(stockDetails.high || 0).toFixed(2)}</strong>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between', padding: '10px 12px', background: 'var(--bg-chip)', borderRadius: '8px' }}>
                 <span style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>Day Low</span>
-                <strong className="text-bearish" style={{ fontFamily: 'var(--font-mono)' }}>₹{stockDetails.low?.toFixed(2)}</strong>
+                <strong className="text-bearish" style={{ fontFamily: 'var(--font-mono)' }}>₹{Number(stockDetails.low || 0).toFixed(2)}</strong>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between', padding: '10px 12px', background: 'var(--bg-chip)', borderRadius: '8px' }}>
                 <span style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>Prev Close</span>
-                <strong style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-primary)' }}>₹{stockDetails.prevClose?.toFixed(2)}</strong>
+                <strong style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-primary)' }}>₹{Number(stockDetails.prevClose || 0).toFixed(2)}</strong>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between', padding: '10px 12px', background: 'var(--bg-chip)', borderRadius: '8px' }}>
                 <span style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>Trading Volume</span>
-                <strong style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-primary)' }}>{stockDetails.volume?.toLocaleString()}</strong>
+                <strong style={{ fontFamily: 'var(--font-mono)', color: 'var(--text-primary)' }}>{stockDetails.volume?.toLocaleString ? stockDetails.volume.toLocaleString() : stockDetails.volume}</strong>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between', padding: '10px 12px', background: 'var(--bg-chip)', borderRadius: '8px' }}>
                 <span style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>Market Cap</span>
-                <strong style={{ color: 'var(--accent-purple)' }}>{stockDetails.marketCap}</strong>
+                <strong style={{ color: 'var(--accent-purple)' }}>{stockDetails.marketCap || 'N/A'}</strong>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between', padding: '10px 12px', background: 'var(--bg-chip)', borderRadius: '8px' }}>
                 <span style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>52W High</span>
-                <strong className="text-bullish" style={{ fontFamily: 'var(--font-mono)' }}>₹{stockDetails.week52High?.toFixed(2)}</strong>
+                <strong className="text-bullish" style={{ fontFamily: 'var(--font-mono)' }}>₹{Number(stockDetails.week52High || stockDetails.high52 || 0).toFixed(2)}</strong>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between', padding: '10px 12px', background: 'var(--bg-chip)', borderRadius: '8px' }}>
                 <span style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>52W Low</span>
-                <strong className="text-bearish" style={{ fontFamily: 'var(--font-mono)' }}>₹{stockDetails.week52Low?.toFixed(2)}</strong>
+                <strong className="text-bearish" style={{ fontFamily: 'var(--font-mono)' }}>₹{Number(stockDetails.week52Low || stockDetails.low52 || 0).toFixed(2)}</strong>
               </div>
             </div>
           </div>
@@ -207,7 +207,7 @@ export const StockPrediction = () => {
                   <TrendingUp size={14} className="text-bullish" /> PREDICTED HIGH
                 </div>
                 <div style={{ fontSize: '1.45rem', fontWeight: '800', color: 'var(--bullish-green)', fontFamily: 'var(--font-mono)' }}>
-                  ₹{prediction.tomorrowHigh?.toFixed(2)}
+                  ₹{typeof prediction.tomorrowHigh === 'number' ? prediction.tomorrowHigh.toFixed(2) : (prediction.tomorrowHigh || '0.00')}
                 </div>
               </div>
 
@@ -217,7 +217,7 @@ export const StockPrediction = () => {
                   <TrendingDown size={14} className="text-bearish" /> PREDICTED LOW
                 </div>
                 <div style={{ fontSize: '1.45rem', fontWeight: '800', color: 'var(--bearish-red)', fontFamily: 'var(--font-mono)' }}>
-                  ₹{prediction.tomorrowLow?.toFixed(2)}
+                  ₹{typeof prediction.tomorrowLow === 'number' ? prediction.tomorrowLow.toFixed(2) : (prediction.tomorrowLow || '0.00')}
                 </div>
               </div>
 
@@ -227,7 +227,11 @@ export const StockPrediction = () => {
                   <Layers size={14} style={{ color: 'var(--accent-purple)' }} /> EXPECTED RANGE
                 </div>
                 <div style={{ fontSize: '1.45rem', fontWeight: '800', color: 'var(--accent-purple)', fontFamily: 'var(--font-mono)' }}>
-                  ₹{prediction.expectedRange?.toFixed(2)}
+                  {typeof prediction.expectedRange === 'number'
+                    ? `₹${prediction.expectedRange.toFixed(2)}`
+                    : (String(prediction.expectedRange || '').startsWith('₹')
+                      ? prediction.expectedRange
+                      : `₹${prediction.expectedRange || '0.00'}`)}
                 </div>
               </div>
 
@@ -255,13 +259,13 @@ export const StockPrediction = () => {
                   </span>
                   <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>Rule: Return &plusmn;1%</span>
                 </div>
-                <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Confidence: {prediction.signalConfidence}%</div>
+                <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Confidence: {prediction.signalConfidence || 75}%</div>
               </div>
 
               {/* Confidence Gauge */}
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                 <ConfidenceGauge 
-                  value={prediction.confidence} 
+                  value={prediction.confidence || 75} 
                   label="Prediction Confidence" 
                   statusText={isBullish ? 'Bullish' : 'Bearish'}
                   size={140}
@@ -278,10 +282,10 @@ export const StockPrediction = () => {
                   <strong style={{ fontSize: '0.85rem', color: 'var(--text-primary)' }}>Phase 3 Baseline vs. Phase 5 Ensemble</strong>
                 </div>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: '8px', fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
-                  <div>Linear Regression High: <strong style={{ color: 'var(--text-primary)' }}>₹{prediction.baseline.predictedHigh}</strong></div>
-                  <div>Linear Regression Low: <strong style={{ color: 'var(--text-primary)' }}>₹{prediction.baseline.predictedLow}</strong></div>
-                  <div>Custom Tree Direction: <strong style={{ color: 'var(--text-primary)' }}>{prediction.baseline.direction}</strong></div>
-                  <div>Custom Tree Signal: <strong style={{ color: 'var(--text-primary)' }}>{prediction.baseline.signal}</strong></div>
+                  <div>Linear Regression High: <strong style={{ color: 'var(--text-primary)' }}>₹{prediction.baseline.predictedHigh || prediction.baseline.linearRegressionHigh || 'N/A'}</strong></div>
+                  <div>Linear Regression Low: <strong style={{ color: 'var(--text-primary)' }}>₹{prediction.baseline.predictedLow || prediction.baseline.linearRegressionLow || 'N/A'}</strong></div>
+                  <div>Custom Tree Direction: <strong style={{ color: 'var(--text-primary)' }}>{prediction.baseline.direction || prediction.baseline.customTreeDirection || 'N/A'}</strong></div>
+                  <div>Custom Tree Signal: <strong style={{ color: 'var(--text-primary)' }}>{prediction.baseline.signal || 'N/A'}</strong></div>
                 </div>
               </div>
             )}

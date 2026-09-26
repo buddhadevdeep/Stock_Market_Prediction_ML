@@ -101,7 +101,7 @@ const AlertsPage = () => {
       </div>
 
       {/* Main Grid: Create Alert & Active Alerts */}
-      <div className="responsive-split-2-1" style={{ alignItems: 'start' }}>
+      <div className="responsive-split-1-2" style={{ alignItems: 'start' }}>
         
         {/* Create Alert Card */}
         <div className="glass-card" style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
@@ -183,7 +183,7 @@ const AlertsPage = () => {
         </div>
 
         {/* Active Alerts List Table */}
-        <div className="glass-card" style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+        <div className="glass-card" style={{ display: 'flex', flexDirection: 'column', gap: '16px', minWidth: 0 }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid var(--border-color)', paddingBottom: '12px' }}>
             <h4 style={{ fontSize: '0.88rem', fontWeight: '800', textTransform: 'uppercase', color: 'var(--text-primary)', margin: 0 }}>
               Active Alert Monitor ({alerts.length})
@@ -191,7 +191,7 @@ const AlertsPage = () => {
             <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>Auto-evaluated on live ticks</span>
           </div>
           
-          <div style={{ overflowX: 'auto' }}>
+          <div className="table-container" style={{ width: '100%', overflowX: 'auto' }}>
             {alerts.length === 0 ? (
               <div style={{ padding: '40px 20px', textAlign: 'center', color: 'var(--text-muted)' }}>
                 <Bell size={32} style={{ margin: '0 auto 12px auto', opacity: 0.4 }} />
@@ -199,20 +199,20 @@ const AlertsPage = () => {
                 <p style={{ margin: '4px 0 0 0', fontSize: '0.78rem', color: 'var(--text-secondary)' }}>Use the form on the left to set custom price or ML signal alerts.</p>
               </div>
             ) : (
-              <table className="custom-table" style={{ fontSize: '0.85rem' }}>
+              <table className="custom-table" style={{ width: '100%', fontSize: '0.85rem' }}>
                 <thead>
                   <tr>
-                    <th>Stock</th>
-                    <th>Condition</th>
-                    <th>Status</th>
-                    <th>Created</th>
-                    <th style={{ textAlign: 'right' }}>Actions</th>
+                    <th style={{ whiteSpace: 'nowrap', padding: '10px 14px' }}>Stock</th>
+                    <th style={{ whiteSpace: 'nowrap', padding: '10px 14px' }}>Condition</th>
+                    <th style={{ whiteSpace: 'nowrap', padding: '10px 14px' }}>Status</th>
+                    <th style={{ whiteSpace: 'nowrap', padding: '10px 14px' }}>Created</th>
+                    <th style={{ textAlign: 'right', whiteSpace: 'nowrap', padding: '10px 14px' }}>Actions</th>
                   </tr>
                 </thead>
                 <tbody>
                   {alerts.map((alert) => (
                     <tr key={alert.id}>
-                      <td style={{ fontWeight: '700' }}>
+                      <td style={{ fontWeight: '700', whiteSpace: 'nowrap', padding: '12px 14px' }}>
                         <span 
                           onClick={() => setCurrentSymbol(alert.stock)} 
                           style={{ cursor: 'pointer', color: 'var(--accent-purple)', textDecoration: 'underline' }}
@@ -221,8 +221,10 @@ const AlertsPage = () => {
                           {alert.stock}
                         </span>
                       </td>
-                      <td className="mono-font" style={{ color: 'var(--accent-cyan)' }}>{alert.condition}</td>
-                      <td>
+                      <td className="mono-font" style={{ color: 'var(--accent-cyan)', whiteSpace: 'nowrap', padding: '12px 14px' }}>
+                        {alert.condition}
+                      </td>
+                      <td style={{ whiteSpace: 'nowrap', padding: '12px 14px' }}>
                         <span 
                           style={{
                             fontSize: '0.72rem',
@@ -251,8 +253,10 @@ const AlertsPage = () => {
                           {alert.status}
                         </span>
                       </td>
-                      <td style={{ color: 'var(--text-muted)', fontSize: '0.78rem' }}>{alert.created}</td>
-                      <td style={{ textAlign: 'right' }}>
+                      <td style={{ color: 'var(--text-muted)', fontSize: '0.78rem', whiteSpace: 'nowrap', padding: '12px 14px' }}>
+                        {alert.created}
+                      </td>
+                      <td style={{ textAlign: 'right', whiteSpace: 'nowrap', padding: '12px 14px' }}>
                         <div style={{ display: 'flex', gap: '8px', justifyContent: 'flex-end' }}>
                           <button
                             onClick={() => toggleAlert(alert.id)}

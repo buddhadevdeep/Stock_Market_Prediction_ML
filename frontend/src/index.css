@@ -708,6 +708,12 @@ select.custom-input option, select.search-input option {
   gap: 20px;
 }
 
+.responsive-split-1-2 {
+  display: grid;
+  grid-template-columns: minmax(320px, 380px) minmax(0, 1fr);
+  gap: 20px;
+}
+
 .hide-on-desktop {
   display: none !important;
 }
@@ -841,7 +847,8 @@ select.custom-input option, select.search-input option {
   .responsive-grid-4 {
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
   }
-  .responsive-split-2-1 {
+  .responsive-split-2-1,
+  .responsive-split-1-2 {
     grid-template-columns: 1fr !important;
   }
   .app-page-body {
@@ -919,7 +926,8 @@ select.custom-input option, select.search-input option {
 
   .responsive-grid-3,
   .responsive-grid-2,
-  .responsive-split-2-1 {
+  .responsive-split-2-1,
+  .responsive-split-1-2 {
     grid-template-columns: 1fr !important;
     gap: 14px !important;
   }

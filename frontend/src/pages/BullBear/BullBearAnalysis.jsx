@@ -87,10 +87,10 @@ const BullBearAnalysis = () => {
   const bullPct = isBullish ? confidenceVal : Number((100 - confidenceVal).toFixed(1));
   const bearPct = isBullish ? Number((100 - confidenceVal).toFixed(1)) : confidenceVal;
 
-  const currentPrice = predictionData?.currentPrice || stockDetails?.price || 0;
-  const tomorrowHigh = predictionData?.tomorrowHigh || (currentPrice * 1.015);
-  const tomorrowLow = predictionData?.tomorrowLow || (currentPrice * 0.985);
-  const expectedRange = predictionData?.expectedRange || (tomorrowHigh - tomorrowLow).toFixed(2);
+  const currentPrice = Number(predictionData?.currentPrice || stockDetails?.price || 0);
+  const tomorrowHigh = Number(predictionData?.tomorrowHigh || (currentPrice * 1.015));
+  const tomorrowLow = Number(predictionData?.tomorrowLow || (currentPrice * 0.985));
+  const expectedRange = predictionData?.expectedRange || `${(tomorrowHigh - tomorrowLow).toFixed(2)}`;
   const signal = predictionData?.tradingSignal || 'HOLD';
   const signalConf = predictionData?.signalConfidence || 65;
 
@@ -98,24 +98,24 @@ const BullBearAnalysis = () => {
   const bullFactors = isBullish
     ? [
         { factor: 'Supervised Model Direction', value: `Classifier confidence ${bullPct}% positive momentum` },
-        { factor: 'Forecast High Target', value: `₹${tomorrowHigh.toLocaleString('en-IN')} upside target` },
+        { factor: 'Forecast High Target', value: `₹${Number(tomorrowHigh).toLocaleString('en-IN')} upside target` },
         { factor: 'Phase 3 Gini Decision Tree', value: 'Positive branch split with clean node impurity' },
         { factor: 'Rolling Momentum Vector', value: 'Positive short-term price velocity across 5 & 10 days' }
       ]
     : [
-        { factor: 'Support Buffer', value: `₹${tomorrowLow.toLocaleString('en-IN')} key intraday support floor` },
+        { factor: 'Support Buffer', value: `₹${Number(tomorrowLow).toLocaleString('en-IN')} key intraday support floor` },
         { factor: 'Linear Baseline Projection', value: `Baseline target ₹${predictionData?.baseline?.linearRegressionHigh || tomorrowHigh}` }
       ];
 
   const bearFactors = !isBullish
     ? [
         { factor: 'Supervised Model Direction', value: `Classifier confidence ${bearPct}% downward pressure` },
-        { factor: 'Forecast Low Boundary', value: `₹${tomorrowLow.toLocaleString('en-IN')} risk target` },
+        { factor: 'Forecast Low Boundary', value: `₹${Number(tomorrowLow).toLocaleString('en-IN')} risk target` },
         { factor: 'Phase 3 Gini Decision Tree', value: 'Negative branch split with high impurity penalty' },
         { factor: 'Rolling Volatility Shift', value: 'Elevated 20-day historical standard deviation' }
       ]
     : [
-        { factor: 'Overhead Resistance', value: `₹${tomorrowHigh.toLocaleString('en-IN')} upper threshold` },
+        { factor: 'Overhead Resistance', value: `₹${Number(tomorrowHigh).toLocaleString('en-IN')} upper threshold` },
         { factor: 'Ensemble Baseline Low', value: `Baseline low ₹${predictionData?.baseline?.linearRegressionLow || tomorrowLow}` }
       ];
 
@@ -229,7 +229,7 @@ const BullBearAnalysis = () => {
           <div>
             <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>TOMORROW RANGE</span>
             <div style={{ fontSize: '1.1rem', fontWeight: '800', color: 'var(--accent-purple)', fontFamily: 'var(--font-mono)' }}>
-              ₹{expectedRange}
+              {String(expectedRange || '').startsWith('₹') ? expectedRange : `₹${expectedRange}`}
             </div>
           </div>
 
