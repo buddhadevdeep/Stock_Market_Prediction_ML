@@ -536,7 +536,7 @@ const LandingPage = () => {
         <div className="landing-hero-grid">
           
           {/* Left Hero Details */}
-          <div>
+          <div className="landing-hero-content">
             {/* High-Contrast Pill Badge with Glowing Pulse */}
             <div className="landing-hero-badge">
               <span className="landing-badge-beacon" />
@@ -547,14 +547,14 @@ const LandingPage = () => {
             
             {/* Main Headline */}
             <h1 className="landing-hero-title">
-              AI-Powered <br />
+              AI-Powered <br className="hide-on-mobile" />
               <span style={{ 
                 background: 'linear-gradient(90deg, #6366f1 0%, #38bdf8 100%)', 
                 WebkitBackgroundClip: 'text', 
                 WebkitTextFillColor: 'transparent' 
               }}>
                 Stock Market Prediction
-              </span> <br />
+              </span> <br className="hide-on-mobile" />
               with High Precision
             </h1>
             
@@ -566,73 +566,43 @@ const LandingPage = () => {
             <div className="landing-cta-group">
               <button 
                 onClick={() => handleOpenAuth('register')} 
-                style={{ 
-                  background: 'linear-gradient(135deg, #6366f1 0%, #4f46e5 100%)', 
-                  color: '#fff', 
-                  border: 'none', 
-                  borderRadius: '10px', 
-                  display: 'inline-flex', 
-                  alignItems: 'center', 
-                  justifyContent: 'center',
-                  gap: '10px', 
-                  padding: '13px 26px', 
-                  fontSize: '0.94rem',
-                  fontWeight: '700',
-                  cursor: 'pointer',
-                  boxShadow: '0 8px 24px rgba(99, 102, 241, 0.4)',
-                  transition: 'transform 0.2s ease'
-                }}
+                className="landing-hero-btn-primary"
               >
-                Start Predicting Free <ArrowRight size={17} />
+                Start Predicting Free <ArrowRight size={16} />
               </button>
               
               <button 
                 onClick={handleInstantDemo} 
-                style={{ 
-                  background: 'var(--bg-chip)', 
-                  color: 'var(--text-primary)', 
-                  border: '1px solid var(--border-color)', 
-                  borderRadius: '10px', 
-                  display: 'inline-flex', 
-                  alignItems: 'center', 
-                  justifyContent: 'center',
-                  gap: '10px', 
-                  padding: '13px 22px', 
-                  fontSize: '0.94rem',
-                  fontWeight: '600',
-                  cursor: 'pointer',
-                  backdropFilter: 'blur(10px)',
-                  transition: 'all 0.2s ease'
-                }}
+                className="landing-hero-btn-secondary"
               >
-                <Play size={15} fill="currentColor" /> Interactive Demo
+                <Play size={14} fill="currentColor" /> Interactive Demo
               </button>
             </div>
 
             {/* Quick Stats Panel */}
             <div className="landing-stats-row">
-              <div>
-                <h4 style={{ fontSize: 'clamp(1.2rem, 4vw, 1.85rem)', fontWeight: '900', color: 'var(--bullish-green)', fontFamily: 'var(--font-mono)' }}>98.92%</h4>
-                <p style={{ fontSize: 'clamp(0.68rem, 2vw, 0.78rem)', color: 'var(--text-secondary)', marginTop: '2px', fontWeight: '600' }}>Historical Accuracy</p>
+              <div className="landing-stat-item">
+                <h4 className="landing-stat-val" style={{ color: 'var(--bullish-green)' }}>98.92%</h4>
+                <p className="landing-stat-lbl">Historical Accuracy</p>
               </div>
-              <div>
-                <h4 style={{ fontSize: 'clamp(1.2rem, 4vw, 1.85rem)', fontWeight: '900', color: 'var(--accent-cyan)', fontFamily: 'var(--font-mono)' }}>6+</h4>
-                <p style={{ fontSize: 'clamp(0.68rem, 2vw, 0.78rem)', color: 'var(--text-secondary)', marginTop: '2px', fontWeight: '600' }}>Key NSE Engines</p>
+              <div className="landing-stat-item">
+                <h4 className="landing-stat-val" style={{ color: 'var(--accent-cyan)' }}>6+</h4>
+                <p className="landing-stat-lbl">Key NSE Engines</p>
               </div>
-              <div>
-                <h4 style={{ fontSize: 'clamp(1.2rem, 4vw, 1.85rem)', fontWeight: '900', color: 'var(--accent-purple)', fontFamily: 'var(--font-mono)' }}>LSTM + XGB</h4>
-                <p style={{ fontSize: 'clamp(0.68rem, 2vw, 0.78rem)', color: 'var(--text-secondary)', marginTop: '2px', fontWeight: '600' }}>Ensemble Architecture</p>
+              <div className="landing-stat-item">
+                <h4 className="landing-stat-val" style={{ color: 'var(--accent-purple)' }}>LSTM + XGB</h4>
+                <p className="landing-stat-lbl">Ensemble Model</p>
               </div>
             </div>
           </div>
 
           {/* Right Hero Live Interactive Graphical Terminal Preview Card */}
-          <div style={{ position: 'relative', width: '100%' }}>
+          <div className="landing-terminal-container">
             <div className="landing-terminal-card">
               
               {/* Terminal Header Bar with Stock Selector Tabs */}
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px', flexWrap: 'wrap', gap: '8px' }}>
-                <div style={{ display: 'flex', gap: '5px', overflowX: 'auto', paddingBottom: '4px', maxWidth: '100%', WebkitOverflowScrolling: 'touch' }}>
+              <div className="landing-terminal-topbar">
+                <div className="stock-selector-scroll">
                   {Object.keys(PREVIEW_STOCKS).map((sym) => (
                     <button
                       key={sym}
@@ -644,67 +614,35 @@ const LandingPage = () => {
                   ))}
                 </div>
 
-                <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                  <span style={{ 
-                    fontSize: '0.7rem', 
-                    fontWeight: '800', 
-                    padding: '3px 8px', 
-                    borderRadius: '6px', 
-                    background: 'rgba(16, 185, 129, 0.15)', 
-                    color: 'var(--bullish-green)', 
-                    border: '1px solid rgba(16, 185, 129, 0.3)',
-                    whiteSpace: 'nowrap'
-                  }}>
+                <div className="stock-signal-badge-wrapper">
+                  <span className="stock-signal-badge">
                     {currentStock.signal}
                   </span>
                 </div>
               </div>
 
               {/* Price & Change Banner */}
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '12px', borderBottom: '1px solid var(--border-color)', paddingBottom: '10px', flexWrap: 'wrap', gap: '6px' }}>
+              <div className="landing-price-banner">
                 <div>
-                  <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)', fontWeight: '700', textTransform: 'uppercase' }}>
+                  <span className="landing-stock-exchange">
                     {currentStock.exchange} • {currentStock.name}
                   </span>
-                  <h3 style={{ fontSize: '1.65rem', fontWeight: '900', fontFamily: 'var(--font-mono)', marginTop: '2px', color: 'var(--text-primary)' }}>
+                  <h3 className="landing-stock-price">
                     ₹{currentStock.price.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
                   </h3>
                 </div>
-                <div style={{ textAlign: 'right' }}>
-                  <span style={{ 
-                    backgroundColor: 'rgba(16, 185, 129, 0.15)', 
-                    color: 'var(--bullish-green)', 
-                    padding: '3px 8px', 
-                    borderRadius: '6px', 
-                    fontSize: '0.82rem', 
-                    fontWeight: '800',
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '4px'
-                  }}>
+                <div style={{ textAlign: 'right', flexShrink: 0 }}>
+                  <span className="landing-stock-change">
                     +{currentStock.change}% ▲
                   </span>
                 </div>
               </div>
 
               {/* Interactive Graphical SVG Area & Forecast Chart */}
-              <div style={{ 
-                position: 'relative', 
-                width: '100%', 
-                height: '135px', 
-                background: 'var(--bg-chip)', 
-                borderRadius: '12px', 
-                padding: '6px 8px', 
-                marginBottom: '14px',
-                border: '1px solid var(--border-color)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                overflow: 'hidden'
-              }}>
+              <div className="landing-chart-container">
                 <svg 
                   viewBox={`0 0 ${chartSvgData.width} ${chartSvgData.height}`} 
-                  style={{ width: '100%', height: '100%' }}
+                  className="landing-chart-svg"
                   preserveAspectRatio="none"
                 >
                   <defs>
@@ -766,65 +704,50 @@ const LandingPage = () => {
                 </svg>
 
                 {/* AI Target Tooltip Pin */}
-                <div style={{
-                  position: 'absolute',
-                  top: '8px',
-                  right: '8px',
-                  background: 'rgba(16, 185, 129, 0.2)',
-                  border: '1px solid rgba(16, 185, 129, 0.4)',
-                  borderRadius: '6px',
-                  padding: '3px 8px',
-                  fontSize: '0.7rem',
-                  fontWeight: '800',
-                  color: 'var(--bullish-green)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '4px',
-                  pointerEvents: 'none'
-                }}>
+                <div className="landing-chart-target-badge">
                   <Sparkles size={11} /> Target: ₹{currentStock.forecast} (+{currentStock.forecastChange}%)
                 </div>
               </div>
 
               {/* Technical Indicator Badges */}
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '6px', marginBottom: '14px' }}>
-                <div style={{ backgroundColor: 'var(--bg-chip)', border: '1px solid var(--border-color)', borderRadius: '8px', padding: '8px 4px', textAlign: 'center' }}>
-                  <div style={{ fontSize: '0.64rem', color: 'var(--text-muted)', fontWeight: '700' }}>RSI (14)</div>
-                  <div style={{ fontSize: '0.88rem', fontWeight: '800', color: 'var(--bullish-green)', fontFamily: 'var(--font-mono)', marginTop: '2px' }}>
+              <div className="landing-indicator-grid">
+                <div className="landing-indicator-box">
+                  <div className="landing-indicator-lbl">RSI (14)</div>
+                  <div className="landing-indicator-val" style={{ color: 'var(--bullish-green)' }}>
                     {currentStock.rsi}
                   </div>
                 </div>
 
-                <div style={{ backgroundColor: 'var(--bg-chip)', border: '1px solid var(--border-color)', borderRadius: '8px', padding: '8px 4px', textAlign: 'center' }}>
-                  <div style={{ fontSize: '0.64rem', color: 'var(--text-muted)', fontWeight: '700' }}>MACD</div>
-                  <div style={{ fontSize: '0.8rem', fontWeight: '800', color: 'var(--accent-cyan)', marginTop: '2px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                <div className="landing-indicator-box">
+                  <div className="landing-indicator-lbl">MACD</div>
+                  <div className="landing-indicator-val" style={{ color: 'var(--accent-cyan)' }}>
                     Bullish Cross
                   </div>
                 </div>
 
-                <div style={{ backgroundColor: 'var(--bg-chip)', border: '1px solid var(--border-color)', borderRadius: '8px', padding: '8px 4px', textAlign: 'center' }}>
-                  <div style={{ fontSize: '0.64rem', color: 'var(--text-muted)', fontWeight: '700' }}>CONFIDENCE</div>
-                  <div style={{ fontSize: '0.88rem', fontWeight: '800', color: 'var(--accent-purple)', fontFamily: 'var(--font-mono)', marginTop: '2px' }}>
+                <div className="landing-indicator-box">
+                  <div className="landing-indicator-lbl">CONFIDENCE</div>
+                  <div className="landing-indicator-val" style={{ color: 'var(--accent-purple)' }}>
                     {currentStock.lstmConfidence}
                   </div>
                 </div>
               </div>
 
               {/* Bull vs Bear Split Meter */}
-              <div style={{ backgroundColor: 'rgba(99, 102, 241, 0.08)', border: '1px solid rgba(99, 102, 241, 0.25)', borderRadius: '10px', padding: '10px 12px' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px', fontSize: '0.74rem' }}>
+              <div className="landing-sentiment-bar-card">
+                <div className="landing-sentiment-header">
                   <span style={{ fontWeight: '700', color: 'var(--bullish-green)' }}>🐂 Bullish ({currentStock.sentimentScore}%)</span>
                   <span style={{ fontWeight: '700', color: 'var(--bearish-red)' }}>🐻 Bearish ({100 - currentStock.sentimentScore}%)</span>
                 </div>
-                <div style={{ width: '100%', height: '5px', borderRadius: '3px', backgroundColor: 'rgba(239, 68, 68, 0.3)', overflow: 'hidden', display: 'flex' }}>
-                  <div style={{ width: `${currentStock.sentimentScore}%`, height: '100%', background: 'linear-gradient(90deg, #10b981 0%, #38bdf8 100%)', borderRadius: '3px' }} />
+                <div className="landing-sentiment-track">
+                  <div className="landing-sentiment-fill" style={{ width: `${currentStock.sentimentScore}%` }} />
                 </div>
               </div>
 
             </div>
 
             {/* Glowing Ambient Backdrop */}
-            <div style={{ position: 'absolute', width: 'min(280px, 80%)', height: 'min(280px, 80%)', borderRadius: '50%', background: 'rgba(99, 102, 241, 0.22)', filter: 'blur(80px)', top: '15%', right: '10%', zIndex: -1, pointerEvents: 'none' }} />
+            <div className="landing-terminal-ambient" />
           </div>
 
         </div>
