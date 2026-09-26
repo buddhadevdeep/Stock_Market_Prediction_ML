@@ -49,6 +49,13 @@
   --shadow-dropdown: 0 16px 36px rgba(0, 0, 0, 0.85);
   --scrollbar-thumb: rgba(255, 255, 255, 0.15);
 
+  --card-bg: rgba(14, 22, 40, 0.92);
+  --card-shadow: 0 8px 24px -8px rgba(0, 0, 0, 0.55);
+  --hero-badge-bg: rgba(99, 102, 241, 0.18);
+  --hero-badge-border: rgba(129, 140, 248, 0.38);
+  --hero-badge-text: #a5b4fc;
+  --hero-badge-dot: #818cf8;
+
   --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
 
@@ -101,6 +108,13 @@
   --shadow-card: 0 4px 16px -2px rgba(15, 23, 42, 0.08), 0 2px 6px -1px rgba(15, 23, 42, 0.04);
   --shadow-dropdown: 0 16px 36px -4px rgba(15, 23, 42, 0.16), 0 6px 14px -2px rgba(15, 23, 42, 0.08);
   --scrollbar-thumb: rgba(15, 23, 42, 0.25);
+
+  --card-bg: #ffffff;
+  --card-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.08), 0 2px 6px -1px rgba(15, 23, 42, 0.04);
+  --hero-badge-bg: rgba(79, 70, 229, 0.12);
+  --hero-badge-border: rgba(79, 70, 229, 0.32);
+  --hero-badge-text: #4338ca;
+  --hero-badge-dot: #4f46e5;
 }
 
 html {
@@ -218,6 +232,51 @@ p, span, label {
 
 .mono-font {
   font-family: var(--font-mono);
+}
+
+.btn-primary-custom {
+  background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+  color: #ffffff !important;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 18px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  box-shadow: 0 4px 14px rgba(99, 102, 241, 0.35);
+  transition: all 0.2s ease;
+  text-decoration: none;
+}
+
+.btn-primary-custom:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(99, 102, 241, 0.5);
+}
+
+.btn-secondary-custom {
+  background: var(--bg-chip);
+  color: var(--text-primary) !important;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+  text-decoration: none;
+}
+
+.btn-secondary-custom:hover {
+  background: var(--bg-hover-subtle);
+  border-color: var(--border-glow);
 }
 
 /* Tables & Custom Table Styling */
@@ -1243,5 +1302,198 @@ select.custom-input option, select.search-input option {
   }
 }
 
+/* =========================================================================
+   Ultra-Modern Graphical Landing Page Visuals & Interactive Elements
+   ========================================================================= */
 
+/* Hero Badge with Glowing Radar Beacon */
+.landing-hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 16px;
+  border-radius: 999px;
+  background: var(--hero-badge-bg);
+  border: 1px solid var(--hero-badge-border);
+  box-shadow: 0 2px 10px rgba(99, 102, 241, 0.12);
+  margin-bottom: 22px;
+  transition: all 0.25s ease;
+}
 
+.landing-hero-badge:hover {
+  transform: translateY(-1px);
+  border-color: var(--accent-purple);
+  box-shadow: 0 4px 16px rgba(99, 102, 241, 0.25);
+}
+
+.landing-badge-beacon {
+  position: relative;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--hero-badge-dot);
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.landing-badge-beacon::before {
+  content: '';
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--hero-badge-dot);
+  opacity: 0.5;
+  animation: beaconPulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes beaconPulse {
+  0%, 100% {
+    transform: scale(0.8);
+    opacity: 0.7;
+  }
+  50% {
+    transform: scale(1.8);
+    opacity: 0;
+  }
+}
+
+.landing-badge-text {
+  font-size: 0.76rem;
+  font-weight: 800;
+  color: var(--hero-badge-text);
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+}
+
+/* Live Market Ticker Marquee */
+.landing-ticker-wrapper {
+  width: 100%;
+  overflow: hidden;
+  background: var(--bg-chip);
+  border-top: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
+  padding: 10px 0;
+  position: relative;
+  display: flex;
+  user-select: none;
+}
+
+.landing-ticker-track {
+  display: flex;
+  gap: 32px;
+  white-space: nowrap;
+  animation: tickerSlide 35s linear infinite;
+  will-change: transform;
+}
+
+.landing-ticker-track:hover {
+  animation-play-state: paused;
+}
+
+@keyframes tickerSlide {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.landing-ticker-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.82rem;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* Graphical Terminal Preview Card */
+.landing-terminal-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 20px;
+  padding: 22px 20px;
+  box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.5), 0 0 0 1px var(--border-color);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.landing-terminal-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #6366f1, #38bdf8, transparent);
+}
+
+/* Interactive Stock Selector Tab Pills */
+.stock-selector-pill {
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  border: 1px solid transparent;
+  background: var(--bg-chip);
+  color: var(--text-secondary);
+  transition: all 0.2s ease;
+}
+
+.stock-selector-pill:hover {
+  color: var(--text-primary);
+  background: var(--bg-hover-subtle);
+  border-color: var(--border-color);
+}
+
+.stock-selector-pill.active {
+  background: rgba(99, 102, 241, 0.2);
+  border-color: var(--accent-purple);
+  color: var(--text-primary);
+  box-shadow: 0 0 12px rgba(99, 102, 241, 0.3);
+}
+
+/* Interactive Accordion for FAQs */
+.landing-faq-item {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 14px;
+  margin-bottom: 12px;
+  overflow: hidden;
+  transition: all 0.2s ease;
+}
+
+.landing-faq-item:hover {
+  border-color: rgba(99, 102, 241, 0.4);
+}
+
+.landing-faq-trigger {
+  width: 100%;
+  padding: 18px 22px;
+  background: transparent;
+  border: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  color: var(--text-primary);
+  font-size: 0.96rem;
+  font-weight: 700;
+  text-align: left;
+}
+
+.landing-faq-content {
+  padding: 0 22px 18px 22px;
+  color: var(--text-secondary);
+  font-size: 0.88rem;
+  line-height: 1.6;
+}

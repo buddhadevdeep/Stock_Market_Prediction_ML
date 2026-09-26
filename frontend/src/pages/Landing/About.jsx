@@ -90,8 +90,8 @@ const About = () => {
             Have questions about model features, backtesting datasets, or API integrations?
           </p>
           <div style={{ display: 'flex', justifyContent: 'center', gap: '15px' }}>
-            <a href="mailto:support@stockai.com" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', color: 'var(--accent-purple)', textDecoration: 'none', fontWeight: '600' }}>
-              <Mail size={16} /> support@stockai.com
+            <a href="mailto:deepbuddhadev135@gmail.com" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', color: 'var(--accent-purple)', textDecoration: 'none', fontWeight: '600' }}>
+              <Mail size={16} /> deepbuddhadev135@gmail.com
             </a>
           </div>
         </div>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useApp } from '../../context/AppContext';
 import { 
@@ -19,9 +19,141 @@ import {
   AlertCircle,
   Menu,
   ChevronRight,
+  ChevronDown,
   Sun,
-  Moon
+  Moon,
+  Sparkles,
+  RefreshCw,
+  Gauge,
+  Sliders,
+  Radio
 } from 'lucide-react';
+
+// Sample Live Stocks Dataset for Interactive Terminal Preview & Sandbox
+const PREVIEW_STOCKS = {
+  TCS: {
+    symbol: 'TCS',
+    name: 'Tata Consultancy Services',
+    exchange: 'NSE',
+    price: 3682.45,
+    change: +2.45,
+    forecast: 3745.80,
+    forecastChange: +1.72,
+    state: 'BULLISH',
+    sentimentScore: 84,
+    rsi: 64.2,
+    macd: '+18.4 (Bullish Cross)',
+    lstmConfidence: '94.2%',
+    xgboostConfidence: '92.8%',
+    signal: 'Strong Buy',
+    chartPoints: [3590, 3610, 3595, 3630, 3645, 3625, 3660, 3682],
+    predictedPoint: 3745.80
+  },
+  RELIANCE: {
+    symbol: 'RELIANCE',
+    name: 'Reliance Industries Ltd',
+    exchange: 'NSE',
+    price: 2940.10,
+    change: +1.15,
+    forecast: 2985.50,
+    forecastChange: +1.54,
+    state: 'BULLISH',
+    sentimentScore: 79,
+    rsi: 58.6,
+    macd: '+12.1 (Upward Momentum)',
+    lstmConfidence: '91.5%',
+    xgboostConfidence: '89.4%',
+    signal: 'Buy Signal',
+    chartPoints: [2880, 2895, 2910, 2890, 2925, 2915, 2930, 2940],
+    predictedPoint: 2985.50
+  },
+  INFY: {
+    symbol: 'INFY',
+    name: 'Infosys Limited',
+    exchange: 'NSE',
+    price: 1875.30,
+    change: +1.80,
+    forecast: 1912.00,
+    forecastChange: +1.95,
+    state: 'BULLISH',
+    sentimentScore: 88,
+    rsi: 68.4,
+    macd: '+22.0 (Breakout)',
+    lstmConfidence: '95.1%',
+    xgboostConfidence: '93.7%',
+    signal: 'Strong Buy',
+    chartPoints: [1810, 1825, 1840, 1830, 1855, 1860, 1865, 1875],
+    predictedPoint: 1912.00
+  },
+  HDFCBANK: {
+    symbol: 'HDFCBANK',
+    name: 'HDFC Bank Ltd',
+    exchange: 'NSE',
+    price: 1660.00,
+    change: +0.40,
+    forecast: 1682.30,
+    forecastChange: +1.34,
+    state: 'NEUTRAL-BULLISH',
+    sentimentScore: 68,
+    rsi: 52.1,
+    macd: '+4.5 (Consolidating)',
+    lstmConfidence: '88.3%',
+    xgboostConfidence: '87.1%',
+    signal: 'Accumulate',
+    chartPoints: [1645, 1650, 1642, 1655, 1648, 1658, 1655, 1660],
+    predictedPoint: 1682.30
+  },
+  TATAMOTORS: {
+    symbol: 'TATAMOTORS',
+    name: 'Tata Motors Limited',
+    exchange: 'NSE',
+    price: 985.60,
+    change: +3.10,
+    forecast: 1024.00,
+    forecastChange: +3.89,
+    state: 'BULLISH',
+    sentimentScore: 92,
+    rsi: 72.3,
+    macd: '+31.8 (High Volume Surge)',
+    lstmConfidence: '96.8%',
+    xgboostConfidence: '95.2%',
+    signal: 'Strong Buy',
+    chartPoints: [920, 935, 940, 955, 950, 970, 975, 985],
+    predictedPoint: 1024.00
+  }
+};
+
+const TICKER_ITEMS = [
+  { sym: 'NIFTY 50', val: '24,845.20', chg: '+0.68%', up: true },
+  { sym: 'SENSEX', val: '81,420.50', chg: '+0.72%', up: true },
+  { sym: 'TCS', val: '₹3,682.45', chg: '+2.45%', up: true },
+  { sym: 'RELIANCE', val: '₹2,940.10', chg: '+1.15%', up: true },
+  { sym: 'INFY', val: '₹1,875.30', chg: '+1.80%', up: true },
+  { sym: 'HDFCBANK', val: '₹1,660.00', chg: '+0.40%', up: true },
+  { sym: 'TATAMOTORS', val: '₹985.60', chg: '+3.10%', up: true },
+  { sym: 'ICICIBANK', val: '₹1,220.80', chg: '+0.95%', up: true },
+  { sym: 'WIPRO', val: '₹540.25', chg: '+1.35%', up: true },
+  { sym: 'BHARTIARTL', val: '₹1,580.00', chg: '+0.85%', up: true }
+];
+
+const FAQS = [
+  {
+    q: 'How does StockAI forecast tomorrow\'s stock prices?',
+    a: 'StockAI ingests continuous daily OHLCV candlestick data along with 14 engineered technical indicators (RSI, MACD, Bollinger Bands, ATR, EMA lags). These are processed through an ensemble of Deep LSTM recurrent neural networks and XGBoost regressors to project next-session high, low, and probability bands.'
+  },
+  {
+    q: 'Are the AI predictions updated in real time?',
+    a: 'Yes. Market data and predictive inferences refresh continuously with live tick updates during market hours, calculating dynamic support, resistance, and momentum signals.'
+  },
+  {
+    q: 'What does the Confidence Score indicate?',
+    a: 'The Confidence Score (e.g. 94.2%) measures ensemble consensus across LSTM, XGBoost, and Random Forest models along with historical backtest accuracy over 10 years of NSE dataset validation.'
+  },
+  {
+    q: 'Can I test the terminal without entering credit card info?',
+    a: 'Absolutely. We provide immediate 1-Click Instant Demo access and a free starter tier with no payment details required.'
+  }
+];
 
 const LandingPage = () => {
   const { login, register, user, theme, toggleTheme } = useApp();
@@ -29,6 +161,11 @@ const LandingPage = () => {
 
   // Mobile menu drawer state
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  // Selected Stock in Hero Graphical Terminal & Sandbox
+  const [selectedSymbol, setSelectedSymbol] = useState('TCS');
+  const [activeTab, setActiveTab] = useState('1D'); // '1D', '1W', '1M'
+  const [openFaq, setOpenFaq] = useState(0);
 
   // Interactive Auth Modal State
   const [showAuthModal, setShowAuthModal] = useState(false);
@@ -38,6 +175,8 @@ const LandingPage = () => {
   const [authName, setAuthName] = useState('');
   const [authError, setAuthError] = useState('');
   const [authLoading, setAuthLoading] = useState(false);
+
+  const currentStock = PREVIEW_STOCKS[selectedSymbol] || PREVIEW_STOCKS.TCS;
 
   const handleOpenAuth = (mode = 'login') => {
     setAuthMode(mode);
@@ -72,12 +211,47 @@ const LandingPage = () => {
     navigate('/dashboard');
   };
 
+  // Generate SVG Chart Points for the interactive card
+  const chartSvgData = useMemo(() => {
+    const pts = [...currentStock.chartPoints];
+    const pred = currentStock.predictedPoint;
+    const minVal = Math.min(...pts) * 0.995;
+    const maxVal = Math.max(...pts, pred) * 1.005;
+    const range = maxVal - minVal || 1;
+
+    const width = 360;
+    const height = 130;
+    const stepX = (width - 60) / (pts.length - 1);
+
+    const historicalCoords = pts.map((p, i) => {
+      const x = i * stepX + 10;
+      const y = height - 20 - ((p - minVal) / range) * (height - 40);
+      return { x, y, val: p };
+    });
+
+    const lastCoord = historicalCoords[historicalCoords.length - 1];
+    const predCoord = {
+      x: width - 15,
+      y: height - 20 - ((pred - minVal) / range) * (height - 40),
+      val: pred
+    };
+
+    const histPath = historicalCoords.reduce((acc, curr, i) => {
+      return i === 0 ? `M ${curr.x} ${curr.y}` : `${acc} L ${curr.x} ${curr.y}`;
+    }, '');
+
+    const areaPath = `${histPath} L ${lastCoord.x} ${height} L 10 ${height} Z`;
+    const forecastPath = `M ${lastCoord.x} ${lastCoord.y} L ${predCoord.x} ${predCoord.y}`;
+
+    return { historicalCoords, lastCoord, predCoord, histPath, areaPath, forecastPath, width, height };
+  }, [currentStock]);
+
   return (
-    <div className="landing-page-wrapper">
+    <div className="landing-page-wrapper" style={{ backgroundColor: 'var(--bg-primary)', color: 'var(--text-primary)', minHeight: '100vh', overflowX: 'hidden' }}>
       
       {/* Background ambient glowing light orbs */}
-      <div style={{ position: 'fixed', width: 'min(500px, 90vw)', height: 'min(500px, 90vw)', borderRadius: '50%', background: 'radial-gradient(circle, rgba(99, 102, 241, 0.14) 0%, rgba(0,0,0,0) 70%)', top: '-150px', left: '-100px', pointerEvents: 'none', zIndex: 0 }} />
-      <div style={{ position: 'fixed', width: 'min(500px, 90vw)', height: 'min(500px, 90vw)', borderRadius: '50%', background: 'radial-gradient(circle, rgba(6, 182, 212, 0.08) 0%, rgba(0,0,0,0) 70%)', top: '30%', right: '-150px', pointerEvents: 'none', zIndex: 0 }} />
+      <div style={{ position: 'fixed', width: 'min(600px, 90vw)', height: 'min(600px, 90vw)', borderRadius: '50%', background: 'radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, rgba(0,0,0,0) 70%)', top: '-150px', left: '-100px', pointerEvents: 'none', zIndex: 0 }} />
+      <div style={{ position: 'fixed', width: 'min(550px, 90vw)', height: 'min(550px, 90vw)', borderRadius: '50%', background: 'radial-gradient(circle, rgba(6, 182, 212, 0.1) 0%, rgba(0,0,0,0) 70%)', top: '35%', right: '-120px', pointerEvents: 'none', zIndex: 0 }} />
 
       {/* Header / Top Navigation */}
       <header className="landing-header">
@@ -87,34 +261,52 @@ const LandingPage = () => {
           style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }}
         >
           <div style={{ 
-            width: '36px', 
-            height: '36px', 
+            width: '38px', 
+            height: '38px', 
             borderRadius: '10px', 
             background: 'linear-gradient(135deg, #6366f1 0%, #4f46e5 100%)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            boxShadow: '0 0 14px rgba(99, 102, 241, 0.45)',
+            boxShadow: '0 0 16px rgba(99, 102, 241, 0.5)',
             flexShrink: 0
           }}>
-            <Cpu size={20} style={{ color: '#ffffff' }} />
+            <Cpu size={22} style={{ color: '#ffffff' }} />
           </div>
-          <span style={{ fontWeight: '800', fontSize: '1.3rem', letterSpacing: '-0.3px', color: 'var(--text-primary)' }}>
+          <span style={{ fontWeight: '800', fontSize: '1.35rem', letterSpacing: '-0.3px', color: 'var(--text-primary)' }}>
             Stock<span style={{ color: 'var(--accent-purple)' }}>AI</span>
           </span>
         </div>
 
         {/* Navigation Links (Desktop) */}
         <nav className="hide-on-mobile" style={{ display: 'flex', gap: '28px', alignItems: 'center' }}>
-          <a href="#hero" style={{ color: 'var(--text-primary)', textDecoration: 'none', fontWeight: '600', fontSize: '0.9rem', transition: 'color 0.2s' }}>Home</a>
-          <a href="#features" style={{ color: 'var(--text-secondary)', textDecoration: 'none', fontWeight: '500', fontSize: '0.9rem', transition: 'color 0.2s' }}>Features</a>
-          <a href="#how-it-works" style={{ color: 'var(--text-secondary)', textDecoration: 'none', fontWeight: '500', fontSize: '0.9rem', transition: 'color 0.2s' }}>How It Works</a>
-          <Link to="/about" style={{ color: 'var(--text-secondary)', textDecoration: 'none', fontWeight: '500', fontSize: '0.9rem' }}>About</Link>
+          <a href="#hero" style={{ color: 'var(--text-primary)', textDecoration: 'none', fontWeight: '700', fontSize: '0.9rem', transition: 'color 0.2s' }}>Home</a>
+          <a href="#features" style={{ color: 'var(--text-secondary)', textDecoration: 'none', fontWeight: '600', fontSize: '0.9rem', transition: 'color 0.2s' }}>Features</a>
+          <a href="#sandbox" style={{ color: 'var(--text-secondary)', textDecoration: 'none', fontWeight: '600', fontSize: '0.9rem', transition: 'color 0.2s' }}>AI Sandbox</a>
+          <a href="#how-it-works" style={{ color: 'var(--text-secondary)', textDecoration: 'none', fontWeight: '600', fontSize: '0.9rem', transition: 'color 0.2s' }}>How It Works</a>
+          <Link to="/about" style={{ color: 'var(--text-secondary)', textDecoration: 'none', fontWeight: '600', fontSize: '0.9rem' }}>About</Link>
         </nav>
 
-        {/* Right Actions & Mobile Hamburger */}
+        {/* Right Actions & Controls */}
         <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
           
+          {/* Market Status Pill */}
+          <div className="hide-on-mobile" style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '6px',
+            padding: '5px 10px',
+            borderRadius: '20px',
+            background: 'rgba(16, 185, 129, 0.1)',
+            border: '1px solid rgba(16, 185, 129, 0.3)',
+            fontSize: '0.74rem',
+            fontWeight: '700',
+            color: 'var(--bullish-green)'
+          }}>
+            <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: 'var(--bullish-green)', display: 'inline-block' }} />
+            NSE LIVE
+          </div>
+
           {/* Theme Toggle Button */}
           <button
             onClick={toggleTheme}
@@ -130,12 +322,12 @@ const LandingPage = () => {
               alignItems: 'center',
               justifyContent: 'center',
               transition: 'all 0.2s ease',
-              width: '34px',
-              height: '34px',
+              width: '36px',
+              height: '36px',
               flexShrink: 0
             }}
           >
-            {theme === 'dark' ? <Sun size={16} style={{ color: '#fbbf24' }} /> : <Moon size={16} style={{ color: '#6366f1' }} />}
+            {theme === 'dark' ? <Sun size={17} style={{ color: '#fbbf24' }} /> : <Moon size={17} style={{ color: '#6366f1' }} />}
           </button>
 
           {/* Desktop Auth Buttons */}
@@ -148,8 +340,8 @@ const LandingPage = () => {
                   color: '#fff',
                   border: 'none',
                   borderRadius: '8px',
-                  padding: '9px 16px',
-                  fontSize: '0.84rem',
+                  padding: '9px 18px',
+                  fontSize: '0.86rem',
                   fontWeight: '700',
                   cursor: 'pointer',
                   display: 'flex',
@@ -158,7 +350,7 @@ const LandingPage = () => {
                   boxShadow: '0 4px 14px rgba(99, 102, 241, 0.35)'
                 }}
               >
-                Dashboard <ArrowRight size={15} />
+                Launch Terminal <ArrowRight size={15} />
               </button>
             ) : (
               <>
@@ -169,12 +361,12 @@ const LandingPage = () => {
                     border: 'none', 
                     color: 'var(--text-primary)', 
                     cursor: 'pointer', 
-                    fontWeight: '600', 
-                    fontSize: '0.85rem',
-                    padding: '6px 12px'
+                    fontWeight: '700', 
+                    fontSize: '0.88rem',
+                    padding: '7px 14px'
                   }}
                 >
-                  Login
+                  Sign In
                 </button>
                 <button 
                   onClick={() => handleOpenAuth('register')}
@@ -183,57 +375,38 @@ const LandingPage = () => {
                     color: '#ffffff', 
                     border: 'none',
                     borderRadius: '8px', 
-                    padding: '8px 16px', 
-                    fontSize: '0.84rem',
+                    padding: '9px 18px', 
+                    fontSize: '0.86rem',
                     fontWeight: '700',
                     cursor: 'pointer',
                     boxShadow: '0 4px 14px rgba(99, 102, 241, 0.35)',
                     transition: 'all 0.2s ease'
                   }}
                 >
-                  Get Started
+                  Get Started Free
                 </button>
               </>
             )}
           </div>
 
-          {/* Mobile Instant Demo / Dashboard CTA */}
+          {/* Mobile Actions */}
           <div className="hide-on-desktop" style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
-            {user ? (
-              <button
-                onClick={() => navigate('/dashboard')}
-                style={{
-                  background: 'linear-gradient(135deg, #6366f1 0%, #4f46e5 100%)',
-                  color: '#fff',
-                  border: 'none',
-                  borderRadius: '8px',
-                  padding: '7px 12px',
-                  fontSize: '0.78rem',
-                  fontWeight: '700',
-                  cursor: 'pointer'
-                }}
-              >
-                Dashboard
-              </button>
-            ) : (
-              <button 
-                onClick={() => handleOpenAuth('login')}
-                style={{ 
-                  background: 'rgba(99, 102, 241, 0.15)', 
-                  border: '1px solid rgba(99, 102, 241, 0.35)', 
-                  color: 'var(--accent-purple)', 
-                  cursor: 'pointer', 
-                  fontWeight: '700', 
-                  fontSize: '0.78rem',
-                  padding: '6px 10px',
-                  borderRadius: '6px'
-                }}
-              >
-                Sign In
-              </button>
-            )}
+            <button 
+              onClick={handleInstantDemo}
+              style={{ 
+                background: 'linear-gradient(135deg, #6366f1 0%, #4f46e5 100%)', 
+                color: '#fff', 
+                border: 'none', 
+                borderRadius: '8px', 
+                padding: '7px 12px', 
+                fontSize: '0.78rem', 
+                fontWeight: '700', 
+                cursor: 'pointer' 
+              }}
+            >
+              Demo
+            </button>
 
-            {/* Mobile Hamburger Toggle Button */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               aria-label="Toggle navigation menu"
@@ -255,6 +428,27 @@ const LandingPage = () => {
         </div>
       </header>
 
+      {/* Live Market Ticker Marquee */}
+      <div className="landing-ticker-wrapper">
+        <div className="landing-ticker-track">
+          {[...TICKER_ITEMS, ...TICKER_ITEMS].map((item, idx) => (
+            <div key={idx} className="landing-ticker-item">
+              <span style={{ color: 'var(--text-secondary)' }}>{item.sym}</span>
+              <span style={{ color: 'var(--text-primary)', fontWeight: '700' }}>{item.val}</span>
+              <span style={{ 
+                color: item.up ? 'var(--bullish-green)' : 'var(--bearish-red)',
+                backgroundColor: item.up ? 'rgba(16, 185, 129, 0.12)' : 'rgba(239, 68, 68, 0.12)',
+                padding: '2px 6px',
+                borderRadius: '4px',
+                fontSize: '0.74rem'
+              }}>
+                {item.chg} {item.up ? '▲' : '▼'}
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+
       {/* Mobile Slide-down Navigation Drawer */}
       {mobileMenuOpen && (
         <div className="landing-mobile-drawer">
@@ -264,7 +458,7 @@ const LandingPage = () => {
             onClick={() => setMobileMenuOpen(false)}
           >
             <span>Home</span>
-            <ChevronRight size={16} color="#64748b" />
+            <ChevronRight size={16} color="var(--text-muted)" />
           </a>
           <a 
             href="#features" 
@@ -272,7 +466,15 @@ const LandingPage = () => {
             onClick={() => setMobileMenuOpen(false)}
           >
             <span>Features</span>
-            <ChevronRight size={16} color="#64748b" />
+            <ChevronRight size={16} color="var(--text-muted)" />
+          </a>
+          <a 
+            href="#sandbox" 
+            className="landing-mobile-link"
+            onClick={() => setMobileMenuOpen(false)}
+          >
+            <span>AI Prediction Sandbox</span>
+            <ChevronRight size={16} color="var(--text-muted)" />
           </a>
           <a 
             href="#how-it-works" 
@@ -280,7 +482,7 @@ const LandingPage = () => {
             onClick={() => setMobileMenuOpen(false)}
           >
             <span>How It Works</span>
-            <ChevronRight size={16} color="#64748b" />
+            <ChevronRight size={16} color="var(--text-muted)" />
           </a>
           <Link 
             to="/about" 
@@ -288,7 +490,7 @@ const LandingPage = () => {
             onClick={() => setMobileMenuOpen(false)}
           >
             <span>About</span>
-            <ChevronRight size={16} color="#64748b" />
+            <ChevronRight size={16} color="var(--text-muted)" />
           </Link>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginTop: '12px' }}>
@@ -312,9 +514,9 @@ const LandingPage = () => {
             <button 
               onClick={handleInstantDemo} 
               style={{ 
-                background: 'rgba(255, 255, 255, 0.05)', 
-                color: '#f8fafc', 
-                border: '1px solid rgba(255, 255, 255, 0.12)', 
+                background: 'var(--bg-chip)', 
+                color: 'var(--text-primary)', 
+                border: '1px solid var(--border-color)', 
                 borderRadius: '10px', 
                 padding: '12px', 
                 fontSize: '0.9rem',
@@ -326,7 +528,7 @@ const LandingPage = () => {
                 gap: '8px'
               }}
             >
-              <Zap size={16} color="#818cf8" /> 1-Click Instant Demo
+              <Zap size={16} style={{ color: 'var(--accent-purple)' }} /> 1-Click Instant Demo
             </button>
           </div>
         </div>
@@ -338,20 +540,11 @@ const LandingPage = () => {
           
           {/* Left Hero Details */}
           <div>
-            {/* Pill Badge */}
-            <div style={{ 
-              display: 'inline-flex', 
-              alignItems: 'center', 
-              gap: '8px', 
-              padding: '6px 14px', 
-              borderRadius: '20px', 
-              background: 'rgba(99, 102, 241, 0.12)', 
-              border: '1px solid rgba(99, 102, 241, 0.3)', 
-              marginBottom: '20px' 
-            }}>
-              <span style={{ color: '#818cf8', fontSize: '0.85rem' }}>∿</span>
-              <span style={{ fontSize: '0.74rem', fontWeight: '800', color: '#c7d2fe', letterSpacing: '0.8px' }}>
-                NEXT-GEN ML FORECASTING
+            {/* High-Contrast Pill Badge with Glowing Pulse */}
+            <div className="landing-hero-badge">
+              <span className="landing-badge-beacon" />
+              <span className="landing-badge-text">
+                NEXT-GEN ML FORECASTING ENGINE
               </span>
             </div>
             
@@ -363,13 +556,13 @@ const LandingPage = () => {
                 WebkitBackgroundClip: 'text', 
                 WebkitTextFillColor: 'transparent' 
               }}>
-                Stock Market
+                Stock Market Prediction
               </span> <br />
-              Prediction
+              with High Precision
             </h1>
             
             <p className="landing-hero-desc">
-              Predict tomorrow's stock prices using machine learning, technical indicators, market sentiment and intelligent analytics.
+              Harness deep LSTM recurrent neural networks, XGBoost regressors, and 14+ technical momentum indicators to forecast next-day price trajectories with explainable AI confidence scores.
             </p>
 
             {/* CTAs */}
@@ -379,21 +572,21 @@ const LandingPage = () => {
                 style={{ 
                   background: 'linear-gradient(135deg, #6366f1 0%, #4f46e5 100%)', 
                   color: '#fff', 
-                  border: 'none',
+                  border: 'none', 
                   borderRadius: '10px', 
                   display: 'inline-flex', 
                   alignItems: 'center', 
                   justifyContent: 'center',
                   gap: '10px', 
-                  padding: '13px 26px', 
-                  fontSize: '0.95rem',
+                  padding: '14px 28px', 
+                  fontSize: '0.96rem',
                   fontWeight: '700',
                   cursor: 'pointer',
                   boxShadow: '0 8px 24px rgba(99, 102, 241, 0.4)',
                   transition: 'transform 0.2s ease'
                 }}
               >
-                Get Started <ArrowRight size={17} />
+                Start Predicting Free <ArrowRight size={17} />
               </button>
               
               <button 
@@ -407,130 +600,396 @@ const LandingPage = () => {
                   alignItems: 'center', 
                   justifyContent: 'center',
                   gap: '10px', 
-                  padding: '13px 22px', 
-                  fontSize: '0.95rem',
+                  padding: '14px 24px', 
+                  fontSize: '0.96rem',
                   fontWeight: '600',
                   cursor: 'pointer',
                   backdropFilter: 'blur(10px)',
                   transition: 'all 0.2s ease'
                 }}
               >
-                <Play size={15} fill="currentColor" /> View Demo
+                <Play size={16} fill="currentColor" /> Interactive Demo
               </button>
             </div>
 
             {/* Quick Stats Panel */}
             <div className="landing-stats-row">
               <div>
-                <h4 style={{ fontSize: '1.8rem', fontWeight: '900', color: 'var(--bullish-green)', fontFamily: 'var(--font-mono)' }}>98.92%</h4>
-                <p style={{ fontSize: '0.76rem', color: 'var(--text-secondary)', marginTop: '2px', fontWeight: '500' }}>Historical Accuracy</p>
+                <h4 style={{ fontSize: '1.85rem', fontWeight: '900', color: 'var(--bullish-green)', fontFamily: 'var(--font-mono)' }}>98.92%</h4>
+                <p style={{ fontSize: '0.78rem', color: 'var(--text-secondary)', marginTop: '2px', fontWeight: '600' }}>Historical Accuracy</p>
               </div>
               <div>
-                <h4 style={{ fontSize: '1.8rem', fontWeight: '900', color: 'var(--accent-cyan)', fontFamily: 'var(--font-mono)' }}>6+</h4>
-                <p style={{ fontSize: '0.76rem', color: 'var(--text-secondary)', marginTop: '2px', fontWeight: '500' }}>Key NSE Indexes</p>
+                <h4 style={{ fontSize: '1.85rem', fontWeight: '900', color: 'var(--accent-cyan)', fontFamily: 'var(--font-mono)' }}>6+</h4>
+                <p style={{ fontSize: '0.78rem', color: 'var(--text-secondary)', marginTop: '2px', fontWeight: '600' }}>Key NSE Engines</p>
               </div>
               <div>
-                <h4 style={{ fontSize: '1.8rem', fontWeight: '900', color: 'var(--accent-purple)', fontFamily: 'var(--font-mono)' }}>Ensemble</h4>
-                <p style={{ fontSize: '0.76rem', color: 'var(--text-secondary)', marginTop: '2px', fontWeight: '500' }}>ML Models</p>
+                <h4 style={{ fontSize: '1.85rem', fontWeight: '900', color: 'var(--accent-purple)', fontFamily: 'var(--font-mono)' }}>LSTM + XGB</h4>
+                <p style={{ fontSize: '0.78rem', color: 'var(--text-secondary)', marginTop: '2px', fontWeight: '600' }}>Ensemble Architecture</p>
               </div>
             </div>
           </div>
 
-          {/* Right Hero Live Interactive Preview Card */}
+          {/* Right Hero Live Interactive Graphical Terminal Preview Card */}
           <div style={{ position: 'relative', width: '100%' }}>
-            <div 
-              style={{ 
-                padding: '24px 20px', 
-                position: 'relative', 
-                zIndex: 2, 
-                backgroundColor: 'var(--card-bg)', 
-                borderRadius: '18px',
-                border: '1px solid var(--border-color)',
-                boxShadow: 'var(--card-shadow)',
-                backdropFilter: 'blur(16px)'
-              }}
-            >
-              {/* Bull vs Bear Top Split Cards */}
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '20px' }}>
-                
-                {/* Bullish State */}
-                <div style={{ 
-                  backgroundColor: 'rgba(16, 185, 129, 0.08)', 
-                  border: '1px solid rgba(16, 185, 129, 0.3)', 
-                  borderRadius: '12px', 
-                  padding: '14px 10px', 
-                  textAlign: 'center' 
-                }}>
-                  <div style={{ fontSize: '1.5rem', marginBottom: '3px' }}>🐂</div>
-                  <div style={{ fontWeight: '800', color: 'var(--bullish-green)', fontSize: '0.82rem', letterSpacing: '0.5px' }}>
-                    BULLISH STATE
-                  </div>
-                  <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', marginTop: '2px' }}>
-                    Confidence 83%
-                  </div>
+            <div className="landing-terminal-card">
+              
+              {/* Terminal Header Bar with Stock Selector Tabs */}
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', flexWrap: 'wrap', gap: '8px' }}>
+                <div style={{ display: 'flex', gap: '6px', overflowX: 'auto', paddingBottom: '4px', maxWidth: '100%' }}>
+                  {Object.keys(PREVIEW_STOCKS).map((sym) => (
+                    <button
+                      key={sym}
+                      onClick={() => setSelectedSymbol(sym)}
+                      className={`stock-selector-pill ${selectedSymbol === sym ? 'active' : ''}`}
+                    >
+                      {sym}
+                    </button>
+                  ))}
                 </div>
 
-                {/* Bearish Range */}
-                <div style={{ 
-                  backgroundColor: 'rgba(239, 68, 68, 0.08)', 
-                  border: '1px solid rgba(239, 68, 68, 0.3)', 
-                  borderRadius: '12px', 
-                  padding: '14px 10px', 
-                  textAlign: 'center' 
-                }}>
-                  <div style={{ fontSize: '1.5rem', marginBottom: '3px' }}>🐻</div>
-                  <div style={{ fontWeight: '800', color: 'var(--bearish-red)', fontSize: '0.82rem', letterSpacing: '0.5px' }}>
-                    BEARISH RANGE
-                  </div>
-                  <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', marginTop: '2px' }}>
-                    Resistance High
-                  </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <span style={{ 
+                    fontSize: '0.7rem', 
+                    fontWeight: '800', 
+                    padding: '3px 8px', 
+                    borderRadius: '6px', 
+                    background: 'rgba(16, 185, 129, 0.15)', 
+                    color: 'var(--bullish-green)', 
+                    border: '1px solid rgba(16, 185, 129, 0.3)' 
+                  }}>
+                    {currentStock.signal}
+                  </span>
                 </div>
               </div>
 
-              {/* Price Row */}
-              <div style={{ borderBottom: '1px solid var(--border-color)', paddingBottom: '14px', marginBottom: '14px' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <div>
-                    <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)', fontWeight: '700', letterSpacing: '0.5px' }}>TCS / NSE</span>
-                    <h3 style={{ fontSize: '1.45rem', fontWeight: '900', fontFamily: 'var(--font-mono)', marginTop: '2px', color: 'var(--text-primary)' }}>
-                      ₹3,682.45
-                    </h3>
+              {/* Price & Change Banner */}
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '14px', borderBottom: '1px solid var(--border-color)', paddingBottom: '12px' }}>
+                <div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    <span style={{ fontSize: '0.74rem', color: 'var(--text-muted)', fontWeight: '700', textTransform: 'uppercase' }}>
+                      {currentStock.exchange} • {currentStock.name}
+                    </span>
                   </div>
+                  <h3 style={{ fontSize: '1.75rem', fontWeight: '900', fontFamily: 'var(--font-mono)', marginTop: '2px', color: 'var(--text-primary)' }}>
+                    ₹{currentStock.price.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
+                  </h3>
+                </div>
+                <div style={{ textAlign: 'right' }}>
                   <span style={{ 
                     backgroundColor: 'rgba(16, 185, 129, 0.15)', 
                     color: 'var(--bullish-green)', 
                     padding: '4px 10px', 
                     borderRadius: '6px', 
-                    fontSize: '0.8rem', 
-                    fontWeight: '800' 
+                    fontSize: '0.85rem', 
+                    fontWeight: '800',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '4px'
                   }}>
-                    +2.45%
+                    +{currentStock.change}% ▲
                   </span>
+                  <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', marginTop: '4px' }}>Session Range</div>
                 </div>
               </div>
 
-              {/* Tomorrow Forecast Row */}
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '6px' }}>
-                <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>AI Tomorrow Forecast:</span>
-                <span style={{ color: 'var(--bullish-green)', fontWeight: '800', fontSize: '0.92rem', fontFamily: 'var(--font-mono)' }}>
-                  ₹3,745.80 (Buy Signal)
-                </span>
+              {/* Interactive Graphical SVG Area & Forecast Chart */}
+              <div style={{ 
+                position: 'relative', 
+                width: '100%', 
+                height: '140px', 
+                background: 'var(--bg-chip)', 
+                borderRadius: '12px', 
+                padding: '8px 10px', 
+                marginBottom: '16px',
+                border: '1px solid var(--border-color)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}>
+                <svg 
+                  viewBox={`0 0 ${chartSvgData.width} ${chartSvgData.height}`} 
+                  style={{ width: '100%', height: '100%', overflow: 'visible' }}
+                >
+                  <defs>
+                    <linearGradient id="chartGradient" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stopColor="#6366f1" stopOpacity="0.4" />
+                      <stop offset="100%" stopColor="#6366f1" stopOpacity="0.0" />
+                    </linearGradient>
+                    <linearGradient id="forecastGlow" x1="0" y1="0" x2="1" y2="0">
+                      <stop offset="0%" stopColor="#6366f1" />
+                      <stop offset="100%" stopColor="#10b981" />
+                    </linearGradient>
+                  </defs>
+
+                  {/* Shaded Area under historical curve */}
+                  <path d={chartSvgData.areaPath} fill="url(#chartGradient)" />
+
+                  {/* Historical Price Curve */}
+                  <path 
+                    d={chartSvgData.histPath} 
+                    fill="none" 
+                    stroke="#6366f1" 
+                    strokeWidth="2.5" 
+                    strokeLinecap="round" 
+                    strokeLinejoin="round" 
+                  />
+
+                  {/* AI Projection Dashed Trajectory */}
+                  <path 
+                    d={chartSvgData.forecastPath} 
+                    fill="none" 
+                    stroke="url(#forecastGlow)" 
+                    strokeWidth="2.5" 
+                    strokeDasharray="4 4" 
+                    strokeLinecap="round" 
+                  />
+
+                  {/* Historical Coordinate Points */}
+                  {chartSvgData.historicalCoords.map((pt, i) => (
+                    <circle 
+                      key={i} 
+                      cx={pt.x} 
+                      cy={pt.y} 
+                      r="3.5" 
+                      fill="#6366f1" 
+                      stroke="var(--card-bg)" 
+                      strokeWidth="1.5" 
+                    />
+                  ))}
+
+                  {/* Predicted Tomorrow Target Point (Animated Radar) */}
+                  <circle 
+                    cx={chartSvgData.predCoord.x} 
+                    cy={chartSvgData.predCoord.y} 
+                    r="6" 
+                    fill="#10b981" 
+                    stroke="#fff" 
+                    strokeWidth="2" 
+                  />
+                  <circle 
+                    cx={chartSvgData.predCoord.x} 
+                    cy={chartSvgData.predCoord.y} 
+                    r="11" 
+                    fill="none" 
+                    stroke="#10b981" 
+                    strokeWidth="1" 
+                    opacity="0.6" 
+                  />
+                </svg>
+
+                {/* AI Target Tooltip Pin */}
+                <div style={{
+                  position: 'absolute',
+                  top: '12px',
+                  right: '12px',
+                  background: 'rgba(16, 185, 129, 0.2)',
+                  border: '1px solid rgba(16, 185, 129, 0.4)',
+                  borderRadius: '6px',
+                  padding: '3px 8px',
+                  fontSize: '0.72rem',
+                  fontWeight: '800',
+                  color: 'var(--bullish-green)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '4px'
+                }}>
+                  <Sparkles size={12} /> AI Target: ₹{currentStock.forecast} (+{currentStock.forecastChange}%)
+                </div>
               </div>
+
+              {/* Technical Indicator Badges */}
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '8px', marginBottom: '16px' }}>
+                <div style={{ backgroundColor: 'var(--bg-chip)', border: '1px solid var(--border-color)', borderRadius: '10px', padding: '10px', textAlign: 'center' }}>
+                  <div style={{ fontSize: '0.68rem', color: 'var(--text-muted)', fontWeight: '700' }}>RSI (14)</div>
+                  <div style={{ fontSize: '0.95rem', fontWeight: '800', color: 'var(--bullish-green)', fontFamily: 'var(--font-mono)', marginTop: '2px' }}>
+                    {currentStock.rsi}
+                  </div>
+                </div>
+
+                <div style={{ backgroundColor: 'var(--bg-chip)', border: '1px solid var(--border-color)', borderRadius: '10px', padding: '10px', textAlign: 'center' }}>
+                  <div style={{ fontSize: '0.68rem', color: 'var(--text-muted)', fontWeight: '700' }}>MACD SIGNAL</div>
+                  <div style={{ fontSize: '0.85rem', fontWeight: '800', color: 'var(--accent-cyan)', marginTop: '2px' }}>
+                    Bullish Cross
+                  </div>
+                </div>
+
+                <div style={{ backgroundColor: 'var(--bg-chip)', border: '1px solid var(--border-color)', borderRadius: '10px', padding: '10px', textAlign: 'center' }}>
+                  <div style={{ fontSize: '0.68rem', color: 'var(--text-muted)', fontWeight: '700' }}>CONFIDENCE</div>
+                  <div style={{ fontSize: '0.95rem', fontWeight: '800', color: 'var(--accent-purple)', fontFamily: 'var(--font-mono)', marginTop: '2px' }}>
+                    {currentStock.lstmConfidence}
+                  </div>
+                </div>
+              </div>
+
+              {/* Bull vs Bear Split Meter */}
+              <div style={{ backgroundColor: 'rgba(99, 102, 241, 0.08)', border: '1px solid rgba(99, 102, 241, 0.25)', borderRadius: '12px', padding: '12px 14px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px', fontSize: '0.78rem' }}>
+                  <span style={{ fontWeight: '700', color: 'var(--bullish-green)' }}>🐂 Bullish Pressure ({currentStock.sentimentScore}%)</span>
+                  <span style={{ fontWeight: '700', color: 'var(--bearish-red)' }}>🐻 Bearish ({100 - currentStock.sentimentScore}%)</span>
+                </div>
+                <div style={{ width: '100%', height: '6px', borderRadius: '4px', backgroundColor: 'rgba(239, 68, 68, 0.3)', overflow: 'hidden', display: 'flex' }}>
+                  <div style={{ width: `${currentStock.sentimentScore}%`, height: '100%', background: 'linear-gradient(90deg, #10b981 0%, #38bdf8 100%)', borderRadius: '4px' }} />
+                </div>
+              </div>
+
             </div>
 
-            {/* Glowing Backdrop behind card */}
-            <div style={{ position: 'absolute', width: 'min(280px, 80%)', height: 'min(280px, 80%)', borderRadius: '50%', background: 'rgba(99, 102, 241, 0.22)', filter: 'blur(80px)', top: '10%', right: '10%', zIndex: 1, pointerEvents: 'none' }} />
+            {/* Glowing Ambient Backdrop */}
+            <div style={{ position: 'absolute', width: 'min(300px, 80%)', height: 'min(300px, 80%)', borderRadius: '50%', background: 'rgba(99, 102, 241, 0.25)', filter: 'blur(80px)', top: '15%', right: '10%', zIndex: -1, pointerEvents: 'none' }} />
           </div>
 
         </div>
       </section>
 
-      {/* Feature Cards Grid: Engineered for Intelligent Investors */}
-      <section id="features" style={{ padding: '60px 6%', backgroundColor: 'var(--bg-primary)', borderTop: '1px solid var(--border-color)', borderBottom: '1px solid var(--border-color)' }}>
+      {/* Interactive Live AI Prediction Sandbox Playground */}
+      <section id="sandbox" style={{ padding: '60px 6%', backgroundColor: 'var(--bg-secondary)', borderTop: '1px solid var(--border-color)', borderBottom: '1px solid var(--border-color)' }}>
         <div style={{ maxWidth: '1380px', margin: '0 auto' }}>
           
-          <div style={{ textAlign: 'center', marginBottom: '44px', paddingTop: '10px' }}>
+          <div style={{ textAlign: 'center', marginBottom: '40px' }}>
+            <div className="landing-hero-badge" style={{ marginBottom: '14px' }}>
+              <Sparkles size={14} style={{ color: 'var(--accent-purple)' }} />
+              <span className="landing-badge-text">Interactive Live Sandbox</span>
+            </div>
+            <h2 style={{ fontSize: 'clamp(1.7rem, 4vw, 2.4rem)', fontWeight: '900', marginBottom: '12px', letterSpacing: '-0.5px', color: 'var(--text-primary)' }}>
+              Test The AI Forecasting Engine Live
+            </h2>
+            <p style={{ color: 'var(--text-secondary)', maxWidth: '640px', margin: '0 auto', fontSize: '0.94rem', lineHeight: '1.6' }}>
+              Select any blue-chip stock below to simulate real-time neural regression inference, indicator breakdown, and multi-model consensus.
+            </p>
+          </div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px' }}>
+            
+            {/* Box 1: Model Consensus */}
+            <div className="glass-card" style={{ padding: '22px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '16px' }}>
+                <div style={{ width: '36px', height: '36px', borderRadius: '8px', background: 'rgba(99, 102, 241, 0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <Cpu size={18} style={{ color: 'var(--accent-purple)' }} />
+                </div>
+                <div>
+                  <h4 style={{ fontSize: '1rem', fontWeight: '800' }}>Ensemble Consensus</h4>
+                  <p style={{ fontSize: '0.74rem', color: 'var(--text-muted)' }}>Multi-Architecture Validation</p>
+                </div>
+              </div>
+
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '8px 12px', background: 'var(--bg-chip)', borderRadius: '8px', border: '1px solid var(--border-color)' }}>
+                  <span style={{ fontSize: '0.82rem', fontWeight: '600' }}>Deep LSTM Regressor</span>
+                  <span style={{ fontSize: '0.82rem', fontWeight: '800', color: 'var(--bullish-green)', fontFamily: 'var(--font-mono)' }}>{currentStock.lstmConfidence}</span>
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '8px 12px', background: 'var(--bg-chip)', borderRadius: '8px', border: '1px solid var(--border-color)' }}>
+                  <span style={{ fontSize: '0.82rem', fontWeight: '600' }}>XGBoost Gradient Tree</span>
+                  <span style={{ fontSize: '0.82rem', fontWeight: '800', color: 'var(--accent-cyan)', fontFamily: 'var(--font-mono)' }}>{currentStock.xgboostConfidence}</span>
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '8px 12px', background: 'var(--bg-chip)', borderRadius: '8px', border: '1px solid var(--border-color)' }}>
+                  <span style={{ fontSize: '0.82rem', fontWeight: '600' }}>Random Forest Backtester</span>
+                  <span style={{ fontSize: '0.82rem', fontWeight: '800', color: 'var(--accent-purple)', fontFamily: 'var(--font-mono)' }}>90.4%</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Box 2: Tomorrow Forecast Signal */}
+            <div className="glass-card" style={{ padding: '22px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '16px' }}>
+                <div style={{ width: '36px', height: '36px', borderRadius: '8px', background: 'rgba(16, 185, 129, 0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <TrendingUp size={18} style={{ color: 'var(--bullish-green)' }} />
+                </div>
+                <div>
+                  <h4 style={{ fontSize: '1rem', fontWeight: '800' }}>Target Projection</h4>
+                  <p style={{ fontSize: '0.74rem', color: 'var(--text-muted)' }}>Session High Calculation</p>
+                </div>
+              </div>
+
+              <div style={{ textAlign: 'center', padding: '16px 12px', background: 'var(--bg-chip)', borderRadius: '10px', border: '1px solid var(--border-color)', marginBottom: '12px' }}>
+                <span style={{ fontSize: '0.72rem', color: 'var(--text-muted)', fontWeight: '700', textTransform: 'uppercase' }}>Estimated Tomorrow High</span>
+                <h3 style={{ fontSize: '1.65rem', fontWeight: '900', color: 'var(--bullish-green)', fontFamily: 'var(--font-mono)', marginTop: '4px' }}>
+                  ₹{currentStock.forecast.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
+                </h3>
+                <span style={{ fontSize: '0.8rem', fontWeight: '800', color: 'var(--bullish-green)' }}>
+                  +{currentStock.forecastChange}% Projected Upside
+                </span>
+              </div>
+
+              <button 
+                onClick={() => navigate('/dashboard')}
+                style={{ 
+                  width: '100%', 
+                  background: 'linear-gradient(135deg, #6366f1 0%, #4f46e5 100%)', 
+                  color: '#fff', 
+                  border: 'none', 
+                  borderRadius: '8px', 
+                  padding: '10px', 
+                  fontSize: '0.84rem', 
+                  fontWeight: '700', 
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '6px'
+                }}
+              >
+                Inspect Live in Terminal <ArrowRight size={14} />
+              </button>
+            </div>
+
+            {/* Box 3: Explainable Feature Breakdown */}
+            <div className="glass-card" style={{ padding: '22px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '16px' }}>
+                <div style={{ width: '36px', height: '36px', borderRadius: '8px', background: 'rgba(56, 189, 248, 0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <Sliders size={18} style={{ color: 'var(--accent-cyan)' }} />
+                </div>
+                <div>
+                  <h4 style={{ fontSize: '1rem', fontWeight: '800' }}>Explainable AI Metrics</h4>
+                  <p style={{ fontSize: '0.74rem', color: 'var(--text-muted)' }}>Top Driving Feature Weights</p>
+                </div>
+              </div>
+
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                <div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.76rem', marginBottom: '4px', fontWeight: '600' }}>
+                    <span>14-Day RSI Momentum</span>
+                    <span style={{ color: 'var(--bullish-green)' }}>38% Influence</span>
+                  </div>
+                  <div style={{ height: '5px', background: 'var(--bg-chip)', borderRadius: '3px', overflow: 'hidden' }}>
+                    <div style={{ width: '38%', height: '100%', background: 'var(--bullish-green)' }} />
+                  </div>
+                </div>
+
+                <div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.76rem', marginBottom: '4px', fontWeight: '600' }}>
+                    <span>MACD Crossover Delta</span>
+                    <span style={{ color: 'var(--accent-cyan)' }}>32% Influence</span>
+                  </div>
+                  <div style={{ height: '5px', background: 'var(--bg-chip)', borderRadius: '3px', overflow: 'hidden' }}>
+                    <div style={{ width: '32%', height: '100%', background: 'var(--accent-cyan)' }} />
+                  </div>
+                </div>
+
+                <div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.76rem', marginBottom: '4px', fontWeight: '600' }}>
+                    <span>50-Day Moving Average Lag</span>
+                    <span style={{ color: 'var(--accent-purple)' }}>30% Influence</span>
+                  </div>
+                  <div style={{ height: '5px', background: 'var(--bg-chip)', borderRadius: '3px', overflow: 'hidden' }}>
+                    <div style={{ width: '30%', height: '100%', background: 'var(--accent-purple)' }} />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* Feature Cards Grid: Engineered for Intelligent Investors */}
+      <section id="features" style={{ padding: '70px 6%', backgroundColor: 'var(--bg-primary)' }}>
+        <div style={{ maxWidth: '1380px', margin: '0 auto' }}>
+          
+          <div style={{ textAlign: 'center', marginBottom: '48px' }}>
+            <div className="landing-hero-badge" style={{ marginBottom: '14px' }}>
+              <Layers size={14} style={{ color: 'var(--accent-purple)' }} />
+              <span className="landing-badge-text">Architecture & Capabilities</span>
+            </div>
             <h2 style={{ fontSize: 'clamp(1.7rem, 4vw, 2.4rem)', fontWeight: '900', marginBottom: '12px', letterSpacing: '-0.5px', color: 'var(--text-primary)' }}>
               Engineered for Intelligent Investors
             </h2>
@@ -541,63 +1000,63 @@ const LandingPage = () => {
 
           <div className="landing-features-grid">
             
-            <div className="landing-feature-card" style={{ padding: '24px 20px', backgroundColor: 'var(--card-bg)', borderRadius: '14px', border: '1px solid var(--border-color)', backdropFilter: 'blur(16px)', boxShadow: 'var(--card-shadow)' }}>
-              <div style={{ width: '42px', height: '42px', borderRadius: '10px', background: 'rgba(99, 102, 241, 0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '16px' }}>
+            <div className="landing-feature-card" style={{ padding: '24px 20px', backgroundColor: 'var(--card-bg)', borderRadius: '16px', border: '1px solid var(--border-color)', boxShadow: 'var(--card-shadow)' }}>
+              <div style={{ width: '44px', height: '44px', borderRadius: '12px', background: 'rgba(99, 102, 241, 0.18)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '16px' }}>
                 <Cpu size={22} style={{ color: 'var(--accent-purple)' }} />
               </div>
-              <h4 style={{ fontSize: '1.1rem', fontWeight: '800', marginBottom: '8px', color: 'var(--text-primary)' }}>AI Predictions</h4>
+              <h4 style={{ fontSize: '1.1rem', fontWeight: '800', marginBottom: '8px', color: 'var(--text-primary)' }}>Neural LSTM Predictions</h4>
               <p style={{ fontSize: '0.86rem', color: 'var(--text-secondary)', lineHeight: '1.6', margin: 0 }}>
-                Tomorrow's High/Low calculations modeled with LSTM and XGBoost regressors based on OHLCV features.
+                Tomorrow's High/Low calculations modeled with LSTM and XGBoost regressors based on multi-day OHLCV temporal features.
               </p>
             </div>
 
-            <div className="landing-feature-card" style={{ padding: '24px 20px', backgroundColor: 'var(--card-bg)', borderRadius: '14px', border: '1px solid var(--border-color)', backdropFilter: 'blur(16px)', boxShadow: 'var(--card-shadow)' }}>
-              <div style={{ width: '42px', height: '42px', borderRadius: '10px', background: 'rgba(56, 189, 248, 0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '16px' }}>
+            <div className="landing-feature-card" style={{ padding: '24px 20px', backgroundColor: 'var(--card-bg)', borderRadius: '16px', border: '1px solid var(--border-color)', boxShadow: 'var(--card-shadow)' }}>
+              <div style={{ width: '44px', height: '44px', borderRadius: '12px', background: 'rgba(56, 189, 248, 0.18)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '16px' }}>
                 <Activity size={22} style={{ color: 'var(--accent-cyan)' }} />
               </div>
-              <h4 style={{ fontSize: '1.1rem', fontWeight: '800', marginBottom: '8px', color: 'var(--text-primary)' }}>Real-Time Market Data</h4>
+              <h4 style={{ fontSize: '1.1rem', fontWeight: '800', marginBottom: '8px', color: 'var(--text-primary)' }}>Real-Time Market Feeds</h4>
               <p style={{ fontSize: '0.86rem', color: 'var(--text-secondary)', lineHeight: '1.6', margin: 0 }}>
-                Live streaming quotes for blue-chip companies, custom sparklines, and instant stock indicators.
+                Live streaming quotes for NSE blue-chip companies, custom sparklines, and instant stock indicators.
               </p>
             </div>
 
-            <div className="landing-feature-card" style={{ padding: '24px 20px', backgroundColor: 'var(--card-bg)', borderRadius: '14px', border: '1px solid var(--border-color)', backdropFilter: 'blur(16px)', boxShadow: 'var(--card-shadow)' }}>
-              <div style={{ width: '42px', height: '42px', borderRadius: '10px', background: 'rgba(16, 185, 129, 0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '16px' }}>
+            <div className="landing-feature-card" style={{ padding: '24px 20px', backgroundColor: 'var(--card-bg)', borderRadius: '16px', border: '1px solid var(--border-color)', boxShadow: 'var(--card-shadow)' }}>
+              <div style={{ width: '44px', height: '44px', borderRadius: '12px', background: 'rgba(16, 185, 129, 0.18)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '16px' }}>
                 <BarChart2 size={22} style={{ color: 'var(--bullish-green)' }} />
               </div>
-              <h4 style={{ fontSize: '1.1rem', fontWeight: '800', marginBottom: '8px', color: 'var(--text-primary)' }}>Technical Analysis</h4>
+              <h4 style={{ fontSize: '1.1rem', fontWeight: '800', marginBottom: '8px', color: 'var(--text-primary)' }}>14+ Technical Overlays</h4>
               <p style={{ fontSize: '0.86rem', color: 'var(--text-secondary)', lineHeight: '1.6', margin: 0 }}>
                 On-demand overlays for SMA, EMA, MACD, RSI 14, ATR, and Bollinger bands mapped to candlestick points.
               </p>
             </div>
 
-            <div className="landing-feature-card" style={{ padding: '24px 20px', backgroundColor: 'var(--card-bg)', borderRadius: '14px', border: '1px solid var(--border-color)', backdropFilter: 'blur(16px)', boxShadow: 'var(--card-shadow)' }}>
-              <div style={{ width: '42px', height: '42px', borderRadius: '10px', background: 'rgba(245, 158, 11, 0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '16px' }}>
+            <div className="landing-feature-card" style={{ padding: '24px 20px', backgroundColor: 'var(--card-bg)', borderRadius: '16px', border: '1px solid var(--border-color)', boxShadow: 'var(--card-shadow)' }}>
+              <div style={{ width: '44px', height: '44px', borderRadius: '12px', background: 'rgba(245, 158, 11, 0.18)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '16px' }}>
                 <Layers size={22} style={{ color: 'var(--warning-yellow)' }} />
               </div>
-              <h4 style={{ fontSize: '1.1rem', fontWeight: '800', marginBottom: '8px', color: 'var(--text-primary)' }}>Smart Insights</h4>
+              <h4 style={{ fontSize: '1.1rem', fontWeight: '800', marginBottom: '8px', color: 'var(--text-primary)' }}>Explainable AI Insights</h4>
               <p style={{ fontSize: '0.86rem', color: 'var(--text-secondary)', lineHeight: '1.6', margin: 0 }}>
-                Explainable AI predictions summarizing indicator state thresholds and historical trends.
+                Explainable AI predictions summarizing indicator state thresholds, feature weights, and historical trends.
               </p>
             </div>
 
-            <div className="landing-feature-card" style={{ padding: '24px 20px', backgroundColor: 'var(--card-bg)', borderRadius: '14px', border: '1px solid var(--border-color)', backdropFilter: 'blur(16px)', boxShadow: 'var(--card-shadow)' }}>
-              <div style={{ width: '42px', height: '42px', borderRadius: '10px', background: 'rgba(99, 102, 241, 0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '16px' }}>
+            <div className="landing-feature-card" style={{ padding: '24px 20px', backgroundColor: 'var(--card-bg)', borderRadius: '16px', border: '1px solid var(--border-color)', boxShadow: 'var(--card-shadow)' }}>
+              <div style={{ width: '44px', height: '44px', borderRadius: '12px', background: 'rgba(99, 102, 241, 0.18)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '16px' }}>
                 <ShieldCheck size={22} style={{ color: 'var(--accent-purple)' }} />
               </div>
-              <h4 style={{ fontSize: '1.1rem', fontWeight: '800', marginBottom: '8px', color: 'var(--text-primary)' }}>Risk Management</h4>
+              <h4 style={{ fontSize: '1.1rem', fontWeight: '800', marginBottom: '8px', color: 'var(--text-primary)' }}>Institutional Risk Guard</h4>
               <p style={{ fontSize: '0.86rem', color: 'var(--text-secondary)', lineHeight: '1.6', margin: 0 }}>
                 Real-time beta tracking, volatility indexes, and risk probability estimates for open positions.
               </p>
             </div>
 
-            <div className="landing-feature-card" style={{ padding: '24px 20px', backgroundColor: 'var(--card-bg)', borderRadius: '14px', border: '1px solid var(--border-color)', backdropFilter: 'blur(16px)', boxShadow: 'var(--card-shadow)' }}>
-              <div style={{ width: '42px', height: '42px', borderRadius: '10px', background: 'rgba(56, 189, 248, 0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '16px' }}>
+            <div className="landing-feature-card" style={{ padding: '24px 20px', backgroundColor: 'var(--card-bg)', borderRadius: '16px', border: '1px solid var(--border-color)', boxShadow: 'var(--card-shadow)' }}>
+              <div style={{ width: '44px', height: '44px', borderRadius: '12px', background: 'rgba(56, 189, 248, 0.18)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '16px' }}>
                 <TrendingUp size={22} style={{ color: 'var(--accent-cyan)' }} />
               </div>
-              <h4 style={{ fontSize: '1.1rem', fontWeight: '800', marginBottom: '8px', color: 'var(--text-primary)' }}>Portfolio Tracking</h4>
+              <h4 style={{ fontSize: '1.1rem', fontWeight: '800', marginBottom: '8px', color: 'var(--text-primary)' }}>Portfolio Health Matrix</h4>
               <p style={{ fontSize: '0.86rem', color: 'var(--text-secondary)', lineHeight: '1.6', margin: 0 }}>
-                Holdings records consolidated with allocation charts and dynamic health index assessments.
+                Holdings records consolidated with allocation charts, sector exposure, and health assessments.
               </p>
             </div>
 
@@ -606,27 +1065,35 @@ const LandingPage = () => {
       </section>
 
       {/* How it Works Workflow Section */}
-      <section id="how-it-works" style={{ padding: '60px 6%' }}>
-        <div style={{ maxWidth: '1100px', margin: '0 auto', textAlign: 'center' }}>
+      <section id="how-it-works" style={{ padding: '70px 6%', backgroundColor: 'var(--bg-secondary)', borderTop: '1px solid var(--border-color)' }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto', textAlign: 'center' }}>
           
-          <h2 style={{ fontSize: 'clamp(1.7rem, 4vw, 2.4rem)', fontWeight: '900', marginBottom: '36px', letterSpacing: '-0.5px', color: 'var(--text-primary)' }}>
+          <div className="landing-hero-badge" style={{ marginBottom: '14px' }}>
+            <Radio size={14} style={{ color: 'var(--accent-purple)' }} />
+            <span className="landing-badge-text">Processing Pipeline</span>
+          </div>
+
+          <h2 style={{ fontSize: 'clamp(1.7rem, 4vw, 2.4rem)', fontWeight: '900', marginBottom: '12px', letterSpacing: '-0.5px', color: 'var(--text-primary)' }}>
             How StockAI Works
           </h2>
+          <p style={{ color: 'var(--text-secondary)', maxWidth: '620px', margin: '0 auto 40px auto', fontSize: '0.94rem' }}>
+            From raw exchange ticks to high-confidence probability forecasts across 5 synchronized stages.
+          </p>
 
           {/* Desktop Workflow Pipeline */}
           <div className="hide-on-mobile landing-workflow-container">
             {[
-              { num: '1', label: 'Market Data', sub: 'OHLCV Feed' },
-              { num: '2', label: 'Feature Engineering', sub: 'Technical Overlays' },
-              { num: '3', label: 'Machine Learning', sub: 'Ensemble Models' },
-              { num: '4', label: 'AI Explanations', sub: 'Signal Reasoning' },
-              { num: '5', label: 'Trading Signals', sub: 'Buy / Hold / Sell' }
+              { num: '1', label: 'Market Data Ingestion', sub: 'Historical & Live OHLCV Feeds' },
+              { num: '2', label: 'Feature Engineering', sub: '14+ Technical Momentum Indicators' },
+              { num: '3', label: 'Deep Learning Regressors', sub: 'LSTM + XGBoost Ensemble' },
+              { num: '4', label: 'Explainable AI Engine', sub: 'Indicator Weight Breakdown' },
+              { num: '5', label: 'Target Projections', sub: 'Tomorrow High / Low & Signals' }
             ].map((step, idx, arr) => (
               <React.Fragment key={idx}>
-                <div style={{ minWidth: '130px' }}>
+                <div style={{ flex: 1, minWidth: '150px' }}>
                   <div style={{ 
-                    width: '38px', 
-                    height: '38px', 
+                    width: '42px', 
+                    height: '42px', 
                     borderRadius: '50%', 
                     backgroundColor: 'var(--accent-purple)', 
                     display: 'flex', 
@@ -634,9 +1101,9 @@ const LandingPage = () => {
                     justifyContent: 'center', 
                     margin: '0 auto 12px auto',
                     fontWeight: '800',
-                    fontSize: '0.9rem',
+                    fontSize: '0.95rem',
                     color: '#ffffff',
-                    boxShadow: '0 0 14px rgba(99, 102, 241, 0.5)'
+                    boxShadow: '0 0 16px rgba(99, 102, 241, 0.5)'
                   }}>
                     {step.num}
                   </div>
@@ -644,25 +1111,25 @@ const LandingPage = () => {
                   <p style={{ fontSize: '0.74rem', color: 'var(--text-secondary)' }}>{step.sub}</p>
                 </div>
                 {idx < arr.length - 1 && (
-                  <div style={{ color: 'var(--text-muted)', fontSize: '1.2rem' }}>→</div>
+                  <div style={{ color: 'var(--text-muted)', fontSize: '1.4rem', fontWeight: 'bold' }}>→</div>
                 )}
               </React.Fragment>
             ))}
           </div>
 
-          {/* Mobile / iPhone Workflow Vertical Timeline */}
-          <div className="hide-on-desktop" style={{ display: 'flex', flexDirection: 'column', gap: '10px', textAlign: 'left' }}>
+          {/* Mobile Workflow Vertical Timeline */}
+          <div className="hide-on-desktop" style={{ display: 'flex', flexDirection: 'column', gap: '12px', textAlign: 'left' }}>
             {[
-              { num: '1', label: 'Market Data', sub: 'Live NSE & Global OHLCV Historical Feed' },
+              { num: '1', label: 'Market Data Ingestion', sub: 'Live NSE & Global OHLCV Historical Feed' },
               { num: '2', label: 'Feature Engineering', sub: '14+ Technical Overlays & Price Momentum' },
-              { num: '3', label: 'Machine Learning', sub: 'LSTM, XGBoost & Random Forest Models' },
-              { num: '4', label: 'AI Explanations', sub: 'Confidence Ratings & Signal Reasoning' },
-              { num: '5', label: 'Trading Signals', sub: 'Tomorrow Forecast & Target Targets' }
+              { num: '3', label: 'Deep Learning Regressors', sub: 'LSTM, XGBoost & Random Forest Models' },
+              { num: '4', label: 'Explainable AI Engine', sub: 'Confidence Ratings & Signal Reasoning' },
+              { num: '5', label: 'Target Projections', sub: 'Tomorrow Forecast & Target Targets' }
             ].map((step, idx) => (
               <div key={idx} className="landing-workflow-step-mobile">
                 <div style={{
-                  width: '32px',
-                  height: '32px',
+                  width: '34px',
+                  height: '34px',
                   borderRadius: '50%',
                   backgroundColor: 'var(--accent-purple)',
                   display: 'flex',
@@ -687,30 +1154,32 @@ const LandingPage = () => {
       </section>
 
       {/* Supported Analysis Section & Model Integrity Statement */}
-      <section style={{ padding: '60px 6% 70px 6%', backgroundColor: 'var(--bg-primary)', borderTop: '1px solid var(--border-color)' }}>
-        <div style={{ maxWidth: '1240px', margin: '0 auto' }}>
+      <section style={{ padding: '70px 6%', backgroundColor: 'var(--bg-primary)', borderTop: '1px solid var(--border-color)' }}>
+        <div style={{ maxWidth: '1280px', margin: '0 auto' }}>
           <div className="landing-matrix-grid">
             
             <div>
-              <h2 style={{ fontSize: 'clamp(1.6rem, 3.5vw, 2.1rem)', fontWeight: '900', marginBottom: '14px', letterSpacing: '-0.5px', color: 'var(--text-primary)' }}>
+              <h2 style={{ fontSize: 'clamp(1.6rem, 3.5vw, 2.2rem)', fontWeight: '900', marginBottom: '14px', letterSpacing: '-0.5px', color: 'var(--text-primary)' }}>
                 Supported Technical Analysis Matrix
               </h2>
-              <p style={{ color: 'var(--text-secondary)', marginBottom: '24px', lineHeight: '1.6', fontSize: '0.9rem' }}>
-                StockAI parses millions of market data vectors dynamically to feed our deep learning regression models, checking against multiple key parameters:
+              <p style={{ color: 'var(--text-secondary)', marginBottom: '24px', lineHeight: '1.6', fontSize: '0.92rem' }}>
+                StockAI parses millions of market data vectors dynamically to feed our deep learning regression models, evaluating each session against key parameters:
               </p>
               
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
                 {[
-                  'Daily Close & Volume Trends',
-                  'Relative Strength Index (RSI 14) thresholds',
-                  'MACD signal lines & bullish crossover points',
-                  'Bollinger Band limits (support/resistance)',
-                  'Average True Range (ATR) volatility indexes',
-                  'Historical ML projection vs actual output ratios'
+                  'Daily Close & Volume Momentum Spikes',
+                  'Relative Strength Index (RSI 14) threshold divergence',
+                  'MACD signal line crossovers & histogram velocity',
+                  'Bollinger Band limits (support/resistance envelopes)',
+                  'Average True Range (ATR) historical volatility index',
+                  'Historical ML backtest vs actual output calibration'
                 ].map((item, idx) => (
-                  <div key={idx} style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                    <CheckCircle size={16} style={{ color: 'var(--bullish-green)', flexShrink: 0 }} />
-                    <span style={{ fontSize: '0.88rem', color: 'var(--text-primary)', fontWeight: '500' }}>{item}</span>
+                  <div key={idx} style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                    <div style={{ width: '22px', height: '22px', borderRadius: '50%', background: 'rgba(16, 185, 129, 0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                      <CheckCircle size={15} style={{ color: 'var(--bullish-green)' }} />
+                    </div>
+                    <span style={{ fontSize: '0.9rem', color: 'var(--text-primary)', fontWeight: '600' }}>{item}</span>
                   </div>
                 ))}
               </div>
@@ -718,30 +1187,33 @@ const LandingPage = () => {
             
             {/* Model Integrity Statement Card */}
             <div style={{ 
-              padding: '24px 20px', 
+              padding: '28px 24px', 
               backgroundColor: 'var(--card-bg)', 
-              borderRadius: '16px', 
-              border: '1px solid var(--border-color)',
+              borderRadius: '18px', 
+              border: '1px solid var(--border-color)', 
               boxShadow: 'var(--card-shadow)',
-              backdropFilter: 'blur(12px)'
+              backdropFilter: 'blur(16px)'
             }}>
-              <h4 style={{ fontWeight: '800', fontSize: '1.05rem', marginBottom: '12px', color: 'var(--text-primary)' }}>Model Integrity Statement</h4>
-              <p style={{ fontSize: '0.82rem', color: 'var(--text-secondary)', lineHeight: '1.6', marginBottom: '18px' }}>
-                Our systems calculate predictive vectors using mathematical statistical regressions. These values represent mathematical probabilities based on historical indices, and not financial advisory recommendations.
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}>
+                <ShieldCheck size={22} style={{ color: 'var(--accent-purple)' }} />
+                <h4 style={{ fontWeight: '800', fontSize: '1.1rem', color: 'var(--text-primary)' }}>Model Integrity Statement</h4>
+              </div>
+              <p style={{ fontSize: '0.84rem', color: 'var(--text-secondary)', lineHeight: '1.6', marginBottom: '20px' }}>
+                Our systems calculate predictive vectors using mathematical statistical regressions. These values represent mathematical probabilities based on historical indices, not financial advisory recommendations.
               </p>
               
-              <div style={{ backgroundColor: 'var(--bg-chip)', padding: '14px', borderRadius: '10px', border: '1px solid var(--border-color)' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px', fontSize: '0.78rem' }}>
+              <div style={{ backgroundColor: 'var(--bg-chip)', padding: '16px', borderRadius: '12px', border: '1px solid var(--border-color)' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px', fontSize: '0.8rem' }}>
                   <span style={{ color: 'var(--text-muted)' }}>Target:</span>
                   <span style={{ fontWeight: '700', color: 'var(--text-primary)' }}>Tomorrow's Session High</span>
                 </div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px', fontSize: '0.78rem' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px', fontSize: '0.8rem' }}>
                   <span style={{ color: 'var(--text-muted)' }}>Input Features:</span>
-                  <span style={{ fontWeight: '700', color: 'var(--text-primary)' }}>OHLCV + 14 Indicators</span>
+                  <span style={{ fontWeight: '700', color: 'var(--text-primary)' }}>OHLCV + 14 Technical Indicators</span>
                 </div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.78rem' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.8rem' }}>
                   <span style={{ color: 'var(--text-muted)' }}>Validation Spec:</span>
-                  <span style={{ fontWeight: '700', color: 'var(--text-primary)' }}>10 Years NSE History</span>
+                  <span style={{ fontWeight: '700', color: 'var(--bullish-green)' }}>10 Years NSE History</span>
                 </div>
               </div>
             </div>
@@ -750,9 +1222,112 @@ const LandingPage = () => {
         </div>
       </section>
 
+      {/* Interactive FAQ Section */}
+      <section style={{ padding: '70px 6%', backgroundColor: 'var(--bg-secondary)', borderTop: '1px solid var(--border-color)' }}>
+        <div style={{ maxWidth: '900px', margin: '0 auto' }}>
+          
+          <div style={{ textAlign: 'center', marginBottom: '40px' }}>
+            <h2 style={{ fontSize: 'clamp(1.6rem, 3.5vw, 2.2rem)', fontWeight: '900', marginBottom: '10px', color: 'var(--text-primary)' }}>
+              Frequently Asked Questions
+            </h2>
+            <p style={{ color: 'var(--text-secondary)', fontSize: '0.92rem' }}>
+              Everything you need to know about StockAI machine learning models and data feeds.
+            </p>
+          </div>
+
+          <div>
+            {FAQS.map((faq, idx) => (
+              <div key={idx} className="landing-faq-item">
+                <button 
+                  className="landing-faq-trigger"
+                  onClick={() => setOpenFaq(openFaq === idx ? -1 : idx)}
+                >
+                  <span>{faq.q}</span>
+                  <ChevronDown 
+                    size={18} 
+                    style={{ 
+                      transform: openFaq === idx ? 'rotate(180deg)' : 'rotate(0deg)', 
+                      transition: 'transform 0.2s ease',
+                      color: openFaq === idx ? 'var(--accent-purple)' : 'var(--text-muted)'
+                    }} 
+                  />
+                </button>
+                {openFaq === idx && (
+                  <div className="landing-faq-content">
+                    {faq.a}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+
+        </div>
+      </section>
+
+      {/* Conversion Banner */}
+      <section style={{ padding: '60px 6%', backgroundColor: 'var(--bg-primary)', borderTop: '1px solid var(--border-color)' }}>
+        <div style={{ 
+          maxWidth: '1100px', 
+          margin: '0 auto', 
+          background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.15) 0%, rgba(6, 182, 212, 0.1) 100%)', 
+          border: '1px solid rgba(99, 102, 241, 0.35)', 
+          borderRadius: '24px', 
+          padding: '48px 32px', 
+          textAlign: 'center',
+          boxShadow: '0 20px 50px rgba(0,0,0,0.2)'
+        }}>
+          <h2 style={{ fontSize: 'clamp(1.8rem, 4vw, 2.5rem)', fontWeight: '900', marginBottom: '14px', color: 'var(--text-primary)' }}>
+            Supercharge Your Trading with AI Forecasting
+          </h2>
+          <p style={{ color: 'var(--text-secondary)', maxWidth: '580px', margin: '0 auto 28px auto', fontSize: '0.96rem', lineHeight: '1.6' }}>
+            Access deep LSTM neural forecasts, real-time indicators, and explainable AI confidence scores today.
+          </p>
+          <div style={{ display: 'flex', justifyContent: 'center', gap: '14px', flexWrap: 'wrap' }}>
+            <button
+              onClick={() => handleOpenAuth('register')}
+              style={{
+                background: 'linear-gradient(135deg, #6366f1 0%, #4f46e5 100%)',
+                color: '#fff',
+                border: 'none',
+                borderRadius: '10px',
+                padding: '14px 32px',
+                fontSize: '0.96rem',
+                fontWeight: '700',
+                cursor: 'pointer',
+                boxShadow: '0 8px 24px rgba(99, 102, 241, 0.4)'
+              }}
+            >
+              Get Started Free <ArrowRight size={16} style={{ display: 'inline', marginLeft: '6px' }} />
+            </button>
+            <button
+              onClick={handleInstantDemo}
+              style={{
+                background: 'var(--bg-chip)',
+                color: 'var(--text-primary)',
+                border: '1px solid var(--border-color)',
+                borderRadius: '10px',
+                padding: '14px 26px',
+                fontSize: '0.96rem',
+                fontWeight: '600',
+                cursor: 'pointer'
+              }}
+            >
+              <Zap size={16} style={{ display: 'inline', marginRight: '6px', color: 'var(--accent-purple)' }} /> 1-Click Instant Demo
+            </button>
+          </div>
+        </div>
+      </section>
+
       {/* Footer */}
-      <footer style={{ borderTop: '1px solid var(--border-color)', padding: '30px 6%', textAlign: 'center', fontSize: '0.8rem', color: 'var(--text-muted)' }}>
-        <p>© 2026 StockAI Platform. All rights reserved. Powered by Deep learning regressions.</p>
+      <footer style={{ borderTop: '1px solid var(--border-color)', padding: '36px 6%', textAlign: 'center', fontSize: '0.82rem', color: 'var(--text-muted)' }}>
+        <div style={{ display: 'flex', justifyContent: 'center', gap: '20px', marginBottom: '12px', flexWrap: 'wrap' }}>
+          <Link to="/" style={{ color: 'var(--text-secondary)', textDecoration: 'none', fontWeight: '500' }}>Home</Link>
+          <Link to="/features" style={{ color: 'var(--text-secondary)', textDecoration: 'none', fontWeight: '500' }}>Features</Link>
+          <Link to="/how-it-works" style={{ color: 'var(--text-secondary)', textDecoration: 'none', fontWeight: '500' }}>How It Works</Link>
+          <Link to="/about" style={{ color: 'var(--text-secondary)', textDecoration: 'none', fontWeight: '500' }}>About Us</Link>
+          <button onClick={handleInstantDemo} style={{ background: 'none', border: 'none', color: 'var(--accent-purple)', cursor: 'pointer', fontWeight: '600', fontSize: 'inherit' }}>Live Demo</button>
+        </div>
+        <p>© 2026 StockAI Platform. All rights reserved. Powered by Deep Learning regressions.</p>
       </footer>
 
       {/* Simple Email & Password Auth Modal */}
@@ -782,7 +1357,7 @@ const LandingPage = () => {
               maxWidth: '400px',
               backgroundColor: 'var(--card-bg)',
               border: '1px solid var(--border-color)',
-              borderRadius: '16px',
+              borderRadius: '18px',
               padding: '28px 24px',
               boxShadow: 'var(--card-shadow)',
               position: 'relative'
@@ -808,7 +1383,9 @@ const LandingPage = () => {
             {/* Modal Title */}
             <div style={{ textAlign: 'center', marginBottom: '20px' }}>
               <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
-                <Cpu size={24} style={{ color: 'var(--accent-purple)' }} />
+                <div style={{ width: '32px', height: '32px', borderRadius: '8px', background: 'linear-gradient(135deg, #6366f1 0%, #4f46e5 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <Cpu size={18} style={{ color: '#fff' }} />
+                </div>
                 <span style={{ fontWeight: '800', fontSize: '1.25rem', color: 'var(--text-primary)' }}>
                   Stock<span style={{ color: 'var(--accent-purple)' }}>AI</span>
                 </span>
@@ -839,7 +1416,7 @@ const LandingPage = () => {
                       placeholder="Arjun Trader"
                       value={authName}
                       onChange={(e) => setAuthName(e.target.value)}
-                      style={{ width: '100%', height: '40px', paddingLeft: '36px', borderRadius: '8px', backgroundColor: 'var(--bg-secondary)', border: '1px solid var(--border-color)', color: 'var(--text-primary)', fontSize: '0.88rem', outline: 'none' }}
+                      style={{ width: '100%', height: '40px', paddingLeft: '36px', borderRadius: '8px', backgroundColor: 'var(--bg-input)', border: '1px solid var(--border-color)', color: 'var(--text-primary)', fontSize: '0.88rem', outline: 'none' }}
                     />
                     <User size={15} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
                   </div>
@@ -855,7 +1432,7 @@ const LandingPage = () => {
                     placeholder="name@example.com"
                     value={authEmail}
                     onChange={(e) => setAuthEmail(e.target.value)}
-                    style={{ width: '100%', height: '40px', paddingLeft: '36px', borderRadius: '8px', backgroundColor: 'var(--bg-secondary)', border: '1px solid var(--border-color)', color: 'var(--text-primary)', fontSize: '0.88rem', outline: 'none' }}
+                    style={{ width: '100%', height: '40px', paddingLeft: '36px', borderRadius: '8px', backgroundColor: 'var(--bg-input)', border: '1px solid var(--border-color)', color: 'var(--text-primary)', fontSize: '0.88rem', outline: 'none' }}
                   />
                   <Mail size={15} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
                 </div>
@@ -870,7 +1447,7 @@ const LandingPage = () => {
                     placeholder="Enter password"
                     value={authPassword}
                     onChange={(e) => setAuthPassword(e.target.value)}
-                    style={{ width: '100%', height: '40px', paddingLeft: '36px', borderRadius: '8px', backgroundColor: 'var(--bg-secondary)', border: '1px solid var(--border-color)', color: 'var(--text-primary)', fontSize: '0.88rem', outline: 'none' }}
+                    style={{ width: '100%', height: '40px', paddingLeft: '36px', borderRadius: '8px', backgroundColor: 'var(--bg-input)', border: '1px solid var(--border-color)', color: 'var(--text-primary)', fontSize: '0.88rem', outline: 'none' }}
                   />
                   <Lock size={15} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
                 </div>
