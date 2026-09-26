@@ -40,21 +40,29 @@ const Sidebar = () => {
     navigate('/');
   };
 
-  // All navigation routes available with interactive preview in Demo Mode
+  // Protected routes require authentication in Demo Mode
   const menuItems = [
     { name: 'Dashboard', path: '/dashboard', icon: LayoutDashboard, requiresAuth: false },
     { name: 'Prediction', path: '/prediction', icon: TrendingUp, requiresAuth: false },
     { name: 'Bull vs Bear', path: '/bullbear', icon: Activity, requiresAuth: false },
-    { name: 'Portfolio', path: '/portfolio', icon: Briefcase, requiresAuth: false },
+    { name: 'Portfolio', path: '/portfolio', icon: Briefcase, requiresAuth: true },
     { name: 'Watchlist', path: '/watchlist', icon: Eye, requiresAuth: false },
     { name: 'Analytics', path: '/analytics', icon: BarChart2, requiresAuth: false },
     { name: 'Compare', path: '/compare', icon: Columns, requiresAuth: false },
-    { name: 'Alerts', path: '/alerts', icon: Bell, requiresAuth: false },
-    { name: 'Settings', path: '/settings', icon: Settings, requiresAuth: false },
+    { name: 'Alerts', path: '/alerts', icon: Bell, requiresAuth: true },
+    { name: 'Settings', path: '/settings', icon: Settings, requiresAuth: true },
   ];
 
-  const handleItemClick = () => {
+  const handleItemClick = (e, item) => {
     closeMobileSidebar();
+    if (item.requiresAuth && !user) {
+      e.preventDefault();
+      openAuthModal({
+        mode: 'login',
+        featureName: `${item.name} Console`,
+        returnPath: item.path
+      });
+    }
   };
 
   return (
@@ -309,12 +317,14 @@ const Sidebar = () => {
               <>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                    <div style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: 'var(--warning-amber)' }} />
+                    <Lock size={13} style={{ color: 'var(--warning-amber)' }} />
                     <span style={{ fontSize: '0.75rem', fontWeight: '800', color: 'var(--warning-amber)', letterSpacing: '0.5px' }}>
                       INSTANT DEMO
                     </span>
                   </div>
-                  <span style={{ fontSize: '0.65rem', color: 'var(--text-muted)' }}>No DB Save</span>
+                  <span style={{ fontSize: '0.65rem', color: 'var(--warning-amber)', background: 'rgba(245, 158, 11, 0.12)', border: '1px solid rgba(245, 158, 11, 0.25)', padding: '1px 5px', borderRadius: '4px', fontWeight: '700' }}>
+                    🔒 Locked
+                  </span>
                 </div>
                 <p style={{ fontSize: '0.72rem', color: 'var(--text-secondary)', margin: 0, lineHeight: '1.3' }}>
                   Guest preview active. Sign in to unlock ML models &amp; cloud sync.
