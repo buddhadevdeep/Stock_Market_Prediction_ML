@@ -241,7 +241,7 @@ const AnalyticsPage = () => {
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
           <div style={{
             display: 'flex',
-            backgroundColor: 'rgba(0, 0, 0, 0.4)',
+            backgroundColor: 'var(--bg-chip)',
             padding: '4px',
             borderRadius: '8px',
             border: '1px solid var(--border-color)'
@@ -252,7 +252,7 @@ const AnalyticsPage = () => {
                 onClick={() => setInterval(r)}
                 style={{
                   background: interval === r ? 'var(--accent-purple)' : 'transparent',
-                  color: interval === r ? '#fff' : 'var(--text-secondary)',
+                  color: interval === r ? '#ffffff' : 'var(--text-secondary)',
                   border: 'none',
                   padding: '6px 12px',
                   borderRadius: '6px',
@@ -273,13 +273,13 @@ const AnalyticsPage = () => {
               display: 'flex',
               alignItems: 'center',
               gap: '6px',
-              backgroundColor: 'rgba(255,255,255,0.05)',
+              backgroundColor: 'var(--bg-chip)',
               border: '1px solid var(--border-color)',
               color: 'var(--text-primary)',
               padding: '8px 12px',
               borderRadius: '8px',
               fontSize: '0.75rem',
-              fontWeight: '600',
+              fontWeight: '700',
               cursor: 'pointer'
             }}
           >
@@ -400,10 +400,10 @@ const AnalyticsPage = () => {
                         <stop offset="95%" stopColor="#a855f7" stopOpacity={0.02}/>
                       </linearGradient>
                     </defs>
-                    <CartesianGrid strokeDasharray="3 3" stroke="var(--border-color)" />
-                    <XAxis dataKey="date" stroke="var(--text-muted)" fontSize={10} tickLine={false} />
-                    <YAxis stroke="var(--text-muted)" fontSize={10} domain={['dataMin - 10', 'dataMax + 10']} tickLine={false} orientation="right" />
-                    <Tooltip contentStyle={{ backgroundColor: 'var(--bg-secondary)', borderColor: 'var(--border-color)', borderRadius: '8px', fontSize: '12px', color: 'var(--text-primary)' }} />
+                    <CartesianGrid strokeDasharray="3 3" stroke="var(--chart-grid)" />
+                    <XAxis dataKey="date" stroke="var(--chart-axis)" fontSize={10} tick={{ fill: 'var(--chart-axis)' }} tickLine={false} />
+                    <YAxis stroke="var(--chart-axis)" fontSize={10} domain={['dataMin - 10', 'dataMax + 10']} tick={{ fill: 'var(--chart-axis)' }} tickLine={false} orientation="right" />
+                    <Tooltip contentStyle={{ backgroundColor: 'var(--chart-tooltip-bg)', borderColor: 'var(--chart-tooltip-border)', borderRadius: '8px', fontSize: '12px', color: 'var(--text-primary)', boxShadow: 'var(--shadow-dropdown)' }} labelStyle={{ color: 'var(--text-muted)', fontWeight: '700' }} itemStyle={{ color: 'var(--text-primary)' }} />
                     
                     {/* Bollinger Bands */}
                     {indicators.bollinger && (
@@ -450,8 +450,8 @@ const AnalyticsPage = () => {
                       alignItems: 'center',
                       justifyContent: 'space-between',
                       padding: '10px 14px',
-                      backgroundColor: indicators[ind.id] ? 'rgba(255,255,255,0.04)' : 'rgba(0,0,0,0.2)',
-                      border: `1px solid ${indicators[ind.id] ? 'rgba(99, 102, 241, 0.4)' : 'var(--border-color)'}`,
+                      backgroundColor: indicators[ind.id] ? 'var(--bg-chip)' : 'transparent',
+                      border: `1px solid ${indicators[ind.id] ? 'var(--accent-purple)' : 'var(--border-color)'}`,
                       borderRadius: '8px',
                       cursor: 'pointer',
                       transition: 'all 0.15s ease'
@@ -474,7 +474,7 @@ const AnalyticsPage = () => {
                       backgroundColor: indicators[ind.id] ? 'var(--accent-purple)' : 'transparent',
                       border: `1.5px solid ${indicators[ind.id] ? 'var(--accent-purple)' : 'var(--text-muted)'}`
                     }}>
-                      {indicators[ind.id] && <Check size={12} style={{ color: '#fff' }} />}
+                      {indicators[ind.id] && <Check size={12} style={{ color: '#ffffff' }} />}
                     </div>
                   </div>
                 ))}
@@ -503,23 +503,23 @@ const AnalyticsPage = () => {
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                   <Layers size={18} style={{ color: 'var(--accent-purple)' }} />
-                  <h4 style={{ fontSize: '0.85rem', fontWeight: '800', textTransform: 'uppercase', margin: 0 }}>
+                  <h4 style={{ fontSize: '0.85rem', fontWeight: '800', textTransform: 'uppercase', margin: 0, color: 'var(--text-primary)' }}>
                     MACD (12, 26, 9) Momentum Histogram
                   </h4>
                 </div>
                 <div style={{ display: 'flex', gap: '10px', fontSize: '0.75rem', fontFamily: 'var(--font-mono)' }}>
-                  <span style={{ color: '#06b6d4' }}>MACD: {currentMacd.toFixed(2)}</span>
-                  <span style={{ color: '#ec4899' }}>Signal: {currentMacdSignal.toFixed(2)}</span>
+                  <span style={{ color: '#06b6d4', fontWeight: '700' }}>MACD: {currentMacd.toFixed(2)}</span>
+                  <span style={{ color: '#ec4899', fontWeight: '700' }}>Signal: {currentMacdSignal.toFixed(2)}</span>
                 </div>
               </div>
 
               <div style={{ width: '100%', height: '160px' }}>
                 <ResponsiveContainer width="100%" height="100%">
                   <ComposedChart data={enrichedData.slice(-40)} margin={{ left: -15, right: 10, top: 5, bottom: 0 }}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.03)" />
-                    <XAxis dataKey="date" stroke="var(--text-muted)" fontSize={9} tickLine={false} />
-                    <YAxis stroke="var(--text-muted)" fontSize={9} tickLine={false} orientation="right" />
-                    <Tooltip contentStyle={{ backgroundColor: 'rgba(10, 15, 29, 0.95)', borderColor: 'rgba(255,255,255,0.1)', borderRadius: '8px', fontSize: '11px' }} />
+                    <CartesianGrid strokeDasharray="3 3" stroke="var(--chart-grid)" />
+                    <XAxis dataKey="date" stroke="var(--chart-axis)" fontSize={9} tick={{ fill: 'var(--chart-axis)' }} tickLine={false} />
+                    <YAxis stroke="var(--chart-axis)" fontSize={9} tick={{ fill: 'var(--chart-axis)' }} tickLine={false} orientation="right" />
+                    <Tooltip contentStyle={{ backgroundColor: 'var(--chart-tooltip-bg)', borderColor: 'var(--chart-tooltip-border)', borderRadius: '8px', fontSize: '11px', color: 'var(--text-primary)', boxShadow: 'var(--shadow-dropdown)' }} />
                     <Bar dataKey="macdHist" fill="#10b981" name="Histogram" />
                     <Line type="monotone" dataKey="macdLine" stroke="#06b6d4" strokeWidth={1.5} dot={false} name="MACD Line" />
                     <Line type="monotone" dataKey="macdSignal" stroke="#ec4899" strokeWidth={1.5} dot={false} name="Signal" />
@@ -571,9 +571,9 @@ const AnalyticsPage = () => {
                 { name: 'SMA 50', val: latestPoint.sma50 || currentPrice * 0.965, signal: 'BUY' },
                 { name: 'SMA 200', val: latestPoint.sma200 || currentPrice * 0.910, signal: 'STRONG BUY' }
               ].map((ma, i) => (
-                <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 12px', backgroundColor: 'rgba(255,255,255,0.02)', borderRadius: '6px', border: '1px solid var(--border-color)' }}>
-                  <span style={{ fontSize: '0.8rem', fontWeight: '700' }}>{ma.name}</span>
-                  <span style={{ fontSize: '0.8rem', fontFamily: 'var(--font-mono)', color: 'var(--text-secondary)' }}>₹{Number(ma.val).toFixed(2)}</span>
+                <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 12px', backgroundColor: 'var(--bg-chip)', borderRadius: '6px', border: '1px solid var(--border-color)' }}>
+                  <span style={{ fontSize: '0.8rem', fontWeight: '700', color: 'var(--text-primary)' }}>{ma.name}</span>
+                  <span style={{ fontSize: '0.8rem', fontFamily: 'var(--font-mono)', color: 'var(--text-secondary)', fontWeight: '700' }}>₹{Number(ma.val).toFixed(2)}</span>
                   <span className="badge-bullish">{ma.signal}</span>
                 </div>
               ))}
@@ -582,7 +582,7 @@ const AnalyticsPage = () => {
 
           {/* Oscillators Matrix */}
           <div className="glass-card" style={{ padding: '20px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
-            <h4 style={{ fontSize: '0.9rem', fontWeight: '800', textTransform: 'uppercase', margin: 0 }}>
+            <h4 style={{ fontSize: '0.9rem', fontWeight: '800', textTransform: 'uppercase', margin: 0, color: 'var(--text-primary)' }}>
               Oscillators Summary
             </h4>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
@@ -593,9 +593,9 @@ const AnalyticsPage = () => {
                 { name: 'Williams %R', val: '-28.10', signal: 'BUY' },
                 { name: 'Awesome Oscillator', val: '+14.8', signal: 'BUY' }
               ].map((osc, i) => (
-                <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 12px', backgroundColor: 'rgba(255,255,255,0.02)', borderRadius: '6px', border: '1px solid var(--border-color)' }}>
-                  <span style={{ fontSize: '0.8rem', fontWeight: '700' }}>{osc.name}</span>
-                  <span style={{ fontSize: '0.8rem', fontFamily: 'var(--font-mono)', color: 'var(--text-secondary)' }}>{osc.val}</span>
+                <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 12px', backgroundColor: 'var(--bg-chip)', borderRadius: '6px', border: '1px solid var(--border-color)' }}>
+                  <span style={{ fontSize: '0.8rem', fontWeight: '700', color: 'var(--text-primary)' }}>{osc.name}</span>
+                  <span style={{ fontSize: '0.8rem', fontFamily: 'var(--font-mono)', color: 'var(--text-secondary)', fontWeight: '700' }}>{osc.val}</span>
                   <span className={osc.signal === 'BUY' ? 'badge-bullish' : osc.signal === 'SELL' ? 'badge-bearish' : 'badge-neutral'}>{osc.signal}</span>
                 </div>
               ))}
@@ -611,7 +611,7 @@ const AnalyticsPage = () => {
           
           {/* Classic Pivot Levels */}
           <div className="glass-card" style={{ padding: '20px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
-            <h4 style={{ fontSize: '0.9rem', fontWeight: '800', textTransform: 'uppercase', margin: 0 }}>
+            <h4 style={{ fontSize: '0.9rem', fontWeight: '800', textTransform: 'uppercase', margin: 0, color: 'var(--text-primary)' }}>
               Standard Floor Pivot Points
             </h4>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
@@ -631,18 +631,18 @@ const AnalyticsPage = () => {
                     justifyContent: 'space-between', 
                     alignItems: 'center', 
                     padding: '10px 14px', 
-                    backgroundColor: level.type === 'pivot' ? 'rgba(99, 102, 241, 0.12)' : 'rgba(255,255,255,0.02)',
-                    border: `1px solid ${level.type === 'pivot' ? 'rgba(99, 102, 241, 0.3)' : 'var(--border-color)'}`,
+                    backgroundColor: level.type === 'pivot' ? 'rgba(99, 102, 241, 0.12)' : 'var(--bg-chip)',
+                    border: `1px solid ${level.type === 'pivot' ? 'rgba(99, 102, 241, 0.4)' : 'var(--border-color)'}`,
                     borderRadius: '8px' 
                   }}
                 >
-                  <span style={{ fontSize: '0.8rem', fontWeight: level.type === 'pivot' ? '800' : '600', color: level.type === 'pivot' ? 'var(--accent-purple)' : 'var(--text-primary)' }}>
+                  <span style={{ fontSize: '0.8rem', fontWeight: level.type === 'pivot' ? '800' : '700', color: level.type === 'pivot' ? 'var(--accent-purple)' : 'var(--text-primary)' }}>
                     {level.label}
                   </span>
                   <span style={{ 
                     fontSize: '0.85rem', 
                     fontFamily: 'var(--font-mono)', 
-                    fontWeight: '700',
+                    fontWeight: '800',
                     color: level.type === 'bear' ? 'var(--bearish-red)' : level.type === 'bull' ? 'var(--bullish-green)' : 'var(--accent-purple)'
                   }}>
                     ₹{level.price.toFixed(2)}
@@ -654,7 +654,7 @@ const AnalyticsPage = () => {
 
           {/* Fibonacci Retracements */}
           <div className="glass-card" style={{ padding: '20px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
-            <h4 style={{ fontSize: '0.9rem', fontWeight: '800', textTransform: 'uppercase', margin: 0 }}>
+            <h4 style={{ fontSize: '0.9rem', fontWeight: '800', textTransform: 'uppercase', margin: 0, color: 'var(--text-primary)' }}>
               Fibonacci Key Retracements
             </h4>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
@@ -666,9 +666,9 @@ const AnalyticsPage = () => {
                 { label: 'Fib 23.6% (Initial Pullback)', price: lowVal + ((highVal - lowVal) * 0.236) },
                 { label: 'Fib 0.0% (Low)', price: lowVal },
               ].map((fib, i) => (
-                <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 14px', backgroundColor: 'rgba(255,255,255,0.02)', borderRadius: '8px', border: '1px solid var(--border-color)' }}>
-                  <span style={{ fontSize: '0.8rem', fontWeight: '600' }}>{fib.label}</span>
-                  <span style={{ fontSize: '0.85rem', fontFamily: 'var(--font-mono)', fontWeight: '700', color: 'var(--text-primary)' }}>₹{fib.price.toFixed(2)}</span>
+                <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 14px', backgroundColor: 'var(--bg-chip)', borderRadius: '8px', border: '1px solid var(--border-color)' }}>
+                  <span style={{ fontSize: '0.8rem', fontWeight: '700', color: 'var(--text-primary)' }}>{fib.label}</span>
+                  <span style={{ fontSize: '0.85rem', fontFamily: 'var(--font-mono)', fontWeight: '800', color: 'var(--text-primary)' }}>₹{fib.price.toFixed(2)}</span>
                 </div>
               ))}
             </div>
@@ -680,17 +680,17 @@ const AnalyticsPage = () => {
       {/* Tab: VolumeFlow */}
       {activeTab === 'VolumeFlow' && (
         <div className="glass-card" style={{ padding: '20px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
-          <h4 style={{ fontSize: '0.9rem', fontWeight: '800', textTransform: 'uppercase', margin: 0 }}>
-            Volume Flow & Liquidity Distribution
+          <h4 style={{ fontSize: '0.9rem', fontWeight: '800', textTransform: 'uppercase', margin: 0, color: 'var(--text-primary)' }}>
+            Volume Flow &amp; Liquidity Distribution
           </h4>
           <div style={{ width: '100%', height: '280px' }}>
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={enrichedData} margin={{ left: -10, right: 10, top: 10, bottom: 0 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.04)" />
-                <XAxis dataKey="date" stroke="var(--text-muted)" fontSize={10} tickLine={false} />
-                <YAxis stroke="var(--text-muted)" fontSize={10} tickLine={false} orientation="right" />
-                <Tooltip contentStyle={{ backgroundColor: 'rgba(10, 15, 29, 0.95)', borderColor: 'rgba(255,255,255,0.1)', borderRadius: '8px', fontSize: '12px' }} />
-                <Bar dataKey="volume" fill="rgba(6, 182, 212, 0.65)" name="Volume (Shares)" />
+                <CartesianGrid strokeDasharray="3 3" stroke="var(--chart-grid)" />
+                <XAxis dataKey="date" stroke="var(--chart-axis)" fontSize={10} tick={{ fill: 'var(--chart-axis)' }} tickLine={false} />
+                <YAxis stroke="var(--chart-axis)" fontSize={10} tick={{ fill: 'var(--chart-axis)' }} tickLine={false} orientation="right" />
+                <Tooltip contentStyle={{ backgroundColor: 'var(--chart-tooltip-bg)', borderColor: 'var(--chart-tooltip-border)', borderRadius: '8px', fontSize: '12px', color: 'var(--text-primary)', boxShadow: 'var(--shadow-dropdown)' }} />
+                <Bar dataKey="volume" fill="var(--accent-cyan)" opacity={0.85} name="Volume (Shares)" />
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -700,14 +700,14 @@ const AnalyticsPage = () => {
       {/* Academic Disclaimer Footer */}
       <div style={{
         padding: '12px 16px',
-        backgroundColor: 'rgba(255,255,255,0.02)',
+        backgroundColor: 'var(--bg-chip)',
         borderRadius: '8px',
         border: '1px solid var(--border-color)',
         display: 'flex',
         alignItems: 'center',
         gap: '10px',
         fontSize: '0.75rem',
-        color: 'var(--text-muted)'
+        color: 'var(--text-secondary)'
       }}>
         <Info size={16} style={{ color: 'var(--accent-purple)', flexShrink: 0 }} />
         <span>Technical indicators and algorithmically computed pivot levels are calculated for educational and analytical purposes only. Always manage risk independently.</span>

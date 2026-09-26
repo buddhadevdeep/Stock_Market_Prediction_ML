@@ -577,8 +577,18 @@ export const PortfolioPage = () => {
                       <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                     ))}
                   </Pie>
-                  <Tooltip formatter={(val) => `₹${Number(val).toLocaleString('en-IN')}`} />
-                  <Legend verticalAlign="bottom" height={36} iconType="circle" />
+                  <Tooltip 
+                    contentStyle={{
+                      backgroundColor: 'var(--chart-tooltip-bg)',
+                      borderColor: 'var(--chart-tooltip-border)',
+                      borderRadius: '8px',
+                      boxShadow: 'var(--shadow-dropdown)',
+                      color: 'var(--text-primary)',
+                      fontSize: '0.8rem'
+                    }}
+                    formatter={(val) => [`₹${Number(val).toLocaleString('en-IN')}`, 'Valuation']} 
+                  />
+                  <Legend verticalAlign="bottom" height={36} iconType="circle" wrapperStyle={{ fontSize: '0.78rem', color: 'var(--text-primary)' }} />
                 </PieChart>
               </ResponsiveContainer>
             </div>

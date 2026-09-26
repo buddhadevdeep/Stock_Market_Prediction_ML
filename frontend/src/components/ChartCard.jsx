@@ -22,23 +22,24 @@ export const ChartCard = ({ chartData = [], symbol = 'Stock' }) => {
     );
   }
 
-  // Custom Dark Tooltip
+  // Custom Tooltip with theme variables
   const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
       return (
         <div
           style={{
-            backgroundColor: '#1f2937',
-            border: '1px solid #374151',
+            backgroundColor: 'var(--chart-tooltip-bg)',
+            border: '1px solid var(--chart-tooltip-border)',
             borderRadius: '8px',
             padding: '0.75rem 1rem',
             fontSize: '0.8rem',
-            boxShadow: '0 4px 6px -1px rgba(0,0,0,0.5)',
+            boxShadow: 'var(--shadow-dropdown)',
+            color: 'var(--text-primary)'
           }}
         >
-          <div style={{ fontWeight: '700', color: '#f3f4f6', marginBottom: '0.4rem' }}>{label}</div>
+          <div style={{ fontWeight: '800', color: 'var(--text-primary)', marginBottom: '0.4rem' }}>{label}</div>
           {payload.map((entry, index) => (
-            <div key={index} style={{ color: entry.color, margin: '2px 0' }}>
+            <div key={index} style={{ color: entry.color, margin: '2px 0', fontWeight: '600' }}>
               {entry.name}: ₹{typeof entry.value === 'number' ? entry.value.toFixed(2) : entry.value}
             </div>
           ))}
@@ -57,16 +58,17 @@ export const ChartCard = ({ chartData = [], symbol = 'Stock' }) => {
       <div style={{ width: '100%', height: 380 }}>
         <ResponsiveContainer>
           <ComposedChart data={chartData} margin={{ top: 10, right: 20, left: 10, bottom: 5 }}>
-            <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.06)" />
-            <XAxis dataKey="date" stroke="#6b7280" fontSize={11} tickFormatter={(str) => str.slice(5)} />
+            <CartesianGrid strokeDasharray="3 3" stroke="var(--chart-grid)" />
+            <XAxis dataKey="date" stroke="var(--chart-axis)" fontSize={11} tick={{ fill: 'var(--chart-axis)' }} tickFormatter={(str) => str.slice(5)} />
             <YAxis
-              stroke="#6b7280"
+              stroke="var(--chart-axis)"
               fontSize={11}
               domain={['auto', 'auto']}
+              tick={{ fill: 'var(--chart-axis)' }}
               tickFormatter={(v) => `₹${v}`}
             />
             <Tooltip content={<CustomTooltip />} />
-            <Legend wrapperStyle={{ fontSize: '0.8rem', paddingTop: '10px' }} />
+            <Legend wrapperStyle={{ fontSize: '0.8rem', paddingTop: '10px', color: 'var(--text-primary)' }} />
 
             <Line
               type="monotone"
@@ -106,21 +108,22 @@ export const ChartCard = ({ chartData = [], symbol = 'Stock' }) => {
 
       {/* Volume Sub-Chart */}
       <div style={{ marginTop: '1.5rem', borderTop: '1px solid var(--border-color)', paddingTop: '1rem' }}>
-        <div style={{ fontSize: '0.85rem', fontWeight: '600', color: 'var(--text-secondary)', marginBottom: '0.5rem' }}>
+        <div style={{ fontSize: '0.85rem', fontWeight: '700', color: 'var(--text-secondary)', marginBottom: '0.5rem' }}>
           Daily Volume
         </div>
         <div style={{ width: '100%', height: 120 }}>
           <ResponsiveContainer>
             <ComposedChart data={chartData} margin={{ top: 5, right: 20, left: 10, bottom: 0 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.04)" />
-              <XAxis dataKey="date" stroke="#6b7280" fontSize={10} hide />
+              <CartesianGrid strokeDasharray="3 3" stroke="var(--chart-grid)" />
+              <XAxis dataKey="date" stroke="var(--chart-axis)" fontSize={10} hide />
               <YAxis
-                stroke="#6b7280"
+                stroke="var(--chart-axis)"
                 fontSize={10}
+                tick={{ fill: 'var(--chart-axis)' }}
                 tickFormatter={(v) => `${(v / 1e6).toFixed(1)}M`}
               />
-              <Tooltip />
-              <Bar dataKey="volume" name="Volume" fill="#475569" radius={[2, 2, 0, 0]} />
+              <Tooltip content={<CustomTooltip />} />
+              <Bar dataKey="volume" name="Volume" fill="var(--accent-cyan)" radius={[2, 2, 0, 0]} opacity={0.85} />
             </ComposedChart>
           </ResponsiveContainer>
         </div>

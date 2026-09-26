@@ -46,10 +46,10 @@ const RSIGauge = ({ value = 54.2, period = 14 }) => {
       {/* RSI Track */}
       <div style={{ position: 'relative', height: '10px', margin: '22px 0 10px 0' }}>
         {/* Track Segments */}
-        <div style={{ display: 'flex', height: '100%', borderRadius: '5px', overflow: 'hidden', backgroundColor: 'rgba(255,255,255,0.03)' }}>
-          <div style={{ flex: 3, backgroundColor: 'rgba(16, 185, 129, 0.25)', borderRight: '1px solid rgba(0,0,0,0.3)' }} title="Oversold Zone (<30)"></div>
-          <div style={{ flex: 4, backgroundColor: 'rgba(255, 255, 255, 0.06)', borderRight: '1px solid rgba(0,0,0,0.3)' }} title="Neutral Zone (30-70)"></div>
-          <div style={{ flex: 3, backgroundColor: 'rgba(244, 63, 94, 0.25)' }} title="Overbought Zone (>70)"></div>
+        <div style={{ display: 'flex', height: '100%', borderRadius: '5px', overflow: 'hidden', backgroundColor: 'var(--bg-chip)' }}>
+          <div style={{ flex: 3, backgroundColor: 'rgba(16, 185, 129, 0.3)', borderRight: '1px solid var(--border-color)' }} title="Oversold Zone (<30)"></div>
+          <div style={{ flex: 4, backgroundColor: 'var(--bg-chip)', borderRight: '1px solid var(--border-color)' }} title="Neutral Zone (30-70)"></div>
+          <div style={{ flex: 3, backgroundColor: 'rgba(244, 63, 94, 0.3)' }} title="Overbought Zone (>70)"></div>
         </div>
 
         {/* Zone Markers text */}
@@ -74,9 +74,9 @@ const RSIGauge = ({ value = 54.2, period = 14 }) => {
             style={{
               width: '4px',
               height: '24px',
-              backgroundColor: '#fff',
+              backgroundColor: 'var(--text-primary)',
               borderRadius: '2px',
-              boxShadow: '0 0 10px rgba(255,255,255,0.9)'
+              boxShadow: '0 0 6px rgba(99, 102, 241, 0.6)'
             }}
           ></div>
         </div>

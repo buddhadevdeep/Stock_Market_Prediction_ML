@@ -30,8 +30,8 @@ export const StockNotFound = ({ symbol, onReset, customMessage }) => {
         maxWidth: '720px', 
         margin: '20px auto',
         border: '1px solid rgba(239, 68, 68, 0.25)',
-        background: 'radial-gradient(ellipse at top, rgba(239, 68, 68, 0.08) 0%, rgba(13, 20, 36, 0.95) 70%)',
-        boxShadow: '0 20px 40px rgba(0,0,0,0.5)'
+        background: 'var(--card-bg)',
+        boxShadow: 'var(--card-shadow)'
       }}
     >
       <div 
@@ -86,7 +86,7 @@ export const StockNotFound = ({ symbol, onReset, customMessage }) => {
               key={t.sym}
               onClick={() => handleSelect(t.sym)}
               style={{
-                background: 'rgba(255, 255, 255, 0.04)',
+                background: 'var(--bg-chip)',
                 border: '1px solid var(--border-color)',
                 borderRadius: '8px',
                 padding: '6px 12px',
@@ -104,7 +104,7 @@ export const StockNotFound = ({ symbol, onReset, customMessage }) => {
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.borderColor = 'var(--border-color)';
-                e.currentTarget.style.background = 'rgba(255, 255, 255, 0.04)';
+                e.currentTarget.style.background = 'var(--bg-chip)';
               }}
             >
               <span className="mono-font" style={{ fontWeight: '700', color: 'var(--accent-cyan)' }}>{t.sym}</span>

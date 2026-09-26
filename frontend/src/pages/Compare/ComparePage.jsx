@@ -497,20 +497,22 @@ export const ComparePage = () => {
             <div style={{ width: '100%', height: '340px' }}>
               <ResponsiveContainer width="100%" height="100%">
                 <LineChart data={chartData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
-                  <XAxis dataKey="date" stroke="var(--text-muted)" fontSize={11} tickLine={false} />
-                  <YAxis stroke="var(--text-muted)" fontSize={11} tickFormatter={(v) => `${v}%`} tickLine={false} domain={['auto', 'auto']} />
+                  <CartesianGrid strokeDasharray="3 3" stroke="var(--chart-grid)" />
+                  <XAxis dataKey="date" stroke="var(--chart-axis)" fontSize={11} tick={{ fill: 'var(--chart-axis)' }} tickLine={false} />
+                  <YAxis stroke="var(--chart-axis)" fontSize={11} tick={{ fill: 'var(--chart-axis)' }} tickFormatter={(v) => `${v}%`} tickLine={false} domain={['auto', 'auto']} />
                   <Tooltip 
                     contentStyle={{ 
-                      backgroundColor: 'var(--bg-secondary)', 
-                      borderColor: 'var(--border-color)', 
+                      backgroundColor: 'var(--chart-tooltip-bg)', 
+                      borderColor: 'var(--chart-tooltip-border)', 
                       borderRadius: '8px',
                       boxShadow: 'var(--shadow-dropdown)',
-                      fontSize: '0.8rem'
+                      fontSize: '0.8rem',
+                      color: 'var(--text-primary)'
                     }}
+                    labelStyle={{ color: 'var(--text-muted)', fontWeight: '700' }}
                     formatter={(val, name) => [`${val}%`, name]}
                   />
-                  <Legend wrapperStyle={{ fontSize: '0.8rem', paddingTop: '8px' }} />
+                  <Legend wrapperStyle={{ fontSize: '0.8rem', paddingTop: '8px', color: 'var(--text-primary)' }} />
                   {selectedStocks.map((sym, idx) => (
                     <Line
                       key={sym}

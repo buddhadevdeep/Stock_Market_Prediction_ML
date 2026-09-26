@@ -69,13 +69,13 @@ const HistoryPage = () => {
         <div style={{ width: '100%', height: '240px' }}>
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={chartData}>
-              <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.03)" />
-              <XAxis dataKey="name" stroke="var(--text-muted)" fontSize={9} />
-              <YAxis stroke="var(--text-muted)" fontSize={10} domain={['dataMin - 100', 'dataMax + 100']} />
-              <Tooltip contentStyle={{ backgroundColor: 'var(--bg-secondary)', borderColor: 'var(--border-color)' }} />
-              <Legend iconType="circle" />
-              <Line type="monotone" dataKey="Predicted" stroke="var(--accent-purple)" strokeWidth={2} dot={{ r: 3 }} activeDot={{ r: 5 }} />
-              <Line type="monotone" dataKey="Actual" stroke="var(--bullish-green)" strokeWidth={2} dot={{ r: 3 }} activeDot={{ r: 5 }} />
+              <CartesianGrid strokeDasharray="3 3" stroke="var(--chart-grid)" />
+              <XAxis dataKey="name" stroke="var(--chart-axis)" fontSize={9} tick={{ fill: 'var(--chart-axis)' }} />
+              <YAxis stroke="var(--chart-axis)" fontSize={10} tick={{ fill: 'var(--chart-axis)' }} domain={['dataMin - 100', 'dataMax + 100']} />
+              <Tooltip contentStyle={{ backgroundColor: 'var(--chart-tooltip-bg)', borderColor: 'var(--chart-tooltip-border)', borderRadius: '8px', color: 'var(--text-primary)', boxShadow: 'var(--shadow-dropdown)' }} labelStyle={{ color: 'var(--text-muted)', fontWeight: '700' }} />
+              <Legend iconType="circle" wrapperStyle={{ color: 'var(--text-primary)', fontSize: '0.8rem' }} />
+              <Line type="monotone" dataKey="Predicted" stroke="var(--accent-purple)" strokeWidth={2.5} dot={{ r: 3 }} activeDot={{ r: 5 }} />
+              <Line type="monotone" dataKey="Actual" stroke="var(--bullish-green)" strokeWidth={2.5} dot={{ r: 3 }} activeDot={{ r: 5 }} />
             </LineChart>
           </ResponsiveContainer>
         </div>

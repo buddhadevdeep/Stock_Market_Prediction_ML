@@ -1,13 +1,16 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Cpu, Mail, Globe, Shield } from 'lucide-react';
+import { useApp } from '../../context/AppContext';
+import { Cpu, Mail, Globe, Shield, Sun, Moon } from 'lucide-react';
 
 const About = () => {
+  const { theme, toggleTheme } = useApp();
+
   return (
     <div style={{ backgroundColor: 'var(--bg-primary)', color: 'var(--text-primary)', minHeight: '100vh' }}>
       {/* Header */}
       <header className="landing-header">
-        <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none', color: '#fff' }}>
+        <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none', color: 'var(--text-primary)' }}>
           <Cpu size={26} style={{ color: 'var(--accent-purple)' }} />
           <span style={{ fontWeight: '800', fontSize: '1.3rem' }}>Stock<span style={{ color: 'var(--accent-purple)' }}>AI</span></span>
         </Link>
@@ -15,10 +18,32 @@ const About = () => {
           <Link to="/" style={{ color: 'var(--text-secondary)', textDecoration: 'none', fontWeight: '500', fontSize: '0.9rem' }}>Home</Link>
           <Link to="/features" style={{ color: 'var(--text-secondary)', textDecoration: 'none', fontWeight: '500', fontSize: '0.9rem' }}>Features</Link>
           <Link to="/how-it-works" style={{ color: 'var(--text-secondary)', textDecoration: 'none', fontWeight: '500', fontSize: '0.9rem' }}>How It Works</Link>
-          <Link to="/about" style={{ color: '#fff', textDecoration: 'none', fontWeight: '600', fontSize: '0.9rem' }}>About</Link>
+          <Link to="/about" style={{ color: 'var(--text-primary)', textDecoration: 'none', fontWeight: '600', fontSize: '0.9rem' }}>About</Link>
         </nav>
         <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
-          <Link to="/login" style={{ color: '#fff', textDecoration: 'none', fontWeight: '600', fontSize: '0.85rem', padding: '6px 10px' }}>Login</Link>
+          {/* Theme Toggle Button */}
+          <button
+            onClick={toggleTheme}
+            title={`Switch to ${theme === 'dark' ? 'Light' : 'Dark'} Mode`}
+            style={{
+              background: 'var(--bg-chip)',
+              border: '1px solid var(--border-color)',
+              color: 'var(--text-primary)',
+              cursor: 'pointer',
+              padding: '6px',
+              borderRadius: '8px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              transition: 'all 0.2s ease',
+              width: '34px',
+              height: '34px',
+              flexShrink: 0
+            }}
+          >
+            {theme === 'dark' ? <Sun size={16} style={{ color: '#fbbf24' }} /> : <Moon size={16} style={{ color: '#6366f1' }} />}
+          </button>
+          <Link to="/login" style={{ color: 'var(--text-primary)', textDecoration: 'none', fontWeight: '600', fontSize: '0.85rem', padding: '6px 10px' }}>Login</Link>
           <Link to="/register" className="btn-primary-custom" style={{ textDecoration: 'none', padding: '7px 14px', fontSize: '0.82rem' }}>Get Started</Link>
         </div>
       </header>

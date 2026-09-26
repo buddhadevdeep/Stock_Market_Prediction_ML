@@ -309,7 +309,7 @@ const Sidebar = () => {
             style={{
               padding: isSidebarCollapsed && !isMobileSidebarOpen ? '12px 6px' : '14px',
               borderTop: '1px solid var(--border-color)',
-              backgroundColor: 'rgba(15, 23, 42, 0.8)',
+              backgroundColor: 'var(--bg-chip)',
               display: 'flex',
               flexDirection: 'column',
               gap: '10px'
@@ -327,7 +327,7 @@ const Sidebar = () => {
                   <span style={{ fontSize: '0.65rem', color: 'var(--text-muted)' }}>No DB Save</span>
                 </div>
                 <p style={{ fontSize: '0.72rem', color: 'var(--text-secondary)', margin: 0, lineHeight: '1.3' }}>
-                  Guest preview active. Sign in to unlock ML models & cloud sync.
+                  Guest preview active. Sign in to unlock ML models &amp; cloud sync.
                 </p>
                 <button
                   onClick={() => openAuthModal({ mode: 'login' })}

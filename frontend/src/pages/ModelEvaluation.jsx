@@ -207,11 +207,11 @@ export const ModelEvaluation = () => {
               <div style={{ width: '100%', height: 300 }}>
                 <ResponsiveContainer>
                   <BarChart data={(evalData.feature_importance || []).slice(0, 8)} layout="vertical">
-                    <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
-                    <XAxis type="number" stroke="#6b7280" fontSize={10} />
-                    <YAxis dataKey="feature" type="category" stroke="#6b7280" fontSize={11} width={100} />
-                    <Tooltip />
-                    <Bar dataKey="importance" fill="#3b82f6" name="Gini Importance" radius={[0, 4, 4, 0]} />
+                    <CartesianGrid strokeDasharray="3 3" stroke="var(--chart-grid)" />
+                    <XAxis type="number" stroke="var(--chart-axis)" fontSize={10} tick={{ fill: 'var(--chart-axis)' }} />
+                    <YAxis dataKey="feature" type="category" stroke="var(--chart-axis)" fontSize={11} tick={{ fill: 'var(--chart-axis)' }} width={100} />
+                    <Tooltip contentStyle={{ backgroundColor: 'var(--chart-tooltip-bg)', borderColor: 'var(--chart-tooltip-border)', borderRadius: '8px', color: 'var(--text-primary)', boxShadow: 'var(--shadow-dropdown)' }} />
+                    <Bar dataKey="importance" fill="var(--accent-blue)" name="Gini Importance" radius={[0, 4, 4, 0]} />
                   </BarChart>
                 </ResponsiveContainer>
               </div>
@@ -225,7 +225,8 @@ export const ModelEvaluation = () => {
               </div>
               <div
                 style={{
-                  background: 'var(--bg-primary)',
+                  background: 'var(--bg-chip)',
+                  border: '1px solid var(--border-color)',
                   padding: '0.85rem',
                   borderRadius: 'var(--radius-sm)',
                   fontFamily: 'var(--font-mono)',
@@ -233,7 +234,7 @@ export const ModelEvaluation = () => {
                   maxHeight: '300px',
                   overflowY: 'auto',
                   lineHeight: '1.6',
-                  color: '#93c5fd',
+                  color: 'var(--accent-purple)',
                 }}
               >
                 {evalData.tree_rules_sample?.map((rule, rIdx) => (

@@ -91,7 +91,7 @@ export const StockPrediction = () => {
               onClick={() => setCurrentSymbol(sym)}
               className="custom-tab-btn"
               style={{
-                background: currentSymbol === sym ? 'rgba(99, 102, 241, 0.2)' : 'rgba(255,255,255,0.03)',
+                background: currentSymbol === sym ? 'rgba(99, 102, 241, 0.2)' : 'var(--bg-chip)',
                 color: currentSymbol === sym ? 'var(--accent-purple)' : 'var(--text-secondary)',
                 border: currentSymbol === sym ? '1px solid var(--accent-purple)' : '1px solid var(--border-color)',
                 borderRadius: '6px',

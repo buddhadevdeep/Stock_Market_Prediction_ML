@@ -18,11 +18,13 @@ import {
   Zap,
   AlertCircle,
   Menu,
-  ChevronRight
+  ChevronRight,
+  Sun,
+  Moon
 } from 'lucide-react';
 
 const LandingPage = () => {
-  const { login, register, user } = useApp();
+  const { login, register, user, theme, toggleTheme } = useApp();
   const navigate = useNavigate();
 
   // Mobile menu drawer state
@@ -97,21 +99,45 @@ const LandingPage = () => {
           }}>
             <Cpu size={20} style={{ color: '#ffffff' }} />
           </div>
-          <span style={{ fontWeight: '800', fontSize: '1.3rem', letterSpacing: '-0.3px', color: '#ffffff' }}>
-            Stock<span style={{ color: '#818cf8' }}>AI</span>
+          <span style={{ fontWeight: '800', fontSize: '1.3rem', letterSpacing: '-0.3px', color: 'var(--text-primary)' }}>
+            Stock<span style={{ color: 'var(--accent-purple)' }}>AI</span>
           </span>
         </div>
 
         {/* Navigation Links (Desktop) */}
         <nav className="hide-on-mobile" style={{ display: 'flex', gap: '28px', alignItems: 'center' }}>
-          <a href="#hero" style={{ color: '#ffffff', textDecoration: 'none', fontWeight: '600', fontSize: '0.9rem', transition: 'color 0.2s' }}>Home</a>
-          <a href="#features" style={{ color: '#94a3b8', textDecoration: 'none', fontWeight: '500', fontSize: '0.9rem', transition: 'color 0.2s' }}>Features</a>
-          <a href="#how-it-works" style={{ color: '#94a3b8', textDecoration: 'none', fontWeight: '500', fontSize: '0.9rem', transition: 'color 0.2s' }}>How It Works</a>
-          <Link to="/about" style={{ color: '#94a3b8', textDecoration: 'none', fontWeight: '500', fontSize: '0.9rem' }}>About</Link>
+          <a href="#hero" style={{ color: 'var(--text-primary)', textDecoration: 'none', fontWeight: '600', fontSize: '0.9rem', transition: 'color 0.2s' }}>Home</a>
+          <a href="#features" style={{ color: 'var(--text-secondary)', textDecoration: 'none', fontWeight: '500', fontSize: '0.9rem', transition: 'color 0.2s' }}>Features</a>
+          <a href="#how-it-works" style={{ color: 'var(--text-secondary)', textDecoration: 'none', fontWeight: '500', fontSize: '0.9rem', transition: 'color 0.2s' }}>How It Works</a>
+          <Link to="/about" style={{ color: 'var(--text-secondary)', textDecoration: 'none', fontWeight: '500', fontSize: '0.9rem' }}>About</Link>
         </nav>
 
         {/* Right Actions & Mobile Hamburger */}
         <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+          
+          {/* Theme Toggle Button */}
+          <button
+            onClick={toggleTheme}
+            title={`Switch to ${theme === 'dark' ? 'Light' : 'Dark'} Mode`}
+            style={{
+              background: 'var(--bg-chip)',
+              border: '1px solid var(--border-color)',
+              color: 'var(--text-primary)',
+              cursor: 'pointer',
+              padding: '6px',
+              borderRadius: '8px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              transition: 'all 0.2s ease',
+              width: '34px',
+              height: '34px',
+              flexShrink: 0
+            }}
+          >
+            {theme === 'dark' ? <Sun size={16} style={{ color: '#fbbf24' }} /> : <Moon size={16} style={{ color: '#6366f1' }} />}
+          </button>
+
           {/* Desktop Auth Buttons */}
           <div className="hide-on-mobile" style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
             {user ? (
@@ -141,7 +167,7 @@ const LandingPage = () => {
                   style={{ 
                     background: 'transparent', 
                     border: 'none', 
-                    color: '#ffffff', 
+                    color: 'var(--text-primary)', 
                     cursor: 'pointer', 
                     fontWeight: '600', 
                     fontSize: '0.85rem',
@@ -195,7 +221,7 @@ const LandingPage = () => {
                 style={{ 
                   background: 'rgba(99, 102, 241, 0.15)', 
                   border: '1px solid rgba(99, 102, 241, 0.35)', 
-                  color: '#c7d2fe', 
+                  color: 'var(--accent-purple)', 
                   cursor: 'pointer', 
                   fontWeight: '700', 
                   fontSize: '0.78rem',
@@ -212,9 +238,9 @@ const LandingPage = () => {
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               aria-label="Toggle navigation menu"
               style={{
-                background: 'rgba(255, 255, 255, 0.06)',
-                border: '1px solid rgba(255, 255, 255, 0.12)',
-                color: '#f8fafc',
+                background: 'var(--bg-chip)',
+                border: '1px solid var(--border-color)',
+                color: 'var(--text-primary)',
                 cursor: 'pointer',
                 padding: '7px',
                 borderRadius: '8px',
@@ -373,9 +399,9 @@ const LandingPage = () => {
               <button 
                 onClick={handleInstantDemo} 
                 style={{ 
-                  background: 'rgba(255, 255, 255, 0.04)', 
-                  color: '#f8fafc', 
-                  border: '1px solid rgba(255, 255, 255, 0.12)', 
+                  background: 'var(--bg-chip)', 
+                  color: 'var(--text-primary)', 
+                  border: '1px solid var(--border-color)', 
                   borderRadius: '10px', 
                   display: 'inline-flex', 
                   alignItems: 'center', 
@@ -389,23 +415,23 @@ const LandingPage = () => {
                   transition: 'all 0.2s ease'
                 }}
               >
-                <Play size={15} fill="white" /> View Demo
+                <Play size={15} fill="currentColor" /> View Demo
               </button>
             </div>
 
             {/* Quick Stats Panel */}
             <div className="landing-stats-row">
               <div>
-                <h4 style={{ fontSize: '1.8rem', fontWeight: '900', color: '#10b981', fontFamily: 'var(--font-mono)' }}>98.92%</h4>
-                <p style={{ fontSize: '0.76rem', color: '#94a3b8', marginTop: '2px', fontWeight: '500' }}>Historical Accuracy</p>
+                <h4 style={{ fontSize: '1.8rem', fontWeight: '900', color: 'var(--bullish-green)', fontFamily: 'var(--font-mono)' }}>98.92%</h4>
+                <p style={{ fontSize: '0.76rem', color: 'var(--text-secondary)', marginTop: '2px', fontWeight: '500' }}>Historical Accuracy</p>
               </div>
               <div>
-                <h4 style={{ fontSize: '1.8rem', fontWeight: '900', color: '#38bdf8', fontFamily: 'var(--font-mono)' }}>6+</h4>
-                <p style={{ fontSize: '0.76rem', color: '#94a3b8', marginTop: '2px', fontWeight: '500' }}>Key NSE Indexes</p>
+                <h4 style={{ fontSize: '1.8rem', fontWeight: '900', color: 'var(--accent-cyan)', fontFamily: 'var(--font-mono)' }}>6+</h4>
+                <p style={{ fontSize: '0.76rem', color: 'var(--text-secondary)', marginTop: '2px', fontWeight: '500' }}>Key NSE Indexes</p>
               </div>
               <div>
-                <h4 style={{ fontSize: '1.8rem', fontWeight: '900', color: '#818cf8', fontFamily: 'var(--font-mono)' }}>Ensemble</h4>
-                <p style={{ fontSize: '0.76rem', color: '#94a3b8', marginTop: '2px', fontWeight: '500' }}>ML Models</p>
+                <h4 style={{ fontSize: '1.8rem', fontWeight: '900', color: 'var(--accent-purple)', fontFamily: 'var(--font-mono)' }}>Ensemble</h4>
+                <p style={{ fontSize: '0.76rem', color: 'var(--text-secondary)', marginTop: '2px', fontWeight: '500' }}>ML Models</p>
               </div>
             </div>
           </div>
@@ -417,10 +443,10 @@ const LandingPage = () => {
                 padding: '24px 20px', 
                 position: 'relative', 
                 zIndex: 2, 
-                backgroundColor: 'rgba(15, 23, 42, 0.85)', 
+                backgroundColor: 'var(--card-bg)', 
                 borderRadius: '18px',
-                border: '1px solid rgba(255, 255, 255, 0.12)',
-                boxShadow: '0 20px 40px -10px rgba(0, 0, 0, 0.7)',
+                border: '1px solid var(--border-color)',
+                boxShadow: 'var(--card-shadow)',
                 backdropFilter: 'blur(16px)'
               }}
             >
@@ -436,10 +462,10 @@ const LandingPage = () => {
                   textAlign: 'center' 
                 }}>
                   <div style={{ fontSize: '1.5rem', marginBottom: '3px' }}>🐂</div>
-                  <div style={{ fontWeight: '800', color: '#10b981', fontSize: '0.82rem', letterSpacing: '0.5px' }}>
+                  <div style={{ fontWeight: '800', color: 'var(--bullish-green)', fontSize: '0.82rem', letterSpacing: '0.5px' }}>
                     BULLISH STATE
                   </div>
-                  <div style={{ fontSize: '0.7rem', color: '#94a3b8', marginTop: '2px' }}>
+                  <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', marginTop: '2px' }}>
                     Confidence 83%
                   </div>
                 </div>
@@ -453,27 +479,27 @@ const LandingPage = () => {
                   textAlign: 'center' 
                 }}>
                   <div style={{ fontSize: '1.5rem', marginBottom: '3px' }}>🐻</div>
-                  <div style={{ fontWeight: '800', color: '#ef4444', fontSize: '0.82rem', letterSpacing: '0.5px' }}>
+                  <div style={{ fontWeight: '800', color: 'var(--bearish-red)', fontSize: '0.82rem', letterSpacing: '0.5px' }}>
                     BEARISH RANGE
                   </div>
-                  <div style={{ fontSize: '0.7rem', color: '#94a3b8', marginTop: '2px' }}>
+                  <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', marginTop: '2px' }}>
                     Resistance High
                   </div>
                 </div>
               </div>
 
               {/* Price Row */}
-              <div style={{ borderBottom: '1px solid rgba(255, 255, 255, 0.08)', paddingBottom: '14px', marginBottom: '14px' }}>
+              <div style={{ borderBottom: '1px solid var(--border-color)', paddingBottom: '14px', marginBottom: '14px' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <div>
-                    <span style={{ fontSize: '0.7rem', color: '#64748b', fontWeight: '700', letterSpacing: '0.5px' }}>TCS / NSE</span>
-                    <h3 style={{ fontSize: '1.45rem', fontWeight: '900', fontFamily: 'var(--font-mono)', marginTop: '2px', color: '#fff' }}>
+                    <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)', fontWeight: '700', letterSpacing: '0.5px' }}>TCS / NSE</span>
+                    <h3 style={{ fontSize: '1.45rem', fontWeight: '900', fontFamily: 'var(--font-mono)', marginTop: '2px', color: 'var(--text-primary)' }}>
                       ₹3,682.45
                     </h3>
                   </div>
                   <span style={{ 
                     backgroundColor: 'rgba(16, 185, 129, 0.15)', 
-                    color: '#10b981', 
+                    color: 'var(--bullish-green)', 
                     padding: '4px 10px', 
                     borderRadius: '6px', 
                     fontSize: '0.8rem', 
@@ -486,8 +512,8 @@ const LandingPage = () => {
 
               {/* Tomorrow Forecast Row */}
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '6px' }}>
-                <span style={{ fontSize: '0.8rem', color: '#94a3b8' }}>AI Tomorrow Forecast:</span>
-                <span style={{ color: '#10b981', fontWeight: '800', fontSize: '0.92rem', fontFamily: 'var(--font-mono)' }}>
+                <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>AI Tomorrow Forecast:</span>
+                <span style={{ color: 'var(--bullish-green)', fontWeight: '800', fontSize: '0.92rem', fontFamily: 'var(--font-mono)' }}>
                   ₹3,745.80 (Buy Signal)
                 </span>
               </div>
@@ -501,76 +527,76 @@ const LandingPage = () => {
       </section>
 
       {/* Feature Cards Grid: Engineered for Intelligent Investors */}
-      <section id="features" style={{ padding: '60px 6%', backgroundColor: 'rgba(10, 15, 29, 0.8)', borderTop: '1px solid rgba(255, 255, 255, 0.06)', borderBottom: '1px solid rgba(255, 255, 255, 0.06)' }}>
+      <section id="features" style={{ padding: '60px 6%', backgroundColor: 'var(--bg-primary)', borderTop: '1px solid var(--border-color)', borderBottom: '1px solid var(--border-color)' }}>
         <div style={{ maxWidth: '1380px', margin: '0 auto' }}>
           
           <div style={{ textAlign: 'center', marginBottom: '44px', paddingTop: '10px' }}>
-            <h2 style={{ fontSize: 'clamp(1.7rem, 4vw, 2.4rem)', fontWeight: '900', marginBottom: '12px', letterSpacing: '-0.5px', color: '#ffffff' }}>
+            <h2 style={{ fontSize: 'clamp(1.7rem, 4vw, 2.4rem)', fontWeight: '900', marginBottom: '12px', letterSpacing: '-0.5px', color: 'var(--text-primary)' }}>
               Engineered for Intelligent Investors
             </h2>
-            <p style={{ color: '#94a3b8', maxWidth: '620px', margin: '0 auto', fontSize: '0.94rem', lineHeight: '1.6' }}>
+            <p style={{ color: 'var(--text-secondary)', maxWidth: '620px', margin: '0 auto', fontSize: '0.94rem', lineHeight: '1.6' }}>
               Sophisticated metrics, AI analysis, and prediction tools merged into a seamless dashboard.
             </p>
           </div>
 
           <div className="landing-features-grid">
             
-            <div className="landing-feature-card" style={{ padding: '24px 20px', backgroundColor: 'rgba(15, 23, 42, 0.85)', borderRadius: '14px', border: '1px solid rgba(255, 255, 255, 0.1)', backdropFilter: 'blur(16px)', boxShadow: '0 10px 30px -10px rgba(0, 0, 0, 0.6)' }}>
+            <div className="landing-feature-card" style={{ padding: '24px 20px', backgroundColor: 'var(--card-bg)', borderRadius: '14px', border: '1px solid var(--border-color)', backdropFilter: 'blur(16px)', boxShadow: 'var(--card-shadow)' }}>
               <div style={{ width: '42px', height: '42px', borderRadius: '10px', background: 'rgba(99, 102, 241, 0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '16px' }}>
-                <Cpu size={22} style={{ color: '#818cf8' }} />
+                <Cpu size={22} style={{ color: 'var(--accent-purple)' }} />
               </div>
-              <h4 style={{ fontSize: '1.1rem', fontWeight: '800', marginBottom: '8px', color: '#ffffff' }}>AI Predictions</h4>
-              <p style={{ fontSize: '0.86rem', color: '#94a3b8', lineHeight: '1.6', margin: 0 }}>
+              <h4 style={{ fontSize: '1.1rem', fontWeight: '800', marginBottom: '8px', color: 'var(--text-primary)' }}>AI Predictions</h4>
+              <p style={{ fontSize: '0.86rem', color: 'var(--text-secondary)', lineHeight: '1.6', margin: 0 }}>
                 Tomorrow's High/Low calculations modeled with LSTM and XGBoost regressors based on OHLCV features.
               </p>
             </div>
 
-            <div className="landing-feature-card" style={{ padding: '24px 20px', backgroundColor: 'rgba(15, 23, 42, 0.85)', borderRadius: '14px', border: '1px solid rgba(255, 255, 255, 0.1)', backdropFilter: 'blur(16px)', boxShadow: '0 10px 30px -10px rgba(0, 0, 0, 0.6)' }}>
+            <div className="landing-feature-card" style={{ padding: '24px 20px', backgroundColor: 'var(--card-bg)', borderRadius: '14px', border: '1px solid var(--border-color)', backdropFilter: 'blur(16px)', boxShadow: 'var(--card-shadow)' }}>
               <div style={{ width: '42px', height: '42px', borderRadius: '10px', background: 'rgba(56, 189, 248, 0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '16px' }}>
-                <Activity size={22} style={{ color: '#38bdf8' }} />
+                <Activity size={22} style={{ color: 'var(--accent-cyan)' }} />
               </div>
-              <h4 style={{ fontSize: '1.1rem', fontWeight: '800', marginBottom: '8px', color: '#ffffff' }}>Real-Time Market Data</h4>
-              <p style={{ fontSize: '0.86rem', color: '#94a3b8', lineHeight: '1.6', margin: 0 }}>
+              <h4 style={{ fontSize: '1.1rem', fontWeight: '800', marginBottom: '8px', color: 'var(--text-primary)' }}>Real-Time Market Data</h4>
+              <p style={{ fontSize: '0.86rem', color: 'var(--text-secondary)', lineHeight: '1.6', margin: 0 }}>
                 Live streaming quotes for blue-chip companies, custom sparklines, and instant stock indicators.
               </p>
             </div>
 
-            <div className="landing-feature-card" style={{ padding: '24px 20px', backgroundColor: 'rgba(15, 23, 42, 0.85)', borderRadius: '14px', border: '1px solid rgba(255, 255, 255, 0.1)', backdropFilter: 'blur(16px)', boxShadow: '0 10px 30px -10px rgba(0, 0, 0, 0.6)' }}>
+            <div className="landing-feature-card" style={{ padding: '24px 20px', backgroundColor: 'var(--card-bg)', borderRadius: '14px', border: '1px solid var(--border-color)', backdropFilter: 'blur(16px)', boxShadow: 'var(--card-shadow)' }}>
               <div style={{ width: '42px', height: '42px', borderRadius: '10px', background: 'rgba(16, 185, 129, 0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '16px' }}>
-                <BarChart2 size={22} style={{ color: '#10b981' }} />
+                <BarChart2 size={22} style={{ color: 'var(--bullish-green)' }} />
               </div>
-              <h4 style={{ fontSize: '1.1rem', fontWeight: '800', marginBottom: '8px', color: '#ffffff' }}>Technical Analysis</h4>
-              <p style={{ fontSize: '0.86rem', color: '#94a3b8', lineHeight: '1.6', margin: 0 }}>
+              <h4 style={{ fontSize: '1.1rem', fontWeight: '800', marginBottom: '8px', color: 'var(--text-primary)' }}>Technical Analysis</h4>
+              <p style={{ fontSize: '0.86rem', color: 'var(--text-secondary)', lineHeight: '1.6', margin: 0 }}>
                 On-demand overlays for SMA, EMA, MACD, RSI 14, ATR, and Bollinger bands mapped to candlestick points.
               </p>
             </div>
 
-            <div className="landing-feature-card" style={{ padding: '24px 20px', backgroundColor: 'rgba(15, 23, 42, 0.85)', borderRadius: '14px', border: '1px solid rgba(255, 255, 255, 0.1)', backdropFilter: 'blur(16px)', boxShadow: '0 10px 30px -10px rgba(0, 0, 0, 0.6)' }}>
+            <div className="landing-feature-card" style={{ padding: '24px 20px', backgroundColor: 'var(--card-bg)', borderRadius: '14px', border: '1px solid var(--border-color)', backdropFilter: 'blur(16px)', boxShadow: 'var(--card-shadow)' }}>
               <div style={{ width: '42px', height: '42px', borderRadius: '10px', background: 'rgba(245, 158, 11, 0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '16px' }}>
-                <Layers size={22} style={{ color: '#fbbf24' }} />
+                <Layers size={22} style={{ color: 'var(--warning-yellow)' }} />
               </div>
-              <h4 style={{ fontSize: '1.1rem', fontWeight: '800', marginBottom: '8px', color: '#ffffff' }}>Smart Insights</h4>
-              <p style={{ fontSize: '0.86rem', color: '#94a3b8', lineHeight: '1.6', margin: 0 }}>
+              <h4 style={{ fontSize: '1.1rem', fontWeight: '800', marginBottom: '8px', color: 'var(--text-primary)' }}>Smart Insights</h4>
+              <p style={{ fontSize: '0.86rem', color: 'var(--text-secondary)', lineHeight: '1.6', margin: 0 }}>
                 Explainable AI predictions summarizing indicator state thresholds and historical trends.
               </p>
             </div>
 
-            <div className="landing-feature-card" style={{ padding: '24px 20px', backgroundColor: 'rgba(15, 23, 42, 0.85)', borderRadius: '14px', border: '1px solid rgba(255, 255, 255, 0.1)', backdropFilter: 'blur(16px)', boxShadow: '0 10px 30px -10px rgba(0, 0, 0, 0.6)' }}>
+            <div className="landing-feature-card" style={{ padding: '24px 20px', backgroundColor: 'var(--card-bg)', borderRadius: '14px', border: '1px solid var(--border-color)', backdropFilter: 'blur(16px)', boxShadow: 'var(--card-shadow)' }}>
               <div style={{ width: '42px', height: '42px', borderRadius: '10px', background: 'rgba(99, 102, 241, 0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '16px' }}>
-                <ShieldCheck size={22} style={{ color: '#818cf8' }} />
+                <ShieldCheck size={22} style={{ color: 'var(--accent-purple)' }} />
               </div>
-              <h4 style={{ fontSize: '1.1rem', fontWeight: '800', marginBottom: '8px', color: '#ffffff' }}>Risk Management</h4>
-              <p style={{ fontSize: '0.86rem', color: '#94a3b8', lineHeight: '1.6', margin: 0 }}>
+              <h4 style={{ fontSize: '1.1rem', fontWeight: '800', marginBottom: '8px', color: 'var(--text-primary)' }}>Risk Management</h4>
+              <p style={{ fontSize: '0.86rem', color: 'var(--text-secondary)', lineHeight: '1.6', margin: 0 }}>
                 Real-time beta tracking, volatility indexes, and risk probability estimates for open positions.
               </p>
             </div>
 
-            <div className="landing-feature-card" style={{ padding: '24px 20px', backgroundColor: 'rgba(15, 23, 42, 0.85)', borderRadius: '14px', border: '1px solid rgba(255, 255, 255, 0.1)', backdropFilter: 'blur(16px)', boxShadow: '0 10px 30px -10px rgba(0, 0, 0, 0.6)' }}>
+            <div className="landing-feature-card" style={{ padding: '24px 20px', backgroundColor: 'var(--card-bg)', borderRadius: '14px', border: '1px solid var(--border-color)', backdropFilter: 'blur(16px)', boxShadow: 'var(--card-shadow)' }}>
               <div style={{ width: '42px', height: '42px', borderRadius: '10px', background: 'rgba(56, 189, 248, 0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '16px' }}>
-                <TrendingUp size={22} style={{ color: '#38bdf8' }} />
+                <TrendingUp size={22} style={{ color: 'var(--accent-cyan)' }} />
               </div>
-              <h4 style={{ fontSize: '1.1rem', fontWeight: '800', marginBottom: '8px', color: '#ffffff' }}>Portfolio Tracking</h4>
-              <p style={{ fontSize: '0.86rem', color: '#94a3b8', lineHeight: '1.6', margin: 0 }}>
+              <h4 style={{ fontSize: '1.1rem', fontWeight: '800', marginBottom: '8px', color: 'var(--text-primary)' }}>Portfolio Tracking</h4>
+              <p style={{ fontSize: '0.86rem', color: 'var(--text-secondary)', lineHeight: '1.6', margin: 0 }}>
                 Holdings records consolidated with allocation charts and dynamic health index assessments.
               </p>
             </div>
@@ -583,7 +609,7 @@ const LandingPage = () => {
       <section id="how-it-works" style={{ padding: '60px 6%' }}>
         <div style={{ maxWidth: '1100px', margin: '0 auto', textAlign: 'center' }}>
           
-          <h2 style={{ fontSize: 'clamp(1.7rem, 4vw, 2.4rem)', fontWeight: '900', marginBottom: '36px', letterSpacing: '-0.5px' }}>
+          <h2 style={{ fontSize: 'clamp(1.7rem, 4vw, 2.4rem)', fontWeight: '900', marginBottom: '36px', letterSpacing: '-0.5px', color: 'var(--text-primary)' }}>
             How StockAI Works
           </h2>
 
@@ -602,22 +628,23 @@ const LandingPage = () => {
                     width: '38px', 
                     height: '38px', 
                     borderRadius: '50%', 
-                    backgroundColor: '#6366f1', 
+                    backgroundColor: 'var(--accent-purple)', 
                     display: 'flex', 
                     alignItems: 'center', 
                     justifyContent: 'center', 
                     margin: '0 auto 12px auto',
                     fontWeight: '800',
                     fontSize: '0.9rem',
+                    color: '#ffffff',
                     boxShadow: '0 0 14px rgba(99, 102, 241, 0.5)'
                   }}>
                     {step.num}
                   </div>
-                  <h5 style={{ fontSize: '0.92rem', fontWeight: '800', marginBottom: '4px', color: '#fff' }}>{step.label}</h5>
-                  <p style={{ fontSize: '0.74rem', color: '#64748b' }}>{step.sub}</p>
+                  <h5 style={{ fontSize: '0.92rem', fontWeight: '800', marginBottom: '4px', color: 'var(--text-primary)' }}>{step.label}</h5>
+                  <p style={{ fontSize: '0.74rem', color: 'var(--text-secondary)' }}>{step.sub}</p>
                 </div>
                 {idx < arr.length - 1 && (
-                  <div style={{ color: '#475569', fontSize: '1.2rem' }}>→</div>
+                  <div style={{ color: 'var(--text-muted)', fontSize: '1.2rem' }}>→</div>
                 )}
               </React.Fragment>
             ))}
@@ -637,7 +664,7 @@ const LandingPage = () => {
                   width: '32px',
                   height: '32px',
                   borderRadius: '50%',
-                  backgroundColor: '#6366f1',
+                  backgroundColor: 'var(--accent-purple)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -649,8 +676,8 @@ const LandingPage = () => {
                   {step.num}
                 </div>
                 <div>
-                  <h5 style={{ fontSize: '0.9rem', fontWeight: '800', color: '#fff', marginBottom: '2px' }}>{step.label}</h5>
-                  <p style={{ fontSize: '0.75rem', color: '#94a3b8' }}>{step.sub}</p>
+                  <h5 style={{ fontSize: '0.9rem', fontWeight: '800', color: 'var(--text-primary)', marginBottom: '2px' }}>{step.label}</h5>
+                  <p style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>{step.sub}</p>
                 </div>
               </div>
             ))}
@@ -660,15 +687,15 @@ const LandingPage = () => {
       </section>
 
       {/* Supported Analysis Section & Model Integrity Statement */}
-      <section style={{ padding: '60px 6% 70px 6%', backgroundColor: 'rgba(15, 23, 42, 0.5)', borderTop: '1px solid rgba(255, 255, 255, 0.05)' }}>
+      <section style={{ padding: '60px 6% 70px 6%', backgroundColor: 'var(--bg-primary)', borderTop: '1px solid var(--border-color)' }}>
         <div style={{ maxWidth: '1240px', margin: '0 auto' }}>
           <div className="landing-matrix-grid">
             
             <div>
-              <h2 style={{ fontSize: 'clamp(1.6rem, 3.5vw, 2.1rem)', fontWeight: '900', marginBottom: '14px', letterSpacing: '-0.5px' }}>
+              <h2 style={{ fontSize: 'clamp(1.6rem, 3.5vw, 2.1rem)', fontWeight: '900', marginBottom: '14px', letterSpacing: '-0.5px', color: 'var(--text-primary)' }}>
                 Supported Technical Analysis Matrix
               </h2>
-              <p style={{ color: '#94a3b8', marginBottom: '24px', lineHeight: '1.6', fontSize: '0.9rem' }}>
+              <p style={{ color: 'var(--text-secondary)', marginBottom: '24px', lineHeight: '1.6', fontSize: '0.9rem' }}>
                 StockAI parses millions of market data vectors dynamically to feed our deep learning regression models, checking against multiple key parameters:
               </p>
               
@@ -682,8 +709,8 @@ const LandingPage = () => {
                   'Historical ML projection vs actual output ratios'
                 ].map((item, idx) => (
                   <div key={idx} style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                    <CheckCircle size={16} style={{ color: '#10b981', flexShrink: 0 }} />
-                    <span style={{ fontSize: '0.88rem', color: '#f1f5f9', fontWeight: '500' }}>{item}</span>
+                    <CheckCircle size={16} style={{ color: 'var(--bullish-green)', flexShrink: 0 }} />
+                    <span style={{ fontSize: '0.88rem', color: 'var(--text-primary)', fontWeight: '500' }}>{item}</span>
                   </div>
                 ))}
               </div>
@@ -692,28 +719,29 @@ const LandingPage = () => {
             {/* Model Integrity Statement Card */}
             <div style={{ 
               padding: '24px 20px', 
-              backgroundColor: 'rgba(15, 23, 42, 0.8)', 
+              backgroundColor: 'var(--card-bg)', 
               borderRadius: '16px', 
-              border: '1px solid rgba(255, 255, 255, 0.08)',
+              border: '1px solid var(--border-color)',
+              boxShadow: 'var(--card-shadow)',
               backdropFilter: 'blur(12px)'
             }}>
-              <h4 style={{ fontWeight: '800', fontSize: '1.05rem', marginBottom: '12px', color: '#fff' }}>Model Integrity Statement</h4>
-              <p style={{ fontSize: '0.82rem', color: '#94a3b8', lineHeight: '1.6', marginBottom: '18px' }}>
+              <h4 style={{ fontWeight: '800', fontSize: '1.05rem', marginBottom: '12px', color: 'var(--text-primary)' }}>Model Integrity Statement</h4>
+              <p style={{ fontSize: '0.82rem', color: 'var(--text-secondary)', lineHeight: '1.6', marginBottom: '18px' }}>
                 Our systems calculate predictive vectors using mathematical statistical regressions. These values represent mathematical probabilities based on historical indices, and not financial advisory recommendations.
               </p>
               
-              <div style={{ backgroundColor: 'rgba(0, 0, 0, 0.3)', padding: '14px', borderRadius: '10px', border: '1px solid rgba(255, 255, 255, 0.05)' }}>
+              <div style={{ backgroundColor: 'var(--bg-chip)', padding: '14px', borderRadius: '10px', border: '1px solid var(--border-color)' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px', fontSize: '0.78rem' }}>
-                  <span style={{ color: '#64748b' }}>Target:</span>
-                  <span style={{ fontWeight: '700', color: '#f8fafc' }}>Tomorrow's Session High</span>
+                  <span style={{ color: 'var(--text-muted)' }}>Target:</span>
+                  <span style={{ fontWeight: '700', color: 'var(--text-primary)' }}>Tomorrow's Session High</span>
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px', fontSize: '0.78rem' }}>
-                  <span style={{ color: '#64748b' }}>Input Features:</span>
-                  <span style={{ fontWeight: '700', color: '#f8fafc' }}>OHLCV + 14 Indicators</span>
+                  <span style={{ color: 'var(--text-muted)' }}>Input Features:</span>
+                  <span style={{ fontWeight: '700', color: 'var(--text-primary)' }}>OHLCV + 14 Indicators</span>
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.78rem' }}>
-                  <span style={{ color: '#64748b' }}>Validation Spec:</span>
-                  <span style={{ fontWeight: '700', color: '#f8fafc' }}>10 Years NSE History</span>
+                  <span style={{ color: 'var(--text-muted)' }}>Validation Spec:</span>
+                  <span style={{ fontWeight: '700', color: 'var(--text-primary)' }}>10 Years NSE History</span>
                 </div>
               </div>
             </div>
@@ -723,7 +751,7 @@ const LandingPage = () => {
       </section>
 
       {/* Footer */}
-      <footer style={{ borderTop: '1px solid rgba(255, 255, 255, 0.06)', padding: '30px 6%', textAlign: 'center', fontSize: '0.8rem', color: '#64748b' }}>
+      <footer style={{ borderTop: '1px solid var(--border-color)', padding: '30px 6%', textAlign: 'center', fontSize: '0.8rem', color: 'var(--text-muted)' }}>
         <p>© 2026 StockAI Platform. All rights reserved. Powered by Deep learning regressions.</p>
       </footer>
 
@@ -752,11 +780,11 @@ const LandingPage = () => {
             style={{
               width: '100%',
               maxWidth: '400px',
-              backgroundColor: '#0f172a',
-              border: '1px solid rgba(255, 255, 255, 0.12)',
+              backgroundColor: 'var(--card-bg)',
+              border: '1px solid var(--border-color)',
               borderRadius: '16px',
               padding: '28px 24px',
-              boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.8)',
+              boxShadow: 'var(--card-shadow)',
               position: 'relative'
             }}
           >
@@ -769,7 +797,7 @@ const LandingPage = () => {
                 right: '16px',
                 background: 'transparent',
                 border: 'none',
-                color: '#64748b',
+                color: 'var(--text-muted)',
                 cursor: 'pointer',
                 padding: '4px'
               }}
@@ -780,21 +808,21 @@ const LandingPage = () => {
             {/* Modal Title */}
             <div style={{ textAlign: 'center', marginBottom: '20px' }}>
               <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
-                <Cpu size={24} style={{ color: '#818cf8' }} />
-                <span style={{ fontWeight: '800', fontSize: '1.25rem' }}>
-                  Stock<span style={{ color: '#818cf8' }}>AI</span>
+                <Cpu size={24} style={{ color: 'var(--accent-purple)' }} />
+                <span style={{ fontWeight: '800', fontSize: '1.25rem', color: 'var(--text-primary)' }}>
+                  Stock<span style={{ color: 'var(--accent-purple)' }}>AI</span>
                 </span>
               </div>
-              <h3 style={{ fontSize: '1.15rem', fontWeight: '800', color: '#fff' }}>
+              <h3 style={{ fontSize: '1.15rem', fontWeight: '800', color: 'var(--text-primary)' }}>
                 {authMode === 'login' ? 'Sign In to Terminal' : 'Create Free Account'}
               </h3>
-              <p style={{ fontSize: '0.78rem', color: '#94a3b8', marginTop: '2px' }}>
+              <p style={{ fontSize: '0.78rem', color: 'var(--text-secondary)', marginTop: '2px' }}>
                 Simple Email & Password authentication
               </p>
             </div>
 
             {authError && (
-              <div style={{ backgroundColor: 'rgba(239, 68, 68, 0.12)', border: '1px solid rgba(239, 68, 68, 0.3)', borderRadius: '8px', padding: '10px 12px', color: '#ef4444', fontSize: '0.8rem', marginBottom: '14px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <div style={{ backgroundColor: 'rgba(239, 68, 68, 0.12)', border: '1px solid rgba(239, 68, 68, 0.3)', borderRadius: '8px', padding: '10px 12px', color: 'var(--bearish-red)', fontSize: '0.8rem', marginBottom: '14px', display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <AlertCircle size={15} />
                 <span>{authError}</span>
               </div>
@@ -803,7 +831,7 @@ const LandingPage = () => {
             <form onSubmit={handleAuthSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
               {authMode === 'register' && (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                  <label style={{ fontSize: '0.7rem', fontWeight: '700', color: '#94a3b8', textTransform: 'uppercase' }}>Full Name</label>
+                  <label style={{ fontSize: '0.7rem', fontWeight: '700', color: 'var(--text-secondary)', textTransform: 'uppercase' }}>Full Name</label>
                   <div style={{ position: 'relative' }}>
                     <input 
                       type="text"
@@ -811,15 +839,15 @@ const LandingPage = () => {
                       placeholder="Arjun Trader"
                       value={authName}
                       onChange={(e) => setAuthName(e.target.value)}
-                      style={{ width: '100%', height: '40px', paddingLeft: '36px', borderRadius: '8px', backgroundColor: '#1e293b', border: '1px solid rgba(255,255,255,0.08)', color: '#fff', fontSize: '0.88rem', outline: 'none' }}
+                      style={{ width: '100%', height: '40px', paddingLeft: '36px', borderRadius: '8px', backgroundColor: 'var(--bg-secondary)', border: '1px solid var(--border-color)', color: 'var(--text-primary)', fontSize: '0.88rem', outline: 'none' }}
                     />
-                    <User size={15} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: '#64748b' }} />
+                    <User size={15} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
                   </div>
                 </div>
               )}
 
               <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                <label style={{ fontSize: '0.7rem', fontWeight: '700', color: '#94a3b8', textTransform: 'uppercase' }}>Email Address</label>
+                <label style={{ fontSize: '0.7rem', fontWeight: '700', color: 'var(--text-secondary)', textTransform: 'uppercase' }}>Email Address</label>
                 <div style={{ position: 'relative' }}>
                   <input 
                     type="email"
@@ -827,14 +855,14 @@ const LandingPage = () => {
                     placeholder="name@example.com"
                     value={authEmail}
                     onChange={(e) => setAuthEmail(e.target.value)}
-                    style={{ width: '100%', height: '40px', paddingLeft: '36px', borderRadius: '8px', backgroundColor: '#1e293b', border: '1px solid rgba(255,255,255,0.08)', color: '#fff', fontSize: '0.88rem', outline: 'none' }}
+                    style={{ width: '100%', height: '40px', paddingLeft: '36px', borderRadius: '8px', backgroundColor: 'var(--bg-secondary)', border: '1px solid var(--border-color)', color: 'var(--text-primary)', fontSize: '0.88rem', outline: 'none' }}
                   />
-                  <Mail size={15} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: '#64748b' }} />
+                  <Mail size={15} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
                 </div>
               </div>
 
               <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                <label style={{ fontSize: '0.7rem', fontWeight: '700', color: '#94a3b8', textTransform: 'uppercase' }}>Password</label>
+                <label style={{ fontSize: '0.7rem', fontWeight: '700', color: 'var(--text-secondary)', textTransform: 'uppercase' }}>Password</label>
                 <div style={{ position: 'relative' }}>
                   <input 
                     type="password"
@@ -842,9 +870,9 @@ const LandingPage = () => {
                     placeholder="Enter password"
                     value={authPassword}
                     onChange={(e) => setAuthPassword(e.target.value)}
-                    style={{ width: '100%', height: '40px', paddingLeft: '36px', borderRadius: '8px', backgroundColor: '#1e293b', border: '1px solid rgba(255,255,255,0.08)', color: '#fff', fontSize: '0.88rem', outline: 'none' }}
+                    style={{ width: '100%', height: '40px', paddingLeft: '36px', borderRadius: '8px', backgroundColor: 'var(--bg-secondary)', border: '1px solid var(--border-color)', color: 'var(--text-primary)', fontSize: '0.88rem', outline: 'none' }}
                   />
-                  <Lock size={15} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: '#64748b' }} />
+                  <Lock size={15} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
                 </div>
               </div>
 
@@ -869,7 +897,7 @@ const LandingPage = () => {
             </form>
 
             {/* Quick 1-Click Instant Demo Access */}
-            <div style={{ marginTop: '14px', borderTop: '1px solid rgba(255, 255, 255, 0.08)', paddingTop: '12px' }}>
+            <div style={{ marginTop: '14px', borderTop: '1px solid var(--border-color)', paddingTop: '12px' }}>
               <button
                 type="button"
                 onClick={handleInstantDemo}
@@ -877,7 +905,7 @@ const LandingPage = () => {
                   width: '100%',
                   backgroundColor: 'rgba(99, 102, 241, 0.1)',
                   border: '1px solid rgba(99, 102, 241, 0.25)',
-                  color: '#818cf8',
+                  color: 'var(--accent-purple)',
                   borderRadius: '8px',
                   padding: '9px',
                   fontSize: '0.82rem',
@@ -894,13 +922,13 @@ const LandingPage = () => {
             </div>
 
             {/* Mode Switcher */}
-            <div style={{ textAlign: 'center', marginTop: '16px', fontSize: '0.8rem', color: '#94a3b8' }}>
+            <div style={{ textAlign: 'center', marginTop: '16px', fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
               {authMode === 'login' ? (
                 <>
                   Don't have an account?{' '}
                   <button 
                     onClick={() => handleOpenAuth('register')}
-                    style={{ background: 'transparent', border: 'none', color: '#818cf8', fontWeight: '700', cursor: 'pointer' }}
+                    style={{ background: 'transparent', border: 'none', color: 'var(--accent-purple)', fontWeight: '700', cursor: 'pointer' }}
                   >
                     Sign up
                   </button>
@@ -910,7 +938,7 @@ const LandingPage = () => {
                   Already have an account?{' '}
                   <button 
                     onClick={() => handleOpenAuth('login')}
-                    style={{ background: 'transparent', border: 'none', color: '#818cf8', fontWeight: '700', cursor: 'pointer' }}
+                    style={{ background: 'transparent', border: 'none', color: 'var(--accent-purple)', fontWeight: '700', cursor: 'pointer' }}
                   >
                     Sign in
                   </button>

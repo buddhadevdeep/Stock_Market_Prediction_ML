@@ -66,11 +66,11 @@ const ConfidenceGauge = ({ value = 50, label = 'Confidence', statusText = 'Neutr
             y1="0"
             x2={-(radius - strokeWidth)}
             y2="0"
-            stroke="#f8fafc"
-            strokeWidth="3"
+            stroke="var(--text-primary)"
+            strokeWidth="3.5"
             strokeLinecap="round"
           />
-          <circle cx="0" cy="0" r="6" fill="#f8fafc" stroke="var(--bg-secondary)" strokeWidth="2" />
+          <circle cx="0" cy="0" r="6" fill="var(--text-primary)" stroke="var(--bg-secondary)" strokeWidth="2" />
         </g>
       </svg>
       

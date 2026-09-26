@@ -72,7 +72,7 @@ export const Dashboard = () => {
               className="card"
               style={{
                 marginBottom: '1.75rem',
-                background: 'rgba(31, 41, 55, 0.6)',
+                background: 'var(--bg-chip)',
                 border: '1px dashed var(--border-color)',
               }}
             >
