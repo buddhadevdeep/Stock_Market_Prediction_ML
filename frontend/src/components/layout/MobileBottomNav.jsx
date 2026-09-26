@@ -19,10 +19,10 @@ export const MobileBottomNav = () => {
 
   const navTabs = [
     { name: 'Dashboard', path: '/dashboard', icon: LayoutDashboard, requiresAuth: false },
-    { name: 'Predict', path: '/prediction', icon: TrendingUp, requiresAuth: false },
-    { name: 'Portfolio', path: '/portfolio', icon: Briefcase, requiresAuth: true },
+    { name: 'Predict', path: '/prediction', icon: TrendingUp, requiresAuth: true },
+    { name: 'Portfolio', path: '/portfolio', icon: Briefcase, requiresAuth: false },
     { name: 'Watchlist', path: '/watchlist', icon: Eye, requiresAuth: false },
-    { name: 'Bull/Bear', path: '/bullbear', icon: Activity, requiresAuth: false },
+    { name: 'Bull/Bear', path: '/bullbear', icon: Activity, requiresAuth: true },
   ];
 
   const handleTabClick = (e, tab) => {
