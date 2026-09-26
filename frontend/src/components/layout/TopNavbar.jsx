@@ -110,15 +110,7 @@ export const TopNavbar = () => {
     setCurrentSymbol(cleanSym);
     setSearchQuery('');
     setShowSuggestions(false);
-    if (!user) {
-      openAuthModal({
-        mode: 'login',
-        featureName: 'AI Stock Prediction',
-        returnPath: '/prediction'
-      });
-    } else {
-      navigate('/prediction');
-    }
+    navigate('/prediction');
   };
 
   const handleKeyDown = (e) => {

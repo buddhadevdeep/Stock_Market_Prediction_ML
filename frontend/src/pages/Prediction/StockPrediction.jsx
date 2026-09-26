@@ -23,8 +23,7 @@ import {
 } from 'lucide-react';
 
 const POPULAR_SYMBOLS = [
-  'TCS', 'INFY', 'RELIANCE', 'SBIN', 'HDFCBANK', 'ICICIBANK',
-  'WIPRO', 'TATAPOWER', 'TITAN', 'TATASTEEL', 'AAPL', 'MSFT'
+  'NIFTY 50', 'SENSEX', 'NIFTY BANK', 'TCS', 'INFY', 'RELIANCE', 'TATAPOWER', 'HAL', 'CUPID', 'SBIN', 'HDFCBANK', 'TITAN'
 ];
 
 export const StockPrediction = () => {

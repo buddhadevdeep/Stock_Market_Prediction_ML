@@ -20,7 +20,7 @@ import {
   RefreshCw
 } from 'lucide-react';
 
-const POPULAR_TICKERS = ['HAL', 'TATAPOWER', 'TCS', 'RELIANCE', 'SBIN', 'INFY', 'ZOMATO', 'AAPL'];
+const POPULAR_TICKERS = ['NIFTY 50', 'SENSEX', 'NIFTY BANK', 'TATAPOWER', 'HAL', 'CUPID', 'TCS', 'RELIANCE', 'SBIN', 'INFY'];
 
 const BullBearAnalysis = () => {
   const { currentSymbol, setCurrentSymbol } = useApp();

@@ -40,31 +40,21 @@ const Sidebar = () => {
     navigate('/');
   };
 
-  // Locked features for instant demo / unauthenticated accounts
+  // All navigation routes available with interactive preview in Demo Mode
   const menuItems = [
     { name: 'Dashboard', path: '/dashboard', icon: LayoutDashboard, requiresAuth: false },
-    { name: 'Prediction', path: '/prediction', icon: TrendingUp, requiresAuth: true },
-    { name: 'Bull vs Bear', path: '/bullbear', icon: Activity, requiresAuth: true },
+    { name: 'Prediction', path: '/prediction', icon: TrendingUp, requiresAuth: false },
+    { name: 'Bull vs Bear', path: '/bullbear', icon: Activity, requiresAuth: false },
     { name: 'Portfolio', path: '/portfolio', icon: Briefcase, requiresAuth: false },
     { name: 'Watchlist', path: '/watchlist', icon: Eye, requiresAuth: false },
-    { name: 'Analytics', path: '/analytics', icon: BarChart2, requiresAuth: true },
-    { name: 'Compare', path: '/compare', icon: Columns, requiresAuth: true },
+    { name: 'Analytics', path: '/analytics', icon: BarChart2, requiresAuth: false },
+    { name: 'Compare', path: '/compare', icon: Columns, requiresAuth: false },
     { name: 'Alerts', path: '/alerts', icon: Bell, requiresAuth: false },
     { name: 'Settings', path: '/settings', icon: Settings, requiresAuth: false },
   ];
 
-  const handleItemClick = (e, item) => {
-    if (item.requiresAuth && !user) {
-      e.preventDefault();
-      closeMobileSidebar();
-      openAuthModal({
-        mode: 'login',
-        featureName: item.name,
-        returnPath: item.path
-      });
-    } else {
-      closeMobileSidebar();
-    }
+  const handleItemClick = () => {
+    closeMobileSidebar();
   };
 
   return (

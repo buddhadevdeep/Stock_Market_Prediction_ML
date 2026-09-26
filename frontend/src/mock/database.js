@@ -10,6 +10,463 @@ export const marketIndices = [
 
 
 export const mockStocks = {
+  'NIFTY 50': {
+    symbol: 'NIFTY 50',
+    name: 'NIFTY 50 Benchmark Index',
+    exchange: 'NSE',
+    price: 24541.15,
+    change: 142.30,
+    pctChange: 0.58,
+    open: 24450.00,
+    high: 24580.60,
+    low: 24410.20,
+    prevClose: 24398.85,
+    volume: '28.45M',
+    marketCap: '₹195.4 Lakh Cr',
+    beta: 1.00,
+    dividendYield: 1.32,
+    peRatio: 22.80,
+    high52: 26277.35,
+    low52: 21281.45,
+    prediction: {
+      tomorrowHigh: 24715.00,
+      tomorrowLow: 24420.00,
+      expectedRange: '₹24,420 - ₹24,715',
+      expectedPctChange: 0.71,
+      confidence: 88,
+      trend: 'Bullish',
+      riskLevel: 'Low',
+      riskProb: 16,
+      modelName: 'Random Forest + LSTM Ensemble',
+      r2: 0.992,
+      mae: 32.40,
+      rmse: 48.20,
+      features: ['OHLCV', 'RSI 14', 'MACD', 'EMA 20/50', 'FII Inflows'],
+      explanation: [
+        { icon: 'trending-up', text: 'NIFTY 50 holding firmly above the key 20-day EMA support zone.' },
+        { icon: 'activity', text: 'Institutional buying volume and broad-market breadth remain positive.' },
+        { icon: 'shield-check', text: 'RSI at 59.4 indicates sustainable bullish momentum.' }
+      ]
+    },
+    bullFactors: [
+      { factor: 'NIFTY above 20 & 50 Day EMAs', value: 'Strong structural trend' },
+      { factor: 'Positive Banking & IT contribution', value: 'Heavyweight momentum' },
+      { factor: 'FII/DII Net Inflows positive', value: 'Institutional support' }
+    ],
+    bearFactors: [
+      { factor: 'Approaching resistance near 24,800', value: 'Potential profit booking' },
+      { factor: 'Global macro volatility (Crude & USD)', value: 'External pressure' }
+    ],
+    bullPct: 68,
+    bearPct: 32
+  },
+  '^NSEI': {
+    symbol: '^NSEI',
+    name: 'NIFTY 50 Benchmark Index',
+    exchange: 'NSE',
+    price: 24541.15,
+    change: 142.30,
+    pctChange: 0.58,
+    open: 24450.00,
+    high: 24580.60,
+    low: 24410.20,
+    prevClose: 24398.85,
+    volume: '28.45M',
+    marketCap: '₹195.4 Lakh Cr',
+    beta: 1.00,
+    dividendYield: 1.32,
+    peRatio: 22.80,
+    high52: 26277.35,
+    low52: 21281.45,
+    prediction: {
+      tomorrowHigh: 24715.00,
+      tomorrowLow: 24420.00,
+      expectedRange: '₹24,420 - ₹24,715',
+      expectedPctChange: 0.71,
+      confidence: 88,
+      trend: 'Bullish',
+      riskLevel: 'Low',
+      riskProb: 16,
+      modelName: 'Random Forest + LSTM Ensemble',
+      r2: 0.992,
+      mae: 32.40,
+      rmse: 48.20,
+      features: ['OHLCV', 'RSI 14', 'MACD', 'EMA 20/50'],
+      explanation: [
+        { icon: 'trending-up', text: 'NIFTY 50 holding firmly above the key 20-day EMA support zone.' }
+      ]
+    },
+    bullFactors: [
+      { factor: 'Price above 20 & 50 Day EMA', value: 'Bullish bias' }
+    ],
+    bearFactors: [
+      { factor: 'Resistance at 24,800', value: 'Overhead supply' }
+    ],
+    bullPct: 68,
+    bearPct: 32
+  },
+  NIFTY: {
+    symbol: 'NIFTY',
+    name: 'NIFTY 50 Benchmark Index',
+    exchange: 'NSE',
+    price: 24541.15,
+    change: 142.30,
+    pctChange: 0.58,
+    open: 24450.00,
+    high: 24580.60,
+    low: 24410.20,
+    prevClose: 24398.85,
+    volume: '28.45M',
+    marketCap: '₹195.4 Lakh Cr',
+    beta: 1.00,
+    dividendYield: 1.32,
+    peRatio: 22.80,
+    high52: 26277.35,
+    low52: 21281.45,
+    prediction: {
+      tomorrowHigh: 24715.00,
+      tomorrowLow: 24420.00,
+      expectedRange: '₹24,420 - ₹24,715',
+      expectedPctChange: 0.71,
+      confidence: 88,
+      trend: 'Bullish',
+      riskLevel: 'Low',
+      riskProb: 16,
+      modelName: 'Random Forest + LSTM Ensemble',
+      r2: 0.992,
+      mae: 32.40,
+      rmse: 48.20,
+      features: ['OHLCV', 'RSI 14', 'MACD', 'EMA 20/50'],
+      explanation: [
+        { icon: 'trending-up', text: 'NIFTY 50 holding firmly above the key 20-day EMA support zone.' }
+      ]
+    },
+    bullFactors: [
+      { factor: 'Price above 20 & 50 Day EMA', value: 'Bullish bias' }
+    ],
+    bearFactors: [
+      { factor: 'Resistance at 24,800', value: 'Overhead supply' }
+    ],
+    bullPct: 68,
+    bearPct: 32
+  },
+  SENSEX: {
+    symbol: 'SENSEX',
+    name: 'BSE SENSEX Index',
+    exchange: 'BSE',
+    price: 80604.65,
+    change: 418.20,
+    pctChange: 0.52,
+    open: 80350.00,
+    high: 80780.00,
+    low: 80200.00,
+    prevClose: 80186.45,
+    volume: '14.20M',
+    marketCap: '₹420.8 Lakh Cr',
+    beta: 0.98,
+    dividendYield: 1.25,
+    peRatio: 23.40,
+    high52: 85978.25,
+    low52: 70319.05,
+    prediction: {
+      tomorrowHigh: 81150.00,
+      tomorrowLow: 80250.00,
+      expectedRange: '₹80,250 - ₹81,150',
+      expectedPctChange: 0.68,
+      confidence: 86,
+      trend: 'Bullish',
+      riskLevel: 'Low',
+      riskProb: 18,
+      modelName: 'Random Forest + XGBoost Ensemble',
+      r2: 0.989,
+      mae: 98.50,
+      rmse: 142.30,
+      features: ['OHLCV', 'RSI 14', 'MACD', 'BSE Top 30 Weights'],
+      explanation: [
+        { icon: 'trending-up', text: 'SENSEX advancing with steady large-cap banking and auto support.' }
+      ]
+    },
+    bullFactors: [
+      { factor: 'Index above major moving averages', value: 'Bullish trend' }
+    ],
+    bearFactors: [
+      { factor: 'Resistance near 81,500', value: 'Consolidation zone' }
+    ],
+    bullPct: 65,
+    bearPct: 35
+  },
+  '^BSESN': {
+    symbol: '^BSESN',
+    name: 'BSE SENSEX Index',
+    exchange: 'BSE',
+    price: 80604.65,
+    change: 418.20,
+    pctChange: 0.52,
+    open: 80350.00,
+    high: 80780.00,
+    low: 80200.00,
+    prevClose: 80186.45,
+    volume: '14.20M',
+    marketCap: '₹420.8 Lakh Cr',
+    beta: 0.98,
+    dividendYield: 1.25,
+    peRatio: 23.40,
+    high52: 85978.25,
+    low52: 70319.05,
+    prediction: {
+      tomorrowHigh: 81150.00,
+      tomorrowLow: 80250.00,
+      expectedRange: '₹80,250 - ₹81,150',
+      expectedPctChange: 0.68,
+      confidence: 86,
+      trend: 'Bullish',
+      riskLevel: 'Low',
+      riskProb: 18,
+      modelName: 'Random Forest + XGBoost Ensemble',
+      r2: 0.989,
+      mae: 98.50,
+      rmse: 142.30,
+      features: ['OHLCV', 'RSI 14', 'MACD'],
+      explanation: [
+        { icon: 'trending-up', text: 'SENSEX large-cap momentum positive.' }
+      ]
+    },
+    bullFactors: [
+      { factor: 'Index above 50-day SMA', value: 'Bullish trend' }
+    ],
+    bearFactors: [
+      { factor: 'Resistance near 81,500', value: 'Consolidation zone' }
+    ],
+    bullPct: 65,
+    bearPct: 35
+  },
+  'NIFTY BANK': {
+    symbol: 'NIFTY BANK',
+    name: 'NIFTY Bank Sector Index',
+    exchange: 'NSE',
+    price: 52438.50,
+    change: 320.40,
+    pctChange: 0.61,
+    open: 52150.00,
+    high: 52620.00,
+    low: 52080.00,
+    prevClose: 52118.10,
+    volume: '18.90M',
+    marketCap: '₹55.2 Lakh Cr',
+    beta: 1.25,
+    dividendYield: 1.10,
+    peRatio: 16.40,
+    high52: 54467.35,
+    low52: 43230.50,
+    prediction: {
+      tomorrowHigh: 52950.00,
+      tomorrowLow: 52180.00,
+      expectedRange: '₹52,180 - ₹52,950',
+      expectedPctChange: 0.98,
+      confidence: 85,
+      trend: 'Bullish',
+      riskLevel: 'Medium',
+      riskProb: 24,
+      modelName: 'Random Forest + XGBoost Ensemble',
+      r2: 0.985,
+      mae: 110.20,
+      rmse: 165.40,
+      features: ['OHLCV', 'RSI 14', 'Credit Growth', 'NIM Ratios'],
+      explanation: [
+        { icon: 'trending-up', text: 'Private & PSU banking stocks rebounding from recent consolidation.' }
+      ]
+    },
+    bullFactors: [
+      { factor: 'HDFC & ICICI Bank strength', value: 'Heavyweight momentum' }
+    ],
+    bearFactors: [
+      { factor: 'NIM margin pressure talk', value: 'Quarterly variance' }
+    ],
+    bullPct: 63,
+    bearPct: 37
+  },
+  TATAPOWER: {
+    symbol: 'TATAPOWER',
+    name: 'Tata Power Company Ltd.',
+    exchange: 'NSE',
+    price: 432.80,
+    change: 8.45,
+    pctChange: 1.99,
+    open: 425.00,
+    high: 436.50,
+    low: 423.10,
+    prevClose: 424.35,
+    volume: '12.45M',
+    marketCap: '₹1.38 Lakh Cr',
+    beta: 1.34,
+    dividendYield: 0.52,
+    peRatio: 36.20,
+    high52: 494.85,
+    low52: 245.10,
+    prediction: {
+      tomorrowHigh: 442.50,
+      tomorrowLow: 427.00,
+      expectedRange: '₹427 - ₹443',
+      expectedPctChange: 2.24,
+      confidence: 89,
+      trend: 'Bullish',
+      riskLevel: 'Low',
+      riskProb: 15,
+      modelName: 'Random Forest Regressor',
+      r2: 0.988,
+      mae: 2.15,
+      rmse: 3.40,
+      features: ['OHLCV', 'RSI 14', 'MACD', 'Clean Energy Momentum'],
+      explanation: [
+        { icon: 'trending-up', text: 'Renewable portfolio expansion and strong Q3 generation numbers.' }
+      ]
+    },
+    bullFactors: [
+      { factor: 'Renewable capacity additions', value: 'High ESG growth' },
+      { factor: 'RSI at 62 (Bullish strength)', value: 'Upward momentum' }
+    ],
+    bearFactors: [
+      { factor: 'Resistance at ₹450 zone', value: 'Profit booking level' }
+    ],
+    bullPct: 72,
+    bearPct: 28
+  },
+  HAL: {
+    symbol: 'HAL',
+    name: 'Hindustan Aeronautics Limited',
+    exchange: 'NSE',
+    price: 4420.50,
+    change: 112.30,
+    pctChange: 2.61,
+    open: 4330.00,
+    high: 4450.00,
+    low: 4315.00,
+    prevClose: 4308.20,
+    volume: '3.12M',
+    marketCap: '₹2.95 Lakh Cr',
+    beta: 1.15,
+    dividendYield: 0.85,
+    peRatio: 38.40,
+    high52: 5675.00,
+    low52: 2150.00,
+    prediction: {
+      tomorrowHigh: 4520.00,
+      tomorrowLow: 4360.00,
+      expectedRange: '₹4,360 - ₹4,520',
+      expectedPctChange: 2.25,
+      confidence: 91,
+      trend: 'Bullish',
+      riskLevel: 'Low',
+      riskProb: 14,
+      modelName: 'Random Forest Ensemble',
+      r2: 0.991,
+      mae: 14.80,
+      rmse: 22.40,
+      features: ['OHLCV', 'Order Book Growth', 'Defence Budget Allocations'],
+      explanation: [
+        { icon: 'trending-up', text: 'Robust multi-year order book and indigenous defence procurement orders.' }
+      ]
+    },
+    bullFactors: [
+      { factor: 'Record ₹1.2L Cr order book', value: 'High revenue visibility' },
+      { factor: 'Positive defence sector tailwinds', value: 'Indigenisation thrust' }
+    ],
+    bearFactors: [
+      { factor: 'High historical valuation multiple', value: 'Valuation sensitivity' }
+    ],
+    bullPct: 75,
+    bearPct: 25
+  },
+  CUPID: {
+    symbol: 'CUPID',
+    name: 'Cupid Limited',
+    exchange: 'NSE',
+    price: 92.40,
+    change: 2.80,
+    pctChange: 3.12,
+    open: 89.90,
+    high: 94.00,
+    low: 89.50,
+    prevClose: 89.60,
+    volume: '4.85M',
+    marketCap: '₹2,480 Cr',
+    beta: 1.45,
+    dividendYield: 0.70,
+    peRatio: 45.10,
+    high52: 141.00,
+    low52: 45.00,
+    prediction: {
+      tomorrowHigh: 96.00,
+      tomorrowLow: 90.00,
+      expectedRange: '₹90 - ₹96',
+      expectedPctChange: 3.90,
+      confidence: 84,
+      trend: 'Bullish',
+      riskLevel: 'Medium',
+      riskProb: 28,
+      modelName: 'XGBoost Regressor',
+      r2: 0.978,
+      mae: 0.85,
+      rmse: 1.30,
+      features: ['OHLCV', 'Volume Breakout', 'RSI 14'],
+      explanation: [
+        { icon: 'trending-up', text: 'Strong retail volume accumulation and export expansion.' }
+      ]
+    },
+    bullFactors: [
+      { factor: 'Capacity expansion online', value: 'Volume growth' }
+    ],
+    bearFactors: [
+      { factor: 'Small-cap beta risk', value: 'Higher volatility' }
+    ],
+    bullPct: 65,
+    bearPct: 35
+  },
+  TITAN: {
+    symbol: 'TITAN',
+    name: 'Titan Company Limited',
+    exchange: 'NSE',
+    price: 3480.00,
+    change: 32.50,
+    pctChange: 0.94,
+    open: 3455.00,
+    high: 3495.00,
+    low: 3440.00,
+    prevClose: 3447.50,
+    volume: '1.45M',
+    marketCap: '₹3.09 Lakh Cr',
+    beta: 0.92,
+    dividendYield: 0.32,
+    peRatio: 82.50,
+    high52: 3886.95,
+    low52: 3055.65,
+    prediction: {
+      tomorrowHigh: 3525.00,
+      tomorrowLow: 3445.00,
+      expectedRange: '₹3,445 - ₹3,525',
+      expectedPctChange: 1.29,
+      confidence: 87,
+      trend: 'Bullish',
+      riskLevel: 'Low',
+      riskProb: 17,
+      modelName: 'Random Forest Regressor',
+      r2: 0.984,
+      mae: 12.10,
+      rmse: 18.20,
+      features: ['OHLCV', 'Jewellery Demand Trends', 'RSI 14'],
+      explanation: [
+        { icon: 'trending-up', text: 'Strong festive and wedding season demand uptick across Tanishq.' }
+      ]
+    },
+    bullFactors: [
+      { factor: 'Market share gains in organized jewellery', value: 'Brand power' }
+    ],
+    bearFactors: [
+      { factor: 'High gold price volatility', value: 'Margin fluctuation' }
+    ],
+    bullPct: 67,
+    bearPct: 33
+  },
   TCS: {
     symbol: 'TCS',
     name: 'Tata Consultancy Services',
@@ -312,10 +769,17 @@ export const mockStocks = {
 
 // Generate Chart Data helper
 export const generateChartData = (symbol, interval = '1M') => {
-  const stock = mockStocks[symbol] || mockStocks.TCS;
-  const basePrice = stock.price;
+  const clean = String(symbol || '').trim().toUpperCase();
+  const stock = mockStocks[clean] || 
+    (clean.includes('NIFTY') ? mockStocks['NIFTY 50'] : null) || 
+    (clean.includes('SENSEX') ? mockStocks['SENSEX'] : null) || 
+    (clean.includes('BANK') ? mockStocks['NIFTY BANK'] : null) || 
+    mockStocks[clean.replace(/[^A-Z0-9]/g, '')] || 
+    mockStocks['NIFTY 50'] || 
+    mockStocks.TCS;
+  const basePrice = stock.price || 24500;
   let points = 30;
-  let volatility = stock.beta * 0.015;
+  let volatility = (stock.beta || 1.0) * 0.015;
 
   switch (interval) {
     case '1D': points = 24; volatility = 0.002; break;
