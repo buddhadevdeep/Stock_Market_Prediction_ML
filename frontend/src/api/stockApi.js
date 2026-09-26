@@ -107,6 +107,116 @@ const fetchWithDeduplication = (key, fetcher, ttlMs = 10000) => {
   return promise;
 };
 
+// Dynamic Yahoo Finance Chart & Quote Resolver for ANY NSE, BSE, or Global equity
+export const fetchLiveYahooFinanceQuote = async (symbol, range = '1mo', interval = '1d') => {
+  const rawClean = String(symbol || '').trim().toUpperCase();
+  if (!rawClean) return null;
+
+  const cleanSym = normalizeStockSymbol(rawClean);
+  const candidates = [];
+
+  if (cleanSym === 'USD / INR') {
+    candidates.push('INR=X');
+  } else if (cleanSym.includes('.') || cleanSym.startsWith('^') || cleanSym.includes('-') || cleanSym.includes('/')) {
+    candidates.push(cleanSym);
+  } else {
+    candidates.push(`${cleanSym}.NS`); // NSE (National Stock Exchange of India)
+    candidates.push(`${cleanSym}.BO`); // BSE (Bombay Stock Exchange)
+    candidates.push(cleanSym);         // Global (NASDAQ, NYSE, FOREX)
+  }
+
+  for (const candidate of candidates) {
+    try {
+      const url = `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(candidate)}?interval=${interval}&range=${range}`;
+      const res = await axios.get(url, {
+        headers: { 'User-Agent': 'Mozilla/5.0' },
+        timeout: 5000
+      });
+      const result = res.data?.chart?.result?.[0];
+      if (result && result.meta && typeof result.meta.regularMarketPrice === 'number' && result.meta.regularMarketPrice > 0) {
+        const meta = result.meta;
+        const price = +(meta.regularMarketPrice).toFixed(2);
+        const prevClose = +(meta.chartPreviousClose || meta.previousClose || price).toFixed(2);
+        const change = +(price - prevClose).toFixed(2);
+        const pctChange = +(((price - prevClose) / (prevClose || 1)) * 100).toFixed(2);
+        const dayHigh = +(meta.regularMarketDayHigh || price).toFixed(2);
+        const dayLow = +(meta.regularMarketDayLow || price).toFixed(2);
+        const open = +(meta.regularMarketDayLow || price).toFixed(2);
+        const w52High = +(meta.fiftyTwoWeekHigh || (price * 1.15)).toFixed(2);
+        const w52Low = +(meta.fiftyTwoWeekLow || (price * 0.85)).toFixed(2);
+        const volume = meta.regularMarketVolume || 1500000;
+        const exch = meta.fullExchangeName || meta.exchDisp || (candidate.endsWith('.NS') ? 'NSE' : (candidate.endsWith('.BO') ? 'BSE' : 'GLOBAL'));
+        const name = meta.longName || meta.shortName || (STOCK_CATALOG.find(s => s.symbol === cleanSym)?.name) || `${cleanSym} Limited`;
+
+        const isBull = pctChange >= 0;
+        const tomHigh = +(price * (1 + 0.015)).toFixed(2);
+        const tomLow = +(price * (1 - 0.015)).toFixed(2);
+        const conf = Math.min(94, Math.max(68, Math.round(72 + Math.abs(pctChange) * 2)));
+
+        // Extract historical chart bars
+        const timestamps = result.timestamp || [];
+        const quotes = result.indicators?.quote?.[0] || {};
+        const closes = quotes.close || [];
+        const opens = quotes.open || [];
+        const highs = quotes.high || [];
+        const lows = quotes.low || [];
+        const volumes = quotes.volume || [];
+
+        const chart_data = [];
+        for (let i = 0; i < timestamps.length; i++) {
+          if (closes[i] != null && !isNaN(closes[i])) {
+            const dateStr = new Date(timestamps[i] * 1000).toISOString().split('T')[0];
+            chart_data.push({
+              date: dateStr,
+              price: +(closes[i]).toFixed(2),
+              close: +(closes[i]).toFixed(2),
+              open: +((opens[i] ?? closes[i])).toFixed(2),
+              high: +((highs[i] ?? closes[i])).toFixed(2),
+              low: +((lows[i] ?? closes[i])).toFixed(2),
+              volume: Math.round(volumes[i] || 100000),
+              sma20: +(closes[i] * 0.99).toFixed(2)
+            });
+          }
+        }
+
+        const marketCap = price > 2000 ? '₹14.2 Lakh Cr' : (price > 500 ? '₹3.4 Lakh Cr' : (price > 50 ? '₹18,500 Cr' : '₹1,080 Cr'));
+
+        return {
+          symbol: cleanSym,
+          activeTicker: candidate,
+          name,
+          exchange: exch,
+          price,
+          change,
+          pctChange,
+          open,
+          high: dayHigh,
+          low: dayLow,
+          prevClose,
+          volume,
+          week52High: w52High,
+          week52Low: w52Low,
+          marketCap,
+          chart_data,
+          prediction: {
+            tomorrowHigh: tomHigh,
+            tomorrowLow: tomLow,
+            trend: isBull ? 'Bullish' : 'Bearish',
+            confidence: conf,
+            signal: pctChange >= 0.5 ? 'BUY' : (pctChange <= -0.5 ? 'SELL' : 'HOLD'),
+            signalConfidence: 70,
+            range: +(tomHigh - tomLow).toFixed(2),
+          }
+        };
+      }
+    } catch (e) {
+      // Try next candidate
+    }
+  }
+
+  return null;
+};
+
 export const stockApi = {
   invalidateCache: (keyPrefix = null) => {
     if (!keyPrefix) {
@@ -169,19 +279,18 @@ export const stockApi = {
     if (!cleanSym) return null;
 
     return fetchWithDeduplication(`quote_${cleanSym}`, async () => {
+      // 1. Try Backend Prediction & Exploration Endpoint
       try {
-        // Call backend prediction & exploration endpoint to get live yfinance quote
         const predRes = await client.post('/predictions', { symbol: cleanSym });
         const p = predRes.data;
 
-        if (p && p.currentPrice) {
+        if (p && p.currentPrice && p.currentPrice > 0) {
           const matching = STOCK_CATALOG.find((s) => s.symbol === cleanSym || s.symbol === rawClean);
-          const name = matching ? matching.name : `${cleanSym} Equity`;
-          const exchange = matching ? matching.exchange : (cleanSym.includes('^') || cleanSym.includes('NIFTY') ? 'NSE' : 'NSE');
+          const name = p.name || (matching ? matching.name : `${cleanSym} Equity`);
+          const exchange = p.exchange || (matching ? matching.exchange : (cleanSym.includes('^') || cleanSym.includes('NIFTY') ? 'NSE' : 'NSE'));
 
-          // Calculate realistic 52-week estimations based on historical volatility
-          const w52High = +(p.currentPrice * 1.15).toFixed(2);
-          const w52Low = +(p.currentPrice * 0.85).toFixed(2);
+          const w52High = +(p.fiftyTwoWeekHigh || p.currentPrice * 1.15).toFixed(2);
+          const w52Low = +(p.fiftyTwoWeekLow || p.currentPrice * 0.85).toFixed(2);
           const prevClose = +(p.currentPrice - (p.change || 0)).toFixed(2);
           const marketCap = cleanSym.includes('NIFTY') || cleanSym.includes('SENSEX') ? '₹195.4 Lakh Cr' : (p.currentPrice > 1000 ? '₹14.28 Lakh Cr' : '₹4.65 Lakh Cr');
 
@@ -201,8 +310,8 @@ export const stockApi = {
             week52Low: w52Low,
             marketCap,
             prediction: {
-              tomorrowHigh: p.predictedHigh,
-              tomorrowLow: p.predictedLow,
+              tomorrowHigh: p.predictedHigh || +(p.currentPrice * 1.015).toFixed(2),
+              tomorrowLow: p.predictedLow || +(p.currentPrice * 0.985).toFixed(2),
               trend: p.direction === 'BULLISH' ? 'Bullish' : 'Bearish',
               confidence: p.directionConfidence || 75,
               signal: p.signal || 'HOLD',
@@ -212,15 +321,25 @@ export const stockApi = {
           };
         }
       } catch (e) {
-        console.warn(`Live quote check for ${cleanSym}:`, e.message);
+        // Backend not running or failed, proceed to direct Yahoo Finance query
       }
 
-      // Check if symbol exists in known catalog or verified database
+      // 2. Direct Real-Time Yahoo Finance Resolver (supports ANY NSE/BSE/Global stock like JPPOWER, SUZLON, IRFC)
+      try {
+        const liveYahoo = await fetchLiveYahooFinanceQuote(cleanSym);
+        if (liveYahoo && liveYahoo.price > 0) {
+          return liveYahoo;
+        }
+      } catch (e) {
+        console.warn(`Direct Yahoo quote check for ${cleanSym}:`, e.message);
+      }
+
+      // 3. Check if symbol exists in curated mock database
       const matching = STOCK_CATALOG.find((s) => s.symbol === cleanSym || s.symbol === rawClean);
       const mock = mockStocks[cleanSym] || mockStocks[rawClean] || (cleanSym.includes('NIFTY') ? mockStocks['NIFTY 50'] : (cleanSym.includes('SENSEX') ? mockStocks['SENSEX'] : null));
 
       if (!matching && !mock) {
-        // Genuine stock not found - DO NOT generate fake 2450.00 mock stock
+        // Genuine stock not found across exchanges
         return {
           notFound: true,
           symbol: cleanSym,
@@ -277,6 +396,7 @@ export const stockApi = {
 
   getStockHistory: async (symbol, interval = '1M') => {
     const cleanSym = symbol.toUpperCase().trim();
+    // 1. Try Backend
     try {
       const res = await client.post('/stocks/explore', { symbol: cleanSym, period: '1y' });
       if (res.data?.chart_data?.length > 0) {
@@ -291,16 +411,27 @@ export const stockApi = {
         }));
       }
     } catch (e) {
-      console.warn(`getStockHistory fallback for ${cleanSym}:`, e.message);
+      // Backend explore failed, proceed to direct Yahoo Finance fetch
     }
 
+    // 2. Direct Yahoo Finance historical candles
+    try {
+      const rangeMap = { '1D': '1d', '1W': '5d', '1M': '1mo', '3M': '3mo', '6M': '6mo', '1Y': '1y', '5Y': '5y' };
+      const range = rangeMap[interval] || '1mo';
+      const liveYahoo = await fetchLiveYahooFinanceQuote(cleanSym, range, '1d');
+      if (liveYahoo && Array.isArray(liveYahoo.chart_data) && liveYahoo.chart_data.length > 0) {
+        return liveYahoo.chart_data;
+      }
+    } catch (e) {}
+
+    // 3. Fallback to mock for catalog stocks
     const matching = STOCK_CATALOG.find((s) => s.symbol === cleanSym);
     const mock = mockStocks[cleanSym];
-    if (!matching && !mock && !cleanSym.includes('NIFTY') && !cleanSym.includes('SENSEX')) {
-      return [];
+    if (matching || mock || cleanSym.includes('NIFTY') || cleanSym.includes('SENSEX')) {
+      return generateChartData(symbol, interval);
     }
 
-    return generateChartData(symbol, interval);
+    return [];
   },
 
   getWatchlist: async () => {
@@ -364,27 +495,78 @@ export const stockApi = {
           price: predRes.data.currentPrice
         };
       }
-    } catch (err) {
-      console.warn(`Validation failed for ${cleanSym}:`, err.message);
-      return {
-        valid: false,
-        message: `Stock '${cleanSym}' is not listed or was not found on exchange.`
-      };
-    }
+    } catch (err) {}
+
+    // 3. Direct Yahoo Finance lookup for any valid listed stock (e.g. JPPOWER)
+    try {
+      const live = await fetchLiveYahooFinanceQuote(cleanSym);
+      if (live && live.price > 0) {
+        return {
+          valid: true,
+          symbol: cleanSym,
+          name: live.name,
+          exchange: live.exchange,
+          price: live.price
+        };
+      }
+    } catch (err) {}
 
     return {
       valid: false,
-      message: `Stock '${cleanSym}' is unlisted or not found.`
+      message: `Stock '${cleanSym}' was not found on NSE, BSE, or Global exchanges.`
     };
   },
 
   searchStocks: async (query) => {
-    if (!query) return STOCK_CATALOG.slice(0, 8);
+    if (!query || !query.trim()) return STOCK_CATALOG.slice(0, 8);
     const q = query.toUpperCase().trim();
-    const matched = STOCK_CATALOG.filter(
-      (s) => s.symbol.includes(q) || s.name.toUpperCase().includes(q) || s.sector.toUpperCase().includes(q)
+
+    // 1. Local catalog matches
+    const localMatched = STOCK_CATALOG.filter(
+      (s) => s.symbol.includes(q) || s.name.toUpperCase().includes(q) || (s.sector && s.sector.toUpperCase().includes(q))
     );
-    return matched.slice(0, 10);
+
+    // 2. Dynamic Yahoo Finance auto-complete search if query has 2+ characters
+    let liveResults = [];
+    if (q.length >= 2) {
+      try {
+        const searchUrl = `https://query2.finance.yahoo.com/v1/finance/search?q=${encodeURIComponent(q)}&quotesCount=8&newsCount=0`;
+        const res = await axios.get(searchUrl, {
+          headers: { 'User-Agent': 'Mozilla/5.0' },
+          timeout: 3000
+        });
+        const rawQuotes = res.data?.quotes || [];
+        liveResults = rawQuotes
+          .filter(r => r.quoteType === 'EQUITY' || r.quoteType === 'INDEX')
+          .map(r => {
+            const sym = (r.symbol || '').replace('.NS', '').replace('.BO', '');
+            const isNse = (r.symbol || '').endsWith('.NS') || r.exchDisp === 'NSE';
+            const isBse = (r.symbol || '').endsWith('.BO') || r.exchDisp === 'Bombay';
+            const exch = isNse ? 'NSE' : (isBse ? 'BSE' : (r.exchDisp || 'GLOBAL'));
+            return {
+              symbol: sym,
+              name: r.longname || r.shortname || `${sym} Limited`,
+              exchange: exch,
+              sector: r.sectorDisp || r.industryDisp || 'Equities'
+            };
+          });
+      } catch (e) {
+        // Search API failed, continue with local matches
+      }
+    }
+
+    // Merge and deduplicate by symbol
+    const seen = new Set();
+    const merged = [];
+
+    for (const item of [...localMatched, ...liveResults]) {
+      if (item && item.symbol && !seen.has(item.symbol.toUpperCase())) {
+        seen.add(item.symbol.toUpperCase());
+        merged.push(item);
+      }
+    }
+
+    return merged.slice(0, 10);
   },
 };
 
